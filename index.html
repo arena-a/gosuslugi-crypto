@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>КриптоГос - Торговля</title>
+    <title>КриптоОборот</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -14,6 +14,8 @@
             --text: #1F2937;
             --card: #FFFFFF;
             --online: #10B981;
+            --positive: #10B981;
+            --negative: #EF4444;
         }
         
         * {
@@ -27,6 +29,104 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+        }
+        
+        /* Страница входа */
+        .login-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+        }
+        
+        .welcome-message {
+            margin-bottom: 30px;
+            font-size: 22px;
+            line-height: 1.5;
+            max-width: 600px;
+        }
+        
+        .login-form {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            color: var(--text);
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        
+        .login-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .start-btn {
+            width: 200px;
+            padding: 15px;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Основное приложение */
+        .app {
+            display: none;
         }
         
         /* Навигационная панель */
@@ -49,6 +149,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
         }
         
         .online-status {
@@ -71,9 +172,10 @@
             color: white;
             text-decoration: none;
             font-weight: 500;
-            padding: 5px 10px;
+            padding: 8px 12px;
             border-radius: 4px;
             transition: background 0.2s;
+            white-space: nowrap;
         }
         
         .nav-link:hover, .nav-link.active {
@@ -83,8 +185,19 @@
         /* Основной контент */
         .content {
             padding-top: 70px;
+            padding-bottom: 20px;
             max-width: 1000px;
             margin: 0 auto;
+        }
+        
+        .welcome-message-app {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            margin: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         
         /* Блок баланса */
@@ -191,51 +304,224 @@
         }
         
         .positive {
-            color: #10B981;
+            color: var(--positive);
         }
         
         .negative {
-            color: #EF4444;
+            color: var(--negative);
         }
         
-        /* Нижнее меню */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        /* Страница налогов */
+        .tax-page {
+            display: none;
+            padding: 20px;
+        }
+        
+        .tax-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
             background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            z-index: 100;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         
-        .nav-item {
+        .tax-table th, .tax-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tax-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .tax-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .tax-table tr:hover {
+            background: rgba(42,92,157,0.05);
+        }
+        
+        /* Страница кошелька */
+        .wallet-page {
+            display: none;
+            padding: 20px;
+        }
+        
+        .meme-tokens {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .token-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .token-header {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            text-decoration: none;
-            color: var(--text);
-            font-size: 12px;
-            opacity: 0.6;
+            margin-bottom: 10px;
         }
         
-        .nav-item.active {
-            opacity: 1;
-            color: var(--primary);
+        .token-icon {
+            width: 30px;
+            height: 30px;
+            background: #eee;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
         
-        .nav-icon {
-            font-size: 20px;
-            margin-bottom: 3px;
+        .token-name {
+            font-weight: 500;
         }
         
-        /* Анимации */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .token-balance {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .token-value {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .order-book {
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .order-book-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .order-book-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .pair-selector {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .order-book-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .order-book-table th, .order-book-table td {
+            padding: 8px;
+            text-align: right;
+        }
+        
+        .order-book-table th:first-child, .order-book-table td:first-child {
+            text-align: left;
+        }
+        
+        .order-book-table th {
+            font-weight: 500;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .bid {
+            color: var(--positive);
+        }
+        
+        .ask {
+            color: var(--negative);
+        }
+        
+        /* Страница поддержки */
+        .support-page {
+            display: none;
+            padding: 20px;
+        }
+        
+        .support-info {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+        
+        /* Страница новостей */
+        .news-page {
+            display: none;
+            padding: 20px;
+        }
+        
+        .news-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+        }
+        
+        .news-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .news-date {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        /* Страница сделок */
+        .deals-page {
+            display: none;
+            padding: 20px;
+        }
+        
+        .deals-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .deals-table th, .deals-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .deals-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .deals-table tr:last-child td {
+            border-bottom: none;
         }
         
         /* Модальное окно профиля */
@@ -298,6 +584,26 @@
             border-radius: 6px;
         }
         
+        /* Welcome screen */
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            display: none;
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         /* Адаптивность */
         @media (max-width: 768px) {
             .main-nav {
@@ -312,249 +618,704 @@
     </style>
 </head>
 <body>
-    <!-- Верхняя навигационная панель -->
-    <div class="top-nav">
-        <div class="user-info" id="userProfileBtn">
-            <div class="online-status"></div>
-            <div class="username">Ivan_Ivanov</div>
-        </div>
-        
-        <div class="main-nav">
-            <a href="#" class="nav-link active">Трейдинг</a>
-            <a href="#" class="nav-link">Кошелек</a>
-            <a href="#" class="nav-link">Налоги</a>
-            <a href="#" class="nav-link">Поддержка</a>
-            <a href="#" class="nav-link">Новости</a>
-            <a href="#" class="nav-link">Сделки</a>
-        </div>
-    </div>
-    
-    <!-- Основной контент -->
-    <div class="content">
-        <!-- Блок баланса -->
-        <div class="balance-section">
-            <div class="balance-header">
-                <div class="balance-title">Общий баланс</div>
+    <!-- Страница входа -->
+    <div class="login-page" id="loginPage">
+        <div class="login-form">
+            <h1 class="login-title">КриптоОборот</h1>
+            <div class="input-group">
+                <label for="username">Логин</label>
+                <input type="text" id="username" placeholder="Введите ваш логин">
             </div>
-            <div class="balance-amount">19 350,00 $</div>
-            <div class="balance-details">
-                <div class="crypto-item">
-                    <div class="crypto-name">BTC</div>
-                    <div class="crypto-amount">0.42</div>
-                </div>
-                <div class="crypto-item">
-                    <div class="crypto-name">USDT</div>
-                    <div class="crypto-amount">1,500</div>
-                </div>
-                <div class="crypto-item">
-                    <div class="crypto-name">RUB</div>
-                    <div class="crypto-amount">85,000</div>
-                </div>
+            <div class="input-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" placeholder="Введите ваш пароль">
             </div>
-        </div>
-        
-        <!-- График -->
-        <div class="chart-container">
-            <canvas id="cryptoChart"></canvas>
-        </div>
-        
-        <!-- Транзакции -->
-        <div class="transactions">
-            <div class="transactions-header">Последние транзакции</div>
-            <div id="transactionsList">
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-type">Обмен</div>
-                        <div class="transaction-time">21:31:02</div>
-                    </div>
-                    <div class="transaction-amount negative">-0.4520</div>
-                </div>
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-type">Получение</div>
-                        <div class="transaction-time">21:30:37</div>
-                    </div>
-                    <div class="transaction-amount negative">-0.3583</div>
-                </div>
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-type">Перевод</div>
-                        <div class="transaction-time">21:29:31</div>
-                    </div>
-                    <div class="transaction-amount negative">-0.1613</div>
-                </div>
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-type">Перевод</div>
-                        <div class="transaction-time">21:29:21</div>
-                    </div>
-                    <div class="transaction-amount positive">+0.2402</div>
-                </div>
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-type">Перевод</div>
-                        <div class="transaction-time">21:29:11</div>
-                    </div>
-                    <div class="transaction-amount negative">-0.2491</div>
-                </div>
-            </div>
+            <button class="login-btn" id="loginBtn">Войти</button>
         </div>
     </div>
     
-    <!-- Нижнее меню -->
-    <div class="bottom-nav">
-        <a href="#" class="nav-item active">
-            <span class="nav-icon">📊</span>
-            <span>Трейдинг</span>
-        </a>
-        <a href="#" class="nav-item">
-            <span class="nav-icon">💰</span>
-            <span>Кошелек</span>
-        </a>
-        <a href="#" class="nav-item">
-            <span class="nav-icon">📝</span>
-            <span>Налоги</span>
-        </a>
-        <a href="#" class="nav-item">
-            <span class="nav-icon">👤</span>
-            <span>Профиль</span>
-        </a>
+    <!-- Welcome screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-message">
+            ДОБРО ПОЖАЛОВАТЬ НА ПЛАТФОРМУ КРИПТО ОБОРОТ. ЗДЕСЬ ВЫ МОЖЕТЕ КУПИТЬ, ОБМЕНЯТЬ КРИПТОВАЛЮТУ, ТАК ЖЕ ВЫВЕСТИ БЕЗОПАСНО НА ВАШ СЧЕТ
+        </div>
+        <button class="start-btn" id="startBtn">Начать</button>
     </div>
     
-    <!-- Модальное окно профиля -->
-    <div class="profile-modal" id="profileModal">
-        <div class="profile-content">
-            <div class="profile-header">
-                <div class="profile-title">Мой профиль</div>
-                <button class="close-btn" id="closeProfileBtn">×</button>
+    <!-- Основное приложение -->
+    <div class="app" id="app">
+        <!-- Верхняя навигационная панель -->
+        <div class="top-nav">
+            <div class="user-info" id="userProfileBtn">
+                <div class="online-status"></div>
+                <div class="username">No Name</div>
             </div>
             
-            <div class="profile-field">
-                <div class="field-label">ФИО</div>
-                <div class="field-value">Иванов Иван Иванович</div>
-            </div>
-            
-            <div class="profile-field">
-                <div class="field-label">Дата рождения</div>
-                <div class="field-value">15.03.1985</div>
-            </div>
-            
-            <div class="profile-field">
-                <div class="field-label">Паспорт</div>
-                <div class="field-value">4510 123456</div>
-            </div>
-            
-            <div class="profile-field">
-                <div class="field-label">ИНН</div>
-                <div class="field-value">770123456789</div>
-            </div>
-            
-            <div class="profile-field">
-                <div class="field-label">СНИЛС</div>
-                <div class="field-value">123-456-789 00</div>
-            </div>
-            
-            <div class="profile-field">
-                <div class="field-label">Адрес</div>
-                <div class="field-value">г. Москва, ул. Примерная, д. 1, кв. 2</div>
-            </div>
-            
-            <div class="profile-field">
-                <div class="field-label">Телефон</div>
-                <div class="field-value">+7 (900) 123-45-67</div>
-            </div>
-            
-            <div class="profile-field">
-                <div class="field-label">Email</div>
-                <div class="field-value">ivanov@example.com</div>
+            <div class="main-nav">
+                <a href="#" class="nav-link active" data-page="main">Трейдинг</a>
+                <a href="#" class="nav-link" data-page="wallet">Кошелек</a>
+                <a href="#" class="nav-link" data-page="tax">Налоги</a>
+                <a href="#" class="nav-link" data-page="support">Поддержка</a>
+                <a href="#" class="nav-link" data-page="news">Новости</a>
+                <a href="#" class="nav-link" data-page="deals">Сделки</a>
             </div>
         </div>
-    </div>
-
-    <script>
-        // Инициализация графика
-        const ctx = document.getElementById('cryptoChart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: Array(24).fill().map((_,i) => `${i}:00`),
-                datasets: [{
-                    label: 'BTC/USDT',
-                    data: Array(24).fill().map(() => 40000 + Math.random() * 5000),
-                    borderColor: '#2A5C9D',
-                    borderWidth: 2,
-                    tension: 0.1,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false
-                    }
-                }
-            }
-        });
-
-        // Обновление графика каждые 5 секунд
-        setInterval(() => {
-            chart.data.datasets[0].data.shift();
-            chart.data.datasets[0].data.push(40000 + Math.random() * 5000);
-            chart.update();
-        }, 5000);
-
-        // Добавление новых транзакций
-        function addTransaction() {
-            const types = ['Обмен', 'Получение', 'Перевод', 'Покупка', 'Продажа'];
-            const amount = (Math.random() * 0.5).toFixed(4);
-            const isPositive = Math.random() > 0.5;
+        
+        <!-- Главная страница -->
+        <div class="content" id="mainPage">
+            <div class="welcome-message-app">
+                ДОБРО ПОЖАЛОВАТЬ НА ПЛАТФОРМУ КРИПТО ОБОРОТ. ЗДЕСЬ ВЫ МОЖЕТЕ КУПИТЬ, ОБМЕНЯТЬ КРИПТОВАЛЮТУ, ТАК ЖЕ ВЫВЕСТИ БЕЗОПАСНО НА ВАШ СЧЕТ
+            </div>
             
-            const transaction = document.createElement('div');
-            transaction.className = 'transaction';
-            transaction.innerHTML = `
-                <div class="transaction-info">
-                    <div class="transaction-type">${types[Math.floor(Math.random() * types.length)]}</div>
-                    <div class="transaction-time">${new Date().toLocaleTimeString()}</div>
+            <!-- Блок баланса -->
+            <div class="balance-section">
+                <div class="balance-header">
+                    <div class="balance-title">Общий баланс</div>
                 </div>
-                <div class="transaction-amount ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : '-'}${amount}</div>
-            `;
+                <div class="balance-amount">19 350,00 $</div>
+                <div class="balance-details">
+                    <div class="crypto-item">
+                        <div class="crypto-name">BTC</div>
+                        <div class="crypto-amount">0.42</div>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-name">USDT</div>
+                        <div class="crypto-amount">1,500</div>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-name">RUB</div>
+                        <div class="crypto-amount">85,000</div>
+                    </div>
+                </div>
+            </div>
             
-            const list = document.getElementById('transactionsList');
-            list.insertBefore(transaction, list.firstChild);
+            <!-- График -->
+            <div class="chart-container">
+                <canvas id="cryptoChart"></canvas>
+            </div>
             
-            if (list.children.length > 5) {
-                list.removeChild(list.lastChild);
-            }
-        }
-
-        // Добавляем новую транзакцию каждые 10 секунд
-        setInterval(addTransaction, 10000);
-
-        // Модальное окно профиля
-        const profileModal = document.getElementById('profileModal');
-        const userProfileBtn = document.getElementById('userProfileBtn');
-        const closeProfileBtn = document.getElementById('closeProfileBtn');
-
-        userProfileBtn.addEventListener('click', () => {
-            profileModal.style.display = 'flex';
-        });
-
-        closeProfileBtn.addEventListener('click', () => {
-            profileModal.style.display = 'none';
-        });
-
-        profileModal.addEventListener('click', (e) => {
-            if (e.target === profileModal) {
-                profileModal.style.display = 'none';
-            }
-        });
-    </script>
-</body>
-</html>
+            <!-- Транзакции -->
+            <div class="transactions">
+                <div class="transactions-header">Последние транзакции</div>
+                <div id="transactionsList">
+                    <div class="transaction">
+                        <div class="transaction-info">
+                            <div class="transaction-type">Обмен</div>
+                            <div class="transaction-time">21:31:02</div>
+                        </div>
+                        <div class="transaction-amount negative">-0.4520</div>
+                    </div>
+                    <div class="transaction">
+                        <div class="transaction-info">
+                            <div class="transaction-type">Получение</div>
+                            <div class="transaction-time">21:30:37</div>
+                        </div>
+                        <div class="transaction-amount negative">-0.3583</div>
+                    </div>
+                    <div class="transaction">
+                        <div class="transaction-info">
+                            <div class="transaction-type">Перевод</div>
+                            <div class="transaction-time">21:29:31</div>
+                        </div>
+                        <div class="transaction-amount negative">-0.1613</div>
+                    </div>
+                    <div class="transaction">
+                        <div class="transaction-info">
+                            <div class="transaction-type">Перевод</div>
+                            <div class="transaction-time">21:29:21</div>
+                        </div>
+                        <div class="transaction-amount positive">+0.2402</div>
+                    </div>
+                    <div class="transaction">
+                        <div class="transaction-info">
+                            <div class="transaction-type">Перевод</div>
+                            <div class="transaction-time">21:29:11</div>
+                        </div>
+                        <div class="transaction-amount negative">-0.2491</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Страница налогов -->
+        <div class="tax-page" id="taxPage">
+            <h2>Налоговая отчетность</h2>
+            <p>Расчет налогов на доход от криптовалютных операций</p>
+            
+            <table class="tax-table">
+                <thead>
+                    <tr>
+                        <th>Операция</th>
+                        <th>Куплено</th>
+                        <th>Продано</th>
+                        <th>Доход</th>
+                        <th>Налог (13%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>BTC/USDT</td>
+                        <td>0.5 BTC по $30,000</td>
+                        <td>0.5 BTC по $38,500</td>
+                        <td>+$4,250</td>
+                        <td>$552.50</td>
+                    </tr>
+                    <tr>
+                        <td>ETH/USDT</td>
+                        <td>2.3 ETH по $1,800</td>
+                        <td>2.0 ETH по $2,200</td>
+                        <td>+$800</td>
+                        <td>$104</td>
+                    </tr>
+                    <tr>
+                        <td>SOL/USDT</td>
+                        <td>50 SOL по $50</td>
+                        <td>50 SOL по $75</td>
+                        <td>+$1,250</td>
+                        <td>$162.50</td>
+                    </tr>
+                    <tr>
+                        <td>DOGE/USDT</td>
+                        <td>100,000 DOGE по $0.05</td>
+                        <td>100,000 DOGE по $0.08</td>
+                        <td>+$3,000</td>
+                        <td>$390</td>
+                    </tr>
+                    <tr>
+                        <td>BNB/USDT</td>
+                        <td>1.2 BNB по $300</td>
+                        <td>1.2 BNB по $350</td>
+                        <td>+$60</td>
+                        <td>$7.80</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Итого</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>+$9,360</strong></td>
+                        <td><strong>$1,216.80</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="margin-top: 20px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <h3>Формула расчета налога:</h3>
+                <p>Налог = (Сумма продажи - Сумма покупки) × 13%</p>
+                <p>Пример для BTC: (38,500 - 30,000) × 0.13 = 8,500 × 0.13 = $1,105</p>
+            </div>
+        </div>
+        
+        <!-- Страница кошелька -->
+        <div class="wallet-page" id="walletPage">
+            <h2>Мой кошелек</h2>
+            <p>Ваши криптовалютные активы</p>
+            
+            <h3>Мем-токены</h3>
+            <div class="meme-tokens">
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-icon">DOGE</div>
+                        <div>
+                            <div class="token-name">Dogecoin</div>
+                            <div class="token-balance">Баланс: 15,000</div>
+                        </div>
+                    </div>
+                    <div class="token-value">≈ $1,050 (куплено за $750)</div>
+                </div>
+                
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-icon">SHIB</div>
+                        <div>
+                            <div class="token-name">Shiba Inu</div>
+                            <div class="token-balance">Баланс: 5,000,000</div>
+                        </div>
+                    </div>
+                    <div class="token-value">≈ $750 (куплено за $500)</div>
+                </div>
+                
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-icon">PEPE</div>
+                        <div>
+                            <div class="token-name">Pepe Coin</div>
+                            <div class="token-balance">Баланс: 10,000,000</div>
+                        </div>
+                    </div>
+                    <div class="token-value">≈ $500 (куплено за $300)</div>
+                </div>
+                
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-icon">FLOKI</div>
+                        <div>
+                            <div class="token-name">Floki Inu</div>
+                            <div class="token-balance">Баланс: 1,000,000</div>
+                        </div>
+                    </div>
+                    <div class="token-value">≈ $300 (куплено за $200)</div>
+                </div>
+                
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-icon">BONK</div>
+                        <div>
+                            <div class="token-name">Bonk</div>
+                            <div class="token-balance">Баланс: 50,000,000</div>
+                        </div>
+                    </div>
+                    <div class="token-value">≈ $250 (куплено за $150)</div>
+                </div>
+                
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-icon">MEME</div>
+                        <div>
+                            <div class="token-name">Memecoin</div>
+                            <div class="token-balance">Баланс: 100,000</div>
+                        </div>
+                    </div>
+                    <div class="token-value">≈ $200 (куплено за $100)</div>
+                </div>
+            </div>
+            
+            <div class="order-book">
+                <div class="order-book-header">
+                    <div class="order-book-title">Стакан цен</div>
+                    <select class="pair-selector" id="pairSelector">
+                        <option value="BTC/USDT">BTC/USDT</option>
+                        <option value="ETH/USDT">ETH/USDT</option>
+                        <option value="BNB/USDT">BNB/USDT</option>
+                    </select>
+                </div>
+                
+                <table class="order-book-table" id="orderBookTable">
+                    <thead>
+                        <tr>
+                            <th>Цена (USDT)</th>
+                            <th>Количество</th>
+                            <th>Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderBookBody">
+                        <!-- Данные будут заполнены скриптом -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Страница поддержки -->
+        <div class="support-page" id="supportPage">
+            <h2>Поддержка</h2>
+            <p>Свяжитесь с нами, если у вас возникли вопросы</p>
+            
+            <div class="support-info">
+                <h3>Форум поддержки</h3>
+                <p>Посетите наш форум для получения помощи: <a href="https://forum.cryptooborot.example.com" target="_blank">forum.cryptooborot.example.com</a></p>
+                
+                <h3>Телефон горячей линии</h3>
+                <p>+7 (800) 123-45-67</p>
+                <p>Работаем круглосуточно</p>
+                
+                <h3>Электронная почта</h3>
+                <p>support@cryptooborot.example.com</p>
+                
+                <h3>Чат поддержки</h3>
+                <p>Доступен 24/7 в мобильном приложении</p>
+            </div>
+        </div>
+        
+        <!-- Страница новостей -->
+        <div class="news-page" id="newsPage">
+            <h2>Новости крипторынка</h2>
+            
+            <div class="news-item">
+                <div class="news-title">Биткоин обновил исторический максимум выше $85,000</div>
+                <div class="news-date">15 апреля 2025</div>
+                <p>Курс Bitcoin впервые в истории преодолел отметку в $85,000 на фоне роста институционального спроса и одобрения новых BTC-ETF. Аналитики отмечают увеличение объемов торгов на 35% по сравнению с предыдущим месяцем.</p>
+            </div>
+            
+            <div class="news-item">
+                <div class="news-title">Ethereum завершил переход на PoS в обновлении Ethereum 3.0</div>
+                <div class="news-date">10 апреля 2025</div>
+                <p>Обновление Ethereum 3.0 полностью перевело сеть на алгоритм Proof-of-Stake, сократив энергопотребление на 99%. Комиссии в сети снизились до $0.05-0.10 за транзакцию.</p>
+            </div>
+            
+            <div class="news-item">
+                <div class="news-title">ЦБ РФ разрешил банкам работать с криптовалютой с 1 июля 2025</div>
+                <div class="news-date">5 апреля 2025</div>
+                <p>С 1 июля 2025 года российские банки смогут открывать криптовалютные счета для квалифицированных инвесторов. Лимит инвестиций установлен на уровне 600,000 рублей в год.</p>
+            </div>
+            
+            <div class="news-item">
+                <div class="news-title">Новый мем-токен CATZ вырос на 1000% за сутки</div>
+                <div class="news-date">1 апреля 2025</div>
+                <p>Токен CATZ, посвященный кошкам, повторил успех Dogecoin, заняв 30 место по капитализации. Проект привлек внимание Илона Маска, написавшего о нем в Twitter.</p>
+            </div>
+            
+            <div class="news-item">
+                <div class="news-title">Binance запускает фьючерсы на криптовалюты с плечом 1:100</div>
+                <div class="news-date">28 марта 2025</div>
+                <p>Крупнейшая биржа Binance объявила о запуске новых фьючерсных контрактов с кредитным плечом до 1:100. В список вошли BTC, ETH и 10 других топовых монет.</p>
+            </div>
+        </div>
+        
+        <!-- Страница сделок -->
+        <div class="deals-page" id="dealsPage">
+            <h2>Последние сделки</h2>
+            <p>История ваших операций</p>
+            
+            <table class="deals-table">
+                <thead>
+                    <tr>
+                        <th>Пара</th>
+                        <th>Тип</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Сумма</th>
+                        <th>Газ</th>
+                        <th>Комиссия</th>
+                        <th>Время</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>BTC/USDT</td>
+                        <td>Покупка</td>
+                        <td>42,356.12</td>
+                        <td>0.01</td>
+                        <td>423.56</td>
+                        <td>0.0012 ETH ($4.20)</td>
+                        <td>0.1% ($0.42)</td>
+                        <td>17.04.25 14:23</td>
+                    </tr>
+                    <tr>
+                        <td>ETH/USDT</td>
+                        <td>Продажа</td>
+                        <td>3,245.78</td>
+                        <td>0.5</td>
+                        <td>1,622.89</td>
+                        <td>0.0008 ETH ($2.80)</td>
+                        <td>0.1% ($1.62)</td>
+                        <td>17.04.25 13:45</td>
+                    </tr>
+                    <tr>
+                        <td>DOGE/RUB</td>
+                        <td>Покупка</td>
+                        <td>8.45</td>
+                        <td>1,000</td>
+                        <td>8,450</td>
+                        <td>0.0005 ETH ($1.75)</td>
+                        <td>0.2% (₽16.90)</td>
+                        <td>17.04.25 12:30</td>
+                    </tr>
+                    <tr>
+                        <td>BNB/USDT</td>
+                        <td>Продажа</td>
+                        <td>425.67</td>
+                        <td>1.2</td>
+                        <td>510.80</td>
+                        <td>0.001 ETH ($3.50)</td>
+                        <td>0.1% ($0.51)</td>
+                        <td>17.04.25 11:15</td>
+                    </tr>
+                    <tr>
+                        <td>SHIB/USDT</td>
+                        <td>Покупка</td>
+                        <td>0.000015</td>
+                        <td>5,000,000</td>
+                        <td>75</td>
+                        <td>0.002 ETH ($7.00)</td>
+                        <td>0.3% ($0.23)</td>
+                        <td>17.04.25 10:00</td>
+                    </tr>
+                    <tr>
+                        <td>SOL/USDT</td>
+                        <td>Продажа</td>
+                        <td>125.50</td>
+                        <td>10</td>
+                        <td>1,255.00</td>
+                        <td>0.0007 ETH ($2.45)</td>
+                        <td>0                    </tr>
+                          <tr>
+                              <td>BTC/RUB</td>
+                              <td>Покупка</td>
+                              <td>3,245,678</td>
+                              <td>0.005</td>
+                              <td>16,228.39</td>
+                              <td>0.0015 ETH ($5.25)</td>
+                              <td>0.1% (₽16.23)</td>
+                              <td>17.04.25 09:30</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              
+              <!-- Модальное окно профиля -->
+              <div class="profile-modal" id="profileModal">
+                  <div class="profile-content">
+                      <div class="profile-header">
+                          <div class="profile-title">Профиль</div>
+                          <button class="close-btn" id="closeProfileBtn">&times;</button>
+                      </div>
+                      
+                      <div class="profile-field">
+                          <div class="field-label">Имя пользователя</div>
+                          <div class="field-value">No Name</div>
+                      </div>
+                      
+                      <div class="profile-field">
+                          <div class="field-label">ID аккаунта</div>
+                          <div class="field-value">CRYPTO-XXXX-7890</div>
+                      </div>
+                      
+                      <div class="profile-field">
+                          <div class="field-label">Уровень верификации</div>
+                          <div class="field-value">Полная верификация</div>
+                      </div>
+                      
+                      <div class="profile-field">
+                          <div class="field-label">Дата регистрации</div>
+                          <div class="field-value">15.03.2025</div>
+                      </div>
+                      
+                      <div class="profile-field">
+                          <div class="field-label">Статус</div>
+                          <div class="field-value">Активен</div>
+                      </div>
+                      
+                      <div class="profile-field">
+                          <div class="field-label">Последний вход</div>
+                          <div class="field-value">Сегодня, 18:45</div>
+                      </div>
+                      
+                      <div class="profile-field">
+                          <div class="field-label">IP-адрес</div>
+                          <div class="field-value">192.168.xxx.xxx</div>
+                      </div>
+                      
+                      <button class="login-btn" style="margin-top: 20px;" id="logoutBtn">Выйти</button>
+                  </div>
+              </div>
+          </div>
+          
+          <script>
+              // Элементы DOM
+              const loginPage = document.getElementById('loginPage');
+              const welcomeScreen = document.getElementById('welcomeScreen');
+              const app = document.getElementById('app');
+              const loginBtn = document.getElementById('loginBtn');
+              const startBtn = document.getElementById('startBtn');
+              const usernameInput = document.getElementById('username');
+              const passwordInput = document.getElementById('password');
+              const userProfileBtn = document.getElementById('userProfileBtn');
+              const profileModal = document.getElementById('profileModal');
+              const closeProfileBtn = document.getElementById('closeProfileBtn');
+              const logoutBtn = document.getElementById('logoutBtn');
+              const navLinks = document.querySelectorAll('.nav-link');
+              const pages = document.querySelectorAll('[id$="Page"]');
+              
+              // Навигация по страницам
+              navLinks.forEach(link => {
+                  link.addEventListener('click', (e) => {
+                      e.preventDefault();
+                      
+                      // Удаляем активный класс у всех ссылок
+                      navLinks.forEach(l => l.classList.remove('active'));
+                      // Добавляем активный класс текущей ссылке
+                      link.classList.add('active');
+                      
+                      // Скрываем все страницы
+                      pages.forEach(page => {
+                          page.style.display = 'none';
+                      });
+                      
+                      // Показываем выбранную страницу
+                      const pageId = link.getAttribute('data-page') + 'Page';
+                      document.getElementById(pageId).style.display = 'block';
+                  });
+              });
+              
+              // Логин
+              loginBtn.addEventListener('click', () => {
+                  const username = usernameInput.value.trim();
+                  const password = passwordInput.value.trim();
+                  
+                  if (username && password) {
+                      loginPage.style.display = 'none';
+                      welcomeScreen.style.display = 'flex';
+                  }
+              });
+              
+              // Начало работы
+              startBtn.addEventListener('click', () => {
+                  welcomeScreen.style.display = 'none';
+                  app.style.display = 'block';
+                  
+                  // Инициализация графика
+                  initChart();
+                  
+                  // Инициализация стакана цен
+                  initOrderBook();
+              });
+              
+              // Профиль
+              userProfileBtn.addEventListener('click', () => {
+                  profileModal.style.display = 'flex';
+              });
+              
+              closeProfileBtn.addEventListener('click', () => {
+                  profileModal.style.display = 'none';
+              });
+              
+              logoutBtn.addEventListener('click', () => {
+                  app.style.display = 'none';
+                  profileModal.style.display = 'none';
+                  loginPage.style.display = 'flex';
+                  usernameInput.value = '';
+                  passwordInput.value = '';
+              });
+              
+              // Закрытие модального окна при клике вне его
+              window.addEventListener('click', (e) => {
+                  if (e.target === profileModal) {
+                      profileModal.style.display = 'none';
+                  }
+              });
+              
+              // Инициализация графика
+              function initChart() {
+                  const ctx = document.getElementById('cryptoChart').getContext('2d');
+                  const chart = new Chart(ctx, {
+                      type: 'line',
+                      data: {
+                          labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+                          datasets: [{
+                              label: 'BTC/USDT',
+                              data: [30000, 32000, 35000, 38000, 40000, 42000, 45000, 48000, 50000, 55000, 60000, 65000],
+                              borderColor: '#2A5C9D',
+                              tension: 0.1,
+                              fill: false
+                          }, {
+                              label: 'ETH/USDT',
+                              data: [1800, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000],
+                              borderColor: '#627EEA',
+                              tension: 0.1,
+                              fill: false
+                          }]
+                      },
+                      options: {
+                          responsive: true,
+                          maintainAspectRatio: false,
+                          scales: {
+                              y: {
+                                  beginAtZero: false
+                              }
+                          }
+                      }
+                  });
+              }
+              
+              // Инициализация стакана цен
+              function initOrderBook() {
+                  const orderBookBody = document.getElementById('orderBookBody');
+                  const pairs = {
+                      'BTC/USDT': [
+                          { price: 65234.12, amount: 1.25, total: 81542.65, type: 'bid' },
+                          { price: 65230.50, amount: 0.85, total: 55445.93, type: 'bid' },
+                          { price: 65225.75, amount: 2.10, total: 136974.08, type: 'bid' },
+                          { price: 65245.30, amount: 1.50, total: 97867.95, type: 'ask' },
+                          { price: 65250.80, amount: 0.75, total: 48938.10, type: 'ask' },
+                          { price: 65255.25, amount: 3.20, total: 208816.80, type: 'ask' }
+                      ],
+                      'ETH/USDT': [
+                          { price: 3256.80, amount: 5.25, total: 17098.20, type: 'bid' },
+                          { price: 3255.40, amount: 3.75, total: 12207.75, type: 'bid' },
+                          { price: 3254.20, amount: 8.50, total: 27660.70, type: 'bid' },
+                          { price: 3258.30, amount: 6.20, total: 20201.46, type: 'ask' },
+                          { price: 3259.75, amount: 4.80, total: 15646.80, type: 'ask' },
+                          { price: 3261.50, amount: 10.25, total: 33430.38, type: 'ask' }
+                      ],
+                      'BNB/USDT': [
+                          { price: 425.75, amount: 12.50, total: 5321.88, type: 'bid' },
+                          { price: 425.50, amount: 8.75, total: 3723.13, type: 'bid' },
+                          { price: 425.25, amount: 15.20, total: 6463.80, type: 'bid' },
+                          { price: 426.00, amount: 10.50, total: 4473.00, type: 'ask' },
+                          { price: 426.25, amount: 7.80, total: 3324.75, type: 'ask' },
+                          { price: 426.50, amount: 20.25, total: 8666.63, type: 'ask' }
+                      ]
+                  };
+                  
+                  function updateOrderBook(pair) {
+                      orderBookBody.innerHTML = '';
+                      pairs[pair].forEach(order => {
+                          const row = document.createElement('tr');
+                          row.className = order.type;
+                          
+                          const priceCell = document.createElement('td');
+                          priceCell.textContent = order.price.toFixed(2);
+                          
+                          const amountCell = document.createElement('td');
+                          amountCell.textContent = order.amount.toFixed(2);
+                          
+                          const totalCell = document.createElement('td');
+                          totalCell.textContent = order.total.toFixed(2);
+                          
+                          row.appendChild(priceCell);
+                          row.appendChild(amountCell);
+                          row.appendChild(totalCell);
+                          
+                          orderBookBody.appendChild(row);
+                      });
+                  }
+                  
+                  // Инициализация для выбранной пары
+                  const pairSelector = document.getElementById('pairSelector');
+                  updateOrderBook(pairSelector.value);
+                  
+                  // Обновление при изменении пары
+                  pairSelector.addEventListener('change', (e) => {
+                      updateOrderBook(e.target.value);
+                  });
+              }
+              
+              // Генерация случайных транзакций
+              function generateRandomTransactions() {
+                  const transactionsList = document.getElementById('transactionsList');
+                  const types = ['Обмен', 'Получение', 'Перевод', 'Вывод', 'Пополнение'];
+                  const now = new Date();
+                  
+                  // Очищаем существующие транзакции (кроме первой, которая будет самой свежей)
+                  while (transactionsList.children.length > 1) {
+                      transactionsList.removeChild(transactionsList.lastChild);
+                  }
+                  
+                  // Добавляем 10 случайных транзакций
+                  for (let i = 0; i < 10; i++) {
+                      const type = types[Math.floor(Math.random() * types.length)];
+                      const isPositive = Math.random() > 0.5;
+                      const amount = (Math.random() * 0.5).toFixed(4);
+                      const time = new Date(now - i * 60000);
+                      const hours = time.getHours().toString().padStart(2, '0');
+                      const minutes = time.getMinutes().toString().padStart(2, '0');
+                      const seconds = time.getSeconds().toString().padStart(2, '0');
+                      
+                      const transaction = document.createElement('div');
+                      transaction.className = 'transaction';
+                      transaction.innerHTML = `
+                          <div class="transaction-info">
+                              <div class="transaction-type">${type}</div>
+                              <div class="transaction-time">${hours}:${minutes}:${seconds}</div>
+                          </div>
+                          <div class="transaction-amount ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : '-'}${amount}</div>
+                      `;
+                      
+                      transactionsList.appendChild(transaction);
+                  }
+              }
+              
+              // Генерация случайных транзакций каждые 30 секунд
+              setInterval(generateRandomTransactions, 30000);
+          </script>
+      </body>
+      </html>
