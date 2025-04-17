@@ -1,0 +1,115 @@
+!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Госуслуги + Крипта</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Страница входа -->
+    <div id="login" class="section active">
+      <h2>Вход</h2>
+      <form>
+        <input type="text" class="form-control mb-3" placeholder="Логин">
+        <input type="password" class="form-control mb-3" placeholder="Пароль">
+        <button type="button" class="btn btn-primary w-100 mb-3" onclick="showSection('main')">Войти</button>
+        <button type="button" class="btn btn-outline-primary w-100 mb-3">Войти через Госуслуги</button>
+        <a href="#" onclick="showSection('register')">Регистрация</a>
+      </form>
+    </div>
+
+    <!-- Страница регистрации -->
+    <div id="register" class="section">
+      <h2>Регистрация</h2>
+      <form>
+        <input type="text" class="form-control mb-3" placeholder="Имя">
+        <input type="text" class="form-control mb-3" placeholder="Фамилия">
+        <input type="text" class="form-control mb-3" placeholder="Паспорт">
+        <input type="text" class="form-control mb-3" placeholder="Адрес">
+        <button type="button" class="btn btn-primary w-100" onclick="showSection('main')">Зарегистрироваться</button>
+      </form>
+    </div>
+
+    <!-- Главная страница -->
+    <div id="main" class="section">
+      <h1>Крипто оборот</h1>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <button class="btn btn-primary btn-sm" onclick="toggleInfo('trade-info')"><i class="fas fa-exchange-alt me-1"></i>Торговля</button>
+        <button class="btn btn-primary btn-sm" onclick="toggleInfo('taxes-info')"><i class="fas fa-calculator me-1"></i>Налоги</button>
+        <button class="btn btn-primary btn-sm" onclick="toggleInfo('chat-info')"><i class="fas fa-comments me-1"></i>Чат</button>
+        <button class="btn btn-primary btn-sm" onclick="toggleInfo('settings-info')"><i class="fas fa-cog me-1"></i>Настройки</button>
+      </div>
+
+      <img src="https://via.placeholder.com/50" alt="User Photo" class="rounded-circle mb-3">
+      <p><strong>Никнейм:</strong> User123</p>
+      <p><strong>Баланс:</strong> 0.005 BTC, 100 USDT</p>
+
+      <!-- Информация для кнопки Торговля -->
+      <div id="trade-info" class="info-section card p-3 mb-3" style="display: none;">
+        <h3>Торговля</h3>
+        <p><strong>Валютные пары:</strong></p>
+        <ul>
+          <li>DOGE/USDT: 0.15 USDT (Объем: 1M USDT, +13% за 24ч)</li>
+          <li>BNB/RUB: 81,202 RUB (Объем: 1B RUB, +5% за 24ч)</li>
+          <li>BTC/ETH: 1.2 ETH (Объем на карту: 5x210, +1.3% за 24ч)</li>
+          <li>BTC/USDC: 81,202 USDC (Объем: 146,500 USDC, +0.46% за 24ч)</li>
+          <li>ETH/USDT: 3,500 USDT (Объем: 1M USDT, +3% за 24ч)</li>
+        </ul>
+        <p><strong>Действия:</strong> 1 БСА торговля ведется за внутреннюю валюту. Возможен выход на карту (как маркетинг об.)</p>
+      </div>
+
+      <!-- Информация для кнопки Налоги -->
+      <div id="taxes-info" class="info-section card p-3 mb-3" style="display: none;">
+        <h3>Налоги</h3>
+        <p><strong>Налог (мой налог):</strong></p>
+        <p>Фактически адрес совладельца с рег. Документ, подтверждающий нахождение по адресу.</p>
+        <p>Текущий расчет на и.о. об.: 1/11/67, Потребление: 1/11/100</p>
+        <p>Сумма расходов на электроэнергию: 1/11/100</p>
+        <p>Задолженность: 140,000 (Возможен вычет: 92,020)</p>
+        <p><strong>Действия:</strong> Вышли подтвержден. ход. 15000. Расчетывать скрытку.</p>
+      </div>
+
+      <!-- Информация для кнопки Чат -->
+      <div id="chat-info" class="info-section card p-3 mb-3" style="display: none;">
+        <h3>Чат</h3>
+        <p><strong>Мое общение:</strong></p>
+        <p>Серый/в номер: Пологон: 1234a</p>
+        <p>Город, массовый пункт: Чат с разработанным.</p>
+        <p>Чат: 1/11/100 (Объем потребления: 1/11/100)</p>
+        <p><strong>Сообщения:</strong> Начать писать ИИ. Реквизиты ИИ.</p>
+      </div>
+
+      <!-- Информация для кнопки Настройки -->
+      <div id="settings-info" class="info-section card p-3 mb-3" style="display: none;">
+        <h3>Настройки</h3>
+        <p><strong>Настройки:</strong></p>
+        <p>Внутренний перевод по ник: Коррект.</p>
+        <p>Начать: Традиц. Кол-во. начало: Поддержка.</p>
+        <p>Ключ: 190 нет 95 (Опред: 210 м 87)</p>
+        <p>Каналы для: 3 сп. (Сервер: 0.00222)</p>
+      </div>
+
+      <a href="#" onclick="showSection('profile')">Перейти в профиль</a>
+    </div>
+
+    <!-- Страница профиля -->
+    <div id="profile" class="section">
+      <h2>Профиль</h2>
+      <div class="card p-3">
+        <p><strong>Имя:</strong> Иван</p>
+        <p><strong>Фамилия:</strong> Иванов</p>
+        <p><strong>Паспорт:</strong> 1234 567890</p>
+        <p><strong>Адрес:</strong> Москва, ул. Ленина, 1</p>
+      </div>
+      <a href="#" onclick="showSection('main')">На главную</a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
