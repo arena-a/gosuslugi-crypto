@@ -1,15 +1,28 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Госуслуги + Крипта</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <!-- Шапка -->
+  <header class="header">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="logo">
+        <img src="https://via.placeholder.com/150x40?text=Госуслуги" alt="Госуслуги">
+      </div>
+      <div class="user-info">
+        <p class="mb-0"><strong>User123</strong></p>
+        <p class="mb-0 text-muted small">0.005 BTC, 100 USDT</p>
+      </div>
+    </div>
+  </header>
+
   <div class="container">
     <!-- Страница входа -->
     <div id="login" class="section active">
@@ -30,6 +43,8 @@
         <input type="text" class="form-control mb-3" placeholder="Имя">
         <input type="text" class="form-control mb-3" placeholder="Фамилия">
         <input type="text" class="form-control mb-3" placeholder="Паспорт">
+        <input type="text" class="form-control mb-3" placeholder="ИНН">
+        <input type="text" class="form-control mb-3" placeholder="СНИЛС">
         <input type="text" class="form-control mb-3" placeholder="Адрес">
         <button type="button" class="btn btn-primary w-100" onclick="showSection('main')">Зарегистрироваться</button>
       </form>
@@ -38,19 +53,15 @@
     <!-- Главная страница -->
     <div id="main" class="section">
       <h1>Крипто оборот</h1>
-      <div class="d-flex flex-wrap gap-2 mb-3">
-        <button class="btn btn-primary btn-sm" onclick="toggleInfo('trade-info')"><i class="fas fa-exchange-alt me-1"></i>Торговля</button>
-        <button class="btn btn-primary btn-sm" onclick="toggleInfo('taxes-info')"><i class="fas fa-calculator me-1"></i>Налоги</button>
-        <button class="btn btn-primary btn-sm" onclick="toggleInfo('chat-info')"><i class="fas fa-comments me-1"></i>Чат</button>
-        <button class="btn btn-primary btn-sm" onclick="toggleInfo('settings-info')"><i class="fas fa-cog me-1"></i>Настройки</button>
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <button class="btn btn-primary custom-btn" onclick="toggleInfo('trade-info')"><i class="fas fa-exchange-alt me-1"></i>Торговля</button>
+        <button class="btn btn-primary custom-btn" onclick="toggleInfo('taxes-info')"><i class="fas fa-calculator me-1"></i>Налоги</button>
+        <button class="btn btn-primary custom-btn" onclick="toggleInfo('chat-info')"><i class="fas fa-comments me-1"></i>Чат</button>
+        <button class="btn btn-primary custom-btn" onclick="toggleInfo('settings-info')"><i class="fas fa-cog me-1"></i>Настройки</button>
       </div>
 
-      <img src="https://via.placeholder.com/50" alt="User Photo" class="rounded-circle mb-3">
-      <p><strong>Никнейм:</strong> User123</p>
-      <p><strong>Баланс:</strong> 0.005 BTC, 100 USDT</p>
-
       <!-- Информация для кнопки Торговля -->
-      <div id="trade-info" class="info-section card p-3 mb-3" style="display: none;">
+      <div id="trade-info" class="info-section card p-3 mb-3">
         <h3>Торговля</h3>
         <p><strong>Валютные пары:</strong></p>
         <ul>
@@ -64,7 +75,7 @@
       </div>
 
       <!-- Информация для кнопки Налоги -->
-      <div id="taxes-info" class="info-section card p-3 mb-3" style="display: none;">
+      <div id="taxes-info" class="info-section card p-3 mb-3">
         <h3>Налоги</h3>
         <p><strong>Налог (мой налог):</strong></p>
         <p>Фактически адрес совладельца с рег. Документ, подтверждающий нахождение по адресу.</p>
@@ -75,7 +86,7 @@
       </div>
 
       <!-- Информация для кнопки Чат -->
-      <div id="chat-info" class="info-section card p-3 mb-3" style="display: none;">
+      <div id="chat-info" class="info-section card p-3 mb-3">
         <h3>Чат</h3>
         <p><strong>Мое общение:</strong></p>
         <p>Серый/в номер: Пологон: 1234a</p>
@@ -85,7 +96,7 @@
       </div>
 
       <!-- Информация для кнопки Настройки -->
-      <div id="settings-info" class="info-section card p-3 mb-3" style="display: none;">
+      <div id="settings-info" class="info-section card p-3 mb-3">
         <h3>Настройки</h3>
         <p><strong>Настройки:</strong></p>
         <p>Внутренний перевод по ник: Коррект.</p>
@@ -104,6 +115,8 @@
         <p><strong>Имя:</strong> Иван</p>
         <p><strong>Фамилия:</strong> Иванов</p>
         <p><strong>Паспорт:</strong> 1234 567890</p>
+        <p><strong>ИНН:</strong> 123456789012</p>
+        <p><strong>СНИЛС:</strong> 123-456-789 01</p>
         <p><strong>Адрес:</strong> Москва, ул. Ленина, 1</p>
       </div>
       <a href="#" onclick="showSection('main')">На главную</a>
