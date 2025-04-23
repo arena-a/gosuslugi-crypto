@@ -31,8 +31,8 @@
             min-height: 100vh;
         }
         
-        /* Страница входа */
-        .login-page {
+        /* Welcome page */
+        .welcome-container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -44,11 +44,71 @@
             text-align: center;
         }
         
-        .welcome-message {
-            margin-bottom: 30px;
-            font-size: 22px;
-            line-height: 1.5;
-            max-width: 600px;
+        .welcome-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .welcome-btn {
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            width: 100%;
+        }
+        
+        .login-btn {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .login-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        .gosuslugi-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .gosuslugi-logo {
+            height: 20px;
+        }
+        
+        .register-btn {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .register-btn:hover {
+            background: #172554;
+        }
+        
+        /* Login form */
+        .login-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
         }
         
         .login-form {
@@ -87,10 +147,9 @@
             font-size: 16px;
         }
         
-        .login-btn {
+        .form-btn {
             width: 100%;
             padding: 12px;
-            background: var(--primary);
             color: white;
             border: none;
             border-radius: 6px;
@@ -101,27 +160,57 @@
             transition: background 0.3s;
         }
         
-        .login-btn:hover {
+        .submit-btn {
+            background: var(--primary);
+        }
+        
+        .submit-btn:hover {
             background: var(--secondary);
         }
         
-        .start-btn {
-            width: 200px;
-            padding: 15px;
-            background: white;
-            color: var(--primary);
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 500;
-            cursor: pointer;
-            margin-top: 30px;
-            transition: all 0.3s;
+        .back-btn {
+            background: #6b7280;
         }
         
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .back-btn:hover {
+            background: #4b5563;
+        }
+        
+        /* Registration form */
+        .register-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+        }
+        
+        .register-form {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            color: var(--text);
+            margin: 20px 0;
+        }
+        
+        .form-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
         }
         
         /* Основное приложение */
@@ -161,6 +250,7 @@
         
         .username {
             font-weight: 500;
+            font-size: 18px;
         }
         
         .main-nav {
@@ -176,6 +266,7 @@
             border-radius: 4px;
             transition: background 0.2s;
             white-space: nowrap;
+            font-size: 16px;
         }
         
         .nav-link:hover, .nav-link.active {
@@ -217,12 +308,12 @@
         }
         
         .balance-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 500;
         }
         
         .balance-amount {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
         }
         
@@ -238,13 +329,14 @@
         }
         
         .crypto-name {
-            font-size: 14px;
+            font-size: 16px;
             opacity: 0.7;
         }
         
         .crypto-amount {
             font-weight: bold;
             margin-top: 5px;
+            font-size: 18px;
         }
         
         /* График */
@@ -267,7 +359,7 @@
         }
         
         .transactions-header {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 500;
             margin-bottom: 15px;
         }
@@ -291,16 +383,18 @@
         
         .transaction-type {
             font-weight: 500;
+            font-size: 16px;
         }
         
         .transaction-time {
-            font-size: 12px;
+            font-size: 14px;
             opacity: 0.6;
             margin-top: 3px;
         }
         
         .transaction-amount {
             font-weight: 500;
+            font-size: 16px;
         }
         
         .positive {
@@ -331,6 +425,7 @@
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #eee;
+            font-size: 16px;
         }
         
         .tax-table th {
@@ -387,6 +482,7 @@
         
         .token-name {
             font-weight: 500;
+            font-size: 16px;
         }
         
         .token-balance {
@@ -397,6 +493,7 @@
         .token-value {
             font-weight: bold;
             margin-top: 5px;
+            font-size: 16px;
         }
         
         .order-book {
@@ -414,14 +511,15 @@
         }
         
         .order-book-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 500;
         }
         
         .pair-selector {
-            padding: 5px 10px;
+            padding: 8px 12px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            font-size: 16px;
         }
         
         .order-book-table {
@@ -430,8 +528,9 @@
         }
         
         .order-book-table th, .order-book-table td {
-            padding: 8px;
+            padding: 10px;
             text-align: right;
+            font-size: 16px;
         }
         
         .order-book-table th:first-child, .order-book-table td:first-child {
@@ -441,7 +540,7 @@
         .order-book-table th {
             font-weight: 500;
             color: #666;
-            font-size: 14px;
+            font-size: 16px;
         }
         
         .bid {
@@ -466,62 +565,71 @@
             margin-top: 20px;
         }
         
-        /* Страница новостей */
-        .news-page {
+        /* Страница чата */
+        .chat-page {
             display: none;
             padding: 20px;
         }
         
-        .news-item {
+        .chat-container {
             background: white;
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 15px;
-        }
-        
-        .news-title {
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-        
-        .news-date {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        
-        /* Страница сделок */
-        .deals-page {
-            display: none;
-            padding: 20px;
-        }
-        
-        .deals-table {
-            width: 100%;
-            border-collapse: collapse;
             margin-top: 20px;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
         }
         
-        .deals-table th, .deals-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 8px;
         }
         
-        .deals-table th {
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: #f5f5f5;
+            max-width: 70%;
+        }
+        
+        .message-self {
+            margin-left: auto;
             background: var(--primary);
             color: white;
-            font-weight: 500;
         }
         
-        .deals-table tr:last-child td {
-            border-bottom: none;
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        .chat-input button {
+            padding: 12px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .chat-input button:hover {
+            background: var(--secondary);
         }
         
         /* Модальное окно профиля */
@@ -556,14 +664,14 @@
         }
         
         .profile-title {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 500;
         }
         
         .close-btn {
             background: none;
             border: none;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
         }
         
@@ -572,7 +680,7 @@
         }
         
         .field-label {
-            font-size: 14px;
+            font-size: 16px;
             opacity: 0.7;
             margin-bottom: 5px;
         }
@@ -582,20 +690,39 @@
             padding: 10px;
             background: var(--bg);
             border-radius: 6px;
+            font-size: 16px;
         }
         
-        /* Welcome screen */
-        .welcome-screen {
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #eee;
+            margin: 0 auto 20px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            text-align: center;
-            display: none;
+            overflow: hidden;
+        }
+        
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .equipment-info {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+        
+        .equipment-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--primary);
         }
         
         /* Анимации */
@@ -614,14 +741,57 @@
                 flex-direction: column;
                 gap: 10px;
             }
+            
+            .welcome-buttons {
+                max-width: 250px;
+            }
+            
+            .welcome-btn {
+                font-size: 16px;
+                padding: 12px;
+            }
+            
+            .nav-link {
+                font-size: 14px;
+                padding: 6px 8px;
+            }
+            
+            .username {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-buttons {
+                max-width: 220px;
+            }
+            
+            .login-form, .register-form {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Страница входа -->
+    <!-- Welcome page -->
+    <div class="welcome-container" id="welcomePage">
+        <h1>КриптоОборот</h1>
+        <p>Добро пожаловать на нашу платформу</p>
+        
+        <div class="welcome-buttons">
+            <button class="welcome-btn login-btn" id="welcomeLoginBtn">Войти</button>
+            <button class="welcome-btn gosuslugi-btn" id="gosuslugiBtn">
+                <img src="https://www.gosuslugi.ru/static/portal/svg/logo-ru.svg" alt="Госуслуги" class="gosuslugi-logo">
+                Войти через Госуслуги
+            </button>
+            <button class="welcome-btn register-btn" id="welcomeRegisterBtn">Зарегистрироваться</button>
+        </div>
+    </div>
+    
+    <!-- Login form -->
     <div class="login-page" id="loginPage">
         <div class="login-form">
-            <h1 class="login-title">КриптоОборот</h1>
+            <h1 class="login-title">Вход в систему</h1>
             <div class="input-group">
                 <label for="username">Логин</label>
                 <input type="text" id="username" placeholder="Введите ваш логин">
@@ -630,16 +800,63 @@
                 <label for="password">Пароль</label>
                 <input type="password" id="password" placeholder="Введите ваш пароль">
             </div>
-            <button class="login-btn" id="loginBtn">Войти</button>
+            <button class="form-btn submit-btn" id="loginBtn">Войти</button>
+            <button class="form-btn back-btn" id="loginBackBtn">Назад</button>
         </div>
     </div>
     
-    <!-- Welcome screen -->
-    <div class="welcome-screen" id="welcomeScreen">
-        <div class="welcome-message">
-            ДОБРО ПОЖАЛОВАТЬ НА ПЛАТФОРМУ КРИПТО ОБОРОТ. ЗДЕСЬ ВЫ МОЖЕТЕ КУПИТЬ, ОБМЕНЯТЬ КРИПТОВАЛЮТУ, ТАК ЖЕ ВЫВЕСТИ БЕЗОПАСНО НА ВАШ СЧЕТ
+    <!-- Registration form -->
+    <div class="register-page" id="registerPage">
+        <div class="register-form">
+            <h1 class="login-title">Регистрация</h1>
+            
+            <div class="form-section">
+                <div class="section-title">Личные данные</div>
+                <div class="input-group">
+                    <label for="reg-username">Логин</label>
+                    <input type="text" id="reg-username" placeholder="Придумайте логин">
+                </div>
+                <div class="input-group">
+                    <label for="reg-password">Пароль</label>
+                    <input type="password" id="reg-password" placeholder="Придумайте пароль">
+                </div>
+                <div class="input-group">
+                    <label for="reg-email">Email</label>
+                    <input type="email" id="reg-email" placeholder="Введите ваш email">
+                </div>
+                <div class="input-group">
+                    <label for="reg-phone">Телефон</label>
+                    <input type="tel" id="reg-phone" placeholder="Введите ваш телефон">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <div class="section-title">Паспортные данные</div>
+                <div class="input-group">
+                    <label for="reg-fullname">ФИО</label>
+                    <input type="text" id="reg-fullname" placeholder="Как в паспорте">
+                </div>
+                <div class="input-group">
+                    <label for="reg-passport">Серия и номер паспорта</label>
+                    <input type="text" id="reg-passport" placeholder="XXXX XXXXXX">
+                </div>
+                <div class="input-group">
+                    <label for="reg-inn">ИНН</label>
+                    <input type="text" id="reg-inn" placeholder="Введите ИНН">
+                </div>
+                <div class="input-group">
+                    <label for="reg-passport-photo">Фотография паспорта</label>
+                    <input type="file" id="reg-passport-photo">
+                </div>
+                <div class="input-group">
+                    <label for="reg-selfie">Фото с паспортом</label>
+                    <input type="file" id="reg-selfie">
+                </div>
+            </div>
+            
+            <button class="form-btn submit-btn" id="registerBtn">Зарегистрироваться</button>
+            <button class="form-btn back-btn" id="registerBackBtn">Назад</button>
         </div>
-        <button class="start-btn" id="startBtn">Начать</button>
     </div>
     
     <!-- Основное приложение -->
@@ -655,9 +872,8 @@
                 <a href="#" class="nav-link active" data-page="main">Трейдинг</a>
                 <a href="#" class="nav-link" data-page="wallet">Кошелек</a>
                 <a href="#" class="nav-link" data-page="tax">Налоги</a>
+                <a href="#" class="nav-link" data-page="chat">P2P Чат</a>
                 <a href="#" class="nav-link" data-page="support">Поддержка</a>
-                <a href="#" class="nav-link" data-page="news">Новости</a>
-                <a href="#" class="nav-link" data-page="deals">Сделки</a>
             </div>
         </div>
         
@@ -904,418 +1120,440 @@
             </div>
         </div>
         
-        <!-- Страница поддержки -->
-        <div class="support-page" id="supportPage">
-            <h2>Поддержка</h2>
-            <p>Свяжитесь с нами, если у вас возникли вопросы</p>
+        <!-- Страница чата -->
+        <div class="chat-page" id="chatPage">
+            <h2>P2P Чат</h2>
+            <p>Обсуждение сделок с другими пользователями</p>
             
-            <div class="support-info">
-                <h3>Форум поддержки</h3>
-                <p>Посетите наш форум для получения помощи: <a href="https://forum.cryptooborot.example.com" target="_blank">forum.cryptooborot.example.com</a></p>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message">
+                        <div class="message-sender">Алексей:</div>
+                        <div class="message-text">Здравствуйте, хочу купить 0.1 BTC за рубли. Какие условия?</div>
+                        <div class="message-time">12:30</div>
+                    </div>
+                    <div class="message message-self">
+                        <div class="message-text">Добрый день! Могу предложить курс 3,200,000 ₽ за BTC</div>
+                        <div class="message-time">12:32</div>
+                    </div>
+                    <div class="message">
+                        <div class="message-sender">Алексей:</div>
+                        <div class="message-text">Есть ли скидка при оплате на карту Сбербанка?</div>
+                        <div class="message-time">12:33</div>
+                    </div>
+                </div>
                 
-                <h3>Телефон горячей линии</h3>
-                <p>+7 (800) 123-45-67</p>
-                <p>Работаем круглосуточно</p>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Введите сообщение...">
+                    <button id="sendMessageBtn">Отправить</button>
+                </div>
+            </div>
+                    </div>
+                    
+                    <!-- Страница поддержки -->
+                    <div class="support-page" id="supportPage">
+                        <h2>Поддержка</h2>
+                        <p>Свяжитесь с нами, если у вас возникли вопросы</p>
+                        
+                        <div class="support-info">
+                            <h3>Форум поддержки</h3>
+                            <p>Посетите наш форум для получения помощи: <a href="https://forum.cryptooborot.example.com" target="_blank">forum.cryptooborot.example.com</a></p>
+                            
+                            <h3>Телефон горячей линии</h3>
+                            <p>+7 (800) 123-45-67</p>
+                            <p>Работаем круглосуточно</p>
+                            
+                            <h3>Электронная почта</h3>
+                            <p>support@cryptooborot.example.com</p>
+                            
+                            <h3>Чат поддержки</h3>
+                            <p>Доступен 24/7 в мобильном приложении</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Модальное окно профиля -->
+                    <div class="profile-modal" id="profileModal">
+                        <div class="profile-content">
+                            <div class="profile-header">
+                                <div class="profile-title">Профиль</div>
+                                <button class="close-btn" id="closeProfileBtn">&times;</button>
+                            </div>
+                            
+                            <div class="profile-photo">
+                                <img src="https://via.placeholder.com/100" alt="Фото профиля" id="profilePhoto">
+                            </div>
+                            
+                            <div class="profile-field">
+                                <div class="field-label">Имя пользователя</div>
+                                <div class="field-value" id="profileUsername">No Name</div>
+                            </div>
+                            
+                            <div class="profile-field">
+                                <div class="field-label">ID аккаунта</div>
+                                <div class="field-value">CRYPTO-XXXX-7890</div>
+                            </div>
+                            
+                            <div class="profile-field">
+                                <div class="field-label">Email</div>
+                                <div class="field-value" id="profileEmail">user@example.com</div>
+                            </div>
+                            
+                            <div class="profile-field">
+                                <div class="field-label">Телефон</div>
+                                <div class="field-value" id="profilePhone">+7 (XXX) XXX-XX-XX</div>
+                            </div>
+                            
+                            <div class="profile-field">
+                                <div class="field-label">Уровень верификации</div>
+                                <div class="field-value">Полная верификация</div>
+                            </div>
+                            
+                            <div class="profile-field">
+                                <div class="field-label">Дата регистрации</div>
+                                <div class="field-value">15.03.2025</div>
+                            </div>
+                            
+                            <div class="equipment-info">
+                                <div class="equipment-title">Информация об оборудовании</div>
+                                <div class="profile-field">
+                                    <div class="field-label">Серийный номер</div>
+                                    <div class="field-value">CRYPTO-MINER-2025-12345</div>
+                                </div>
+                                <div class="profile-field">
+                                    <div class="field-label">Мощность</div>
+                                    <div class="field-value">250 MH/s</div>
+                                </div>
+                                <div class="profile-field">
+                                    <div class="field-label">Дата подключения</div>
+                                    <div class="field-value">20.03.2025</div>
+                                </div>
+                            </div>
+                            
+                            <button class="form-btn submit-btn" style="margin-top: 20px;" id="logoutBtn">Выйти</button>
+                        </div>
+                    </div>
+                </div>
                 
-                <h3>Электронная почта</h3>
-                <p>support@cryptooborot.example.com</p>
-                
-                <h3>Чат поддержки</h3>
-                <p>Доступен 24/7 в мобильном приложении</p>
-            </div>
-        </div>
-        
-        <!-- Страница новостей -->
-        <div class="news-page" id="newsPage">
-            <h2>Новости крипторынка</h2>
-            
-            <div class="news-item">
-                <div class="news-title">Биткоин обновил исторический максимум выше $85,000</div>
-                <div class="news-date">15 апреля 2025</div>
-                <p>Курс Bitcoin впервые в истории преодолел отметку в $85,000 на фоне роста институционального спроса и одобрения новых BTC-ETF. Аналитики отмечают увеличение объемов торгов на 35% по сравнению с предыдущим месяцем.</p>
-            </div>
-            
-            <div class="news-item">
-                <div class="news-title">Ethereum завершил переход на PoS в обновлении Ethereum 3.0</div>
-                <div class="news-date">10 апреля 2025</div>
-                <p>Обновление Ethereum 3.0 полностью перевело сеть на алгоритм Proof-of-Stake, сократив энергопотребление на 99%. Комиссии в сети снизились до $0.05-0.10 за транзакцию.</p>
-            </div>
-            
-            <div class="news-item">
-                <div class="news-title">ЦБ РФ разрешил банкам работать с криптовалютой с 1 июля 2025</div>
-                <div class="news-date">5 апреля 2025</div>
-                <p>С 1 июля 2025 года российские банки смогут открывать криптовалютные счета для квалифицированных инвесторов. Лимит инвестиций установлен на уровне 600,000 рублей в год.</p>
-            </div>
-            
-            <div class="news-item">
-                <div class="news-title">Новый мем-токен CATZ вырос на 1000% за сутки</div>
-                <div class="news-date">1 апреля 2025</div>
-                <p>Токен CATZ, посвященный кошкам, повторил успех Dogecoin, заняв 30 место по капитализации. Проект привлек внимание Илона Маска, написавшего о нем в Twitter.</p>
-            </div>
-            
-            <div class="news-item">
-                <div class="news-title">Binance запускает фьючерсы на криптовалюты с плечом 1:100</div>
-                <div class="news-date">28 марта 2025</div>
-                <p>Крупнейшая биржа Binance объявила о запуске новых фьючерсных контрактов с кредитным плечом до 1:100. В список вошли BTC, ETH и 10 других топовых монет.</p>
-            </div>
-        </div>
-        
-        <!-- Страница сделок -->
-        <div class="deals-page" id="dealsPage">
-            <h2>Последние сделки</h2>
-            <p>История ваших операций</p>
-            
-            <table class="deals-table">
-                <thead>
-                    <tr>
-                        <th>Пара</th>
-                        <th>Тип</th>
-                        <th>Цена</th>
-                        <th>Количество</th>
-                        <th>Сумма</th>
-                        <th>Газ</th>
-                        <th>Комиссия</th>
-                        <th>Время</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>BTC/USDT</td>
-                        <td>Покупка</td>
-                        <td>42,356.12</td>
-                        <td>0.01</td>
-                        <td>423.56</td>
-                        <td>0.0012 ETH ($4.20)</td>
-                        <td>0.1% ($0.42)</td>
-                        <td>17.04.25 14:23</td>
-                    </tr>
-                    <tr>
-                        <td>ETH/USDT</td>
-                        <td>Продажа</td>
-                        <td>3,245.78</td>
-                        <td>0.5</td>
-                        <td>1,622.89</td>
-                        <td>0.0008 ETH ($2.80)</td>
-                        <td>0.1% ($1.62)</td>
-                        <td>17.04.25 13:45</td>
-                    </tr>
-                    <tr>
-                        <td>DOGE/RUB</td>
-                        <td>Покупка</td>
-                        <td>8.45</td>
-                        <td>1,000</td>
-                        <td>8,450</td>
-                        <td>0.0005 ETH ($1.75)</td>
-                        <td>0.2% (₽16.90)</td>
-                        <td>17.04.25 12:30</td>
-                    </tr>
-                    <tr>
-                        <td>BNB/USDT</td>
-                        <td>Продажа</td>
-                        <td>425.67</td>
-                        <td>1.2</td>
-                        <td>510.80</td>
-                        <td>0.001 ETH ($3.50)</td>
-                        <td>0.1% ($0.51)</td>
-                        <td>17.04.25 11:15</td>
-                    </tr>
-                    <tr>
-                        <td>SHIB/USDT</td>
-                        <td>Покупка</td>
-                        <td>0.000015</td>
-                        <td>5,000,000</td>
-                        <td>75</td>
-                        <td>0.002 ETH ($7.00)</td>
-                        <td>0.3% ($0.23)</td>
-                        <td>17.04.25 10:00</td>
-                    </tr>
-                    <tr>
-                        <td>SOL/USDT</td>
-                        <td>Продажа</td>
-                        <td>125.50</td>
-                        <td>10</td>
-                        <td>1,255.00</td>
-                        <td>0.0007 ETH ($2.45)</td>
-                        <td>0                    </tr>
-                          <tr>
-                              <td>BTC/RUB</td>
-                              <td>Покупка</td>
-                              <td>3,245,678</td>
-                              <td>0.005</td>
-                              <td>16,228.39</td>
-                              <td>0.0015 ETH ($5.25)</td>
-                              <td>0.1% (₽16.23)</td>
-                              <td>17.04.25 09:30</td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-              
-              <!-- Модальное окно профиля -->
-              <div class="profile-modal" id="profileModal">
-                  <div class="profile-content">
-                      <div class="profile-header">
-                          <div class="profile-title">Профиль</div>
-                          <button class="close-btn" id="closeProfileBtn">&times;</button>
-                      </div>
-                      
-                      <div class="profile-field">
-                          <div class="field-label">Имя пользователя</div>
-                          <div class="field-value">No Name</div>
-                      </div>
-                      
-                      <div class="profile-field">
-                          <div class="field-label">ID аккаунта</div>
-                          <div class="field-value">CRYPTO-XXXX-7890</div>
-                      </div>
-                      
-                      <div class="profile-field">
-                          <div class="field-label">Уровень верификации</div>
-                          <div class="field-value">Полная верификация</div>
-                      </div>
-                      
-                      <div class="profile-field">
-                          <div class="field-label">Дата регистрации</div>
-                          <div class="field-value">15.03.2025</div>
-                      </div>
-                      
-                      <div class="profile-field">
-                          <div class="field-label">Статус</div>
-                          <div class="field-value">Активен</div>
-                      </div>
-                      
-                      <div class="profile-field">
-                          <div class="field-label">Последний вход</div>
-                          <div class="field-value">Сегодня, 18:45</div>
-                      </div>
-                      
-                      <div class="profile-field">
-                          <div class="field-label">IP-адрес</div>
-                          <div class="field-value">192.168.xxx.xxx</div>
-                      </div>
-                      
-                      <button class="login-btn" style="margin-top: 20px;" id="logoutBtn">Выйти</button>
-                  </div>
-              </div>
-          </div>
-          
-          <script>
-              // Элементы DOM
-              const loginPage = document.getElementById('loginPage');
-              const welcomeScreen = document.getElementById('welcomeScreen');
-              const app = document.getElementById('app');
-              const loginBtn = document.getElementById('loginBtn');
-              const startBtn = document.getElementById('startBtn');
-              const usernameInput = document.getElementById('username');
-              const passwordInput = document.getElementById('password');
-              const userProfileBtn = document.getElementById('userProfileBtn');
-              const profileModal = document.getElementById('profileModal');
-              const closeProfileBtn = document.getElementById('closeProfileBtn');
-              const logoutBtn = document.getElementById('logoutBtn');
-              const navLinks = document.querySelectorAll('.nav-link');
-              const pages = document.querySelectorAll('[id$="Page"]');
-              
-              // Навигация по страницам
-              navLinks.forEach(link => {
-                  link.addEventListener('click', (e) => {
-                      e.preventDefault();
-                      
-                      // Удаляем активный класс у всех ссылок
-                      navLinks.forEach(l => l.classList.remove('active'));
-                      // Добавляем активный класс текущей ссылке
-                      link.classList.add('active');
-                      
-                      // Скрываем все страницы
-                      pages.forEach(page => {
-                          page.style.display = 'none';
-                      });
-                      
-                      // Показываем выбранную страницу
-                      const pageId = link.getAttribute('data-page') + 'Page';
-                      document.getElementById(pageId).style.display = 'block';
-                  });
-              });
-              
-              // Логин
-              loginBtn.addEventListener('click', () => {
-                  const username = usernameInput.value.trim();
-                  const password = passwordInput.value.trim();
-                  
-                  if (username && password) {
-                      loginPage.style.display = 'none';
-                      welcomeScreen.style.display = 'flex';
-                  }
-              });
-              
-              // Начало работы
-              startBtn.addEventListener('click', () => {
-                  welcomeScreen.style.display = 'none';
-                  app.style.display = 'block';
-                  
-                  // Инициализация графика
-                  initChart();
-                  
-                  // Инициализация стакана цен
-                  initOrderBook();
-              });
-              
-              // Профиль
-              userProfileBtn.addEventListener('click', () => {
-                  profileModal.style.display = 'flex';
-              });
-              
-              closeProfileBtn.addEventListener('click', () => {
-                  profileModal.style.display = 'none';
-              });
-              
-              logoutBtn.addEventListener('click', () => {
-                  app.style.display = 'none';
-                  profileModal.style.display = 'none';
-                  loginPage.style.display = 'flex';
-                  usernameInput.value = '';
-                  passwordInput.value = '';
-              });
-              
-              // Закрытие модального окна при клике вне его
-              window.addEventListener('click', (e) => {
-                  if (e.target === profileModal) {
-                      profileModal.style.display = 'none';
-                  }
-              });
-              
-              // Инициализация графика
-              function initChart() {
-                  const ctx = document.getElementById('cryptoChart').getContext('2d');
-                  const chart = new Chart(ctx, {
-                      type: 'line',
-                      data: {
-                          labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
-                          datasets: [{
-                              label: 'BTC/USDT',
-                              data: [30000, 32000, 35000, 38000, 40000, 42000, 45000, 48000, 50000, 55000, 60000, 65000],
-                              borderColor: '#2A5C9D',
-                              tension: 0.1,
-                              fill: false
-                          }, {
-                              label: 'ETH/USDT',
-                              data: [1800, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000],
-                              borderColor: '#627EEA',
-                              tension: 0.1,
-                              fill: false
-                          }]
-                      },
-                      options: {
-                          responsive: true,
-                          maintainAspectRatio: false,
-                          scales: {
-                              y: {
-                                  beginAtZero: false
-                              }
-                          }
-                      }
-                  });
-              }
-              
-              // Инициализация стакана цен
-              function initOrderBook() {
-                  const orderBookBody = document.getElementById('orderBookBody');
-                  const pairs = {
-                      'BTC/USDT': [
-                          { price: 65234.12, amount: 1.25, total: 81542.65, type: 'bid' },
-                          { price: 65230.50, amount: 0.85, total: 55445.93, type: 'bid' },
-                          { price: 65225.75, amount: 2.10, total: 136974.08, type: 'bid' },
-                          { price: 65245.30, amount: 1.50, total: 97867.95, type: 'ask' },
-                          { price: 65250.80, amount: 0.75, total: 48938.10, type: 'ask' },
-                          { price: 65255.25, amount: 3.20, total: 208816.80, type: 'ask' }
-                      ],
-                      'ETH/USDT': [
-                          { price: 3256.80, amount: 5.25, total: 17098.20, type: 'bid' },
-                          { price: 3255.40, amount: 3.75, total: 12207.75, type: 'bid' },
-                          { price: 3254.20, amount: 8.50, total: 27660.70, type: 'bid' },
-                          { price: 3258.30, amount: 6.20, total: 20201.46, type: 'ask' },
-                          { price: 3259.75, amount: 4.80, total: 15646.80, type: 'ask' },
-                          { price: 3261.50, amount: 10.25, total: 33430.38, type: 'ask' }
-                      ],
-                      'BNB/USDT': [
-                          { price: 425.75, amount: 12.50, total: 5321.88, type: 'bid' },
-                          { price: 425.50, amount: 8.75, total: 3723.13, type: 'bid' },
-                          { price: 425.25, amount: 15.20, total: 6463.80, type: 'bid' },
-                          { price: 426.00, amount: 10.50, total: 4473.00, type: 'ask' },
-                          { price: 426.25, amount: 7.80, total: 3324.75, type: 'ask' },
-                          { price: 426.50, amount: 20.25, total: 8666.63, type: 'ask' }
-                      ]
-                  };
-                  
-                  function updateOrderBook(pair) {
-                      orderBookBody.innerHTML = '';
-                      pairs[pair].forEach(order => {
-                          const row = document.createElement('tr');
-                          row.className = order.type;
-                          
-                          const priceCell = document.createElement('td');
-                          priceCell.textContent = order.price.toFixed(2);
-                          
-                          const amountCell = document.createElement('td');
-                          amountCell.textContent = order.amount.toFixed(2);
-                          
-                          const totalCell = document.createElement('td');
-                          totalCell.textContent = order.total.toFixed(2);
-                          
-                          row.appendChild(priceCell);
-                          row.appendChild(amountCell);
-                          row.appendChild(totalCell);
-                          
-                          orderBookBody.appendChild(row);
-                      });
-                  }
-                  
-                  // Инициализация для выбранной пары
-                  const pairSelector = document.getElementById('pairSelector');
-                  updateOrderBook(pairSelector.value);
-                  
-                  // Обновление при изменении пары
-                  pairSelector.addEventListener('change', (e) => {
-                      updateOrderBook(e.target.value);
-                  });
-              }
-              
-              // Генерация случайных транзакций
-              function generateRandomTransactions() {
-                  const transactionsList = document.getElementById('transactionsList');
-                  const types = ['Обмен', 'Получение', 'Перевод', 'Вывод', 'Пополнение'];
-                  const now = new Date();
-                  
-                  // Очищаем существующие транзакции (кроме первой, которая будет самой свежей)
-                  while (transactionsList.children.length > 1) {
-                      transactionsList.removeChild(transactionsList.lastChild);
-                  }
-                  
-                  // Добавляем 10 случайных транзакций
-                  for (let i = 0; i < 10; i++) {
-                      const type = types[Math.floor(Math.random() * types.length)];
-                      const isPositive = Math.random() > 0.5;
-                      const amount = (Math.random() * 0.5).toFixed(4);
-                      const time = new Date(now - i * 60000);
-                      const hours = time.getHours().toString().padStart(2, '0');
-                      const minutes = time.getMinutes().toString().padStart(2, '0');
-                      const seconds = time.getSeconds().toString().padStart(2, '0');
-                      
-                      const transaction = document.createElement('div');
-                      transaction.className = 'transaction';
-                      transaction.innerHTML = `
-                          <div class="transaction-info">
-                              <div class="transaction-type">${type}</div>
-                              <div class="transaction-time">${hours}:${minutes}:${seconds}</div>
-                          </div>
-                          <div class="transaction-amount ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : '-'}${amount}</div>
-                      `;
-                      
-                      transactionsList.appendChild(transaction);
-                  }
-              }
-              
-              // Генерация случайных транзакций каждые 30 секунд
-              setInterval(generateRandomTransactions, 30000);
-          </script>
-      </body>
-      </html>
+                <script>
+                    // Элементы DOM
+                    const welcomePage = document.getElementById('welcomePage');
+                    const loginPage = document.getElementById('loginPage');
+                    const registerPage = document.getElementById('registerPage');
+                    const app = document.getElementById('app');
+                    const welcomeLoginBtn = document.getElementById('welcomeLoginBtn');
+                    const welcomeRegisterBtn = document.getElementById('welcomeRegisterBtn');
+                    const gosuslugiBtn = document.getElementById('gosuslugiBtn');
+                    const loginBackBtn = document.getElementById('loginBackBtn');
+                    const registerBackBtn = document.getElementById('registerBackBtn');
+                    const loginBtn = document.getElementById('loginBtn');
+                    const registerBtn = document.getElementById('registerBtn');
+                    const usernameInput = document.getElementById('username');
+                    const passwordInput = document.getElementById('password');
+                    const regUsernameInput = document.getElementById('reg-username');
+                    const regPasswordInput = document.getElementById('reg-password');
+                    const regEmailInput = document.getElementById('reg-email');
+                    const regPhoneInput = document.getElementById('reg-phone');
+                    const regFullnameInput = document.getElementById('reg-fullname');
+                    const regPassportInput = document.getElementById('reg-passport');
+                    const regInnInput = document.getElementById('reg-inn');
+                    const userProfileBtn = document.getElementById('userProfileBtn');
+                    const profileModal = document.getElementById('profileModal');
+                    const closeProfileBtn = document.getElementById('closeProfileBtn');
+                    const logoutBtn = document.getElementById('logoutBtn');
+                    const navLinks = document.querySelectorAll('.nav-link');
+                    const pages = document.querySelectorAll('[id$="Page"]');
+                    const chatInput = document.getElementById('chatInput');
+                    const sendMessageBtn = document.getElementById('sendMessageBtn');
+                    const chatMessages = document.getElementById('chatMessages');
+                    const profileUsername = document.getElementById('profileUsername');
+                    const profileEmail = document.getElementById('profileEmail');
+                    const profilePhone = document.getElementById('profilePhone');
+                    const profilePhoto = document.getElementById('profilePhoto');
+                    
+                    // Навигация по страницам
+                    navLinks.forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            
+                            // Удаляем активный класс у всех ссылок
+                            navLinks.forEach(l => l.classList.remove('active'));
+                            // Добавляем активный класс текущей ссылке
+                            link.classList.add('active');
+                            
+                            // Скрываем все страницы
+                            pages.forEach(page => {
+                                page.style.display = 'none';
+                            });
+                            
+                            // Показываем выбранную страницу
+                            const pageId = link.getAttribute('data-page') + 'Page';
+                            document.getElementById(pageId).style.display = 'block';
+                        });
+                    });
+                    
+                    // Переходы между экранами
+                    welcomeLoginBtn.addEventListener('click', () => {
+                        welcomePage.style.display = 'none';
+                        loginPage.style.display = 'flex';
+                    });
+                    
+                    welcomeRegisterBtn.addEventListener('click', () => {
+                        welcomePage.style.display = 'none';
+                        registerPage.style.display = 'flex';
+                    });
+                    
+                    loginBackBtn.addEventListener('click', () => {
+                        loginPage.style.display = 'none';
+                        welcomePage.style.display = 'flex';
+                    });
+                    
+                    registerBackBtn.addEventListener('click', () => {
+                        registerPage.style.display = 'none';
+                        welcomePage.style.display = 'flex';
+                    });
+                    
+                    // Логин
+                    loginBtn.addEventListener('click', () => {
+                        const username = usernameInput.value.trim();
+                        const password = passwordInput.value.trim();
+                        
+                        if (username && password) {
+                            loginPage.style.display = 'none';
+                            app.style.display = 'block';
+                            
+                            // Устанавливаем имя пользователя
+                            document.querySelector('.username').textContent = username;
+                            profileUsername.textContent = username;
+                            
+                            // Инициализация графика
+                            initChart();
+                            
+                            // Инициализация стакана цен
+                            initOrderBook();
+                        }
+                    });
+                    
+                    // Регистрация
+                    registerBtn.addEventListener('click', () => {
+                        const username = regUsernameInput.value.trim();
+                        const password = regPasswordInput.value.trim();
+                        const email = regEmailInput.value.trim();
+                        const phone = regPhoneInput.value.trim();
+                        const fullname = regFullnameInput.value.trim();
+                        const passport = regPassportInput.value.trim();
+                        const inn = regInnInput.value.trim();
+                        
+                        if (username && password && email && phone && fullname && passport && inn) {
+                            registerPage.style.display = 'none';
+                            app.style.display = 'block';
+                            
+                            // Устанавливаем данные пользователя
+                            document.querySelector('.username').textContent = username;
+                            profileUsername.textContent = username;
+                            profileEmail.textContent = email;
+                            profilePhone.textContent = phone;
+                            
+                            // Инициализация графика
+                            initChart();
+                            
+                            // Инициализация стакана цен
+                            initOrderBook();
+                        }
+                    });
+                    
+                    // Профиль
+                    userProfileBtn.addEventListener('click', () => {
+                        profileModal.style.display = 'flex';
+                    });
+                    
+                    closeProfileBtn.addEventListener('click', () => {
+                        profileModal.style.display = 'none';
+                    });
+                    
+                    logoutBtn.addEventListener('click', () => {
+                        app.style.display = 'none';
+                        profileModal.style.display = 'none';
+                        welcomePage.style.display = 'flex';
+                        usernameInput.value = '';
+                        passwordInput.value = '';
+                    });
+                    
+                    // Закрытие модального окна при клике вне его
+                    window.addEventListener('click', (e) => {
+                        if (e.target === profileModal) {
+                            profileModal.style.display = 'none';
+                        }
+                    });
+                    
+                    // Чат
+                    sendMessageBtn.addEventListener('click', sendMessage);
+                    chatInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            sendMessage();
+                        }
+                    });
+                    
+                    function sendMessage() {
+                        const messageText = chatInput.value.trim();
+                        if (messageText) {
+                            const messageElement = document.createElement('div');
+                            messageElement.className = 'message message-self';
+                            messageElement.innerHTML = `
+                                <div class="message-text">${messageText}</div>
+                                <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                            `;
+                            chatMessages.appendChild(messageElement);
+                            chatInput.value = '';
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                            
+                            // Имитация ответа
+                            setTimeout(() => {
+                                const replyElement = document.createElement('div');
+                                replyElement.className = 'message';
+                                replyElement.innerHTML = `
+                                    <div class="message-sender">Алексей:</div>
+                                    <div class="message-text">Спасибо за информацию, я подумаю.</div>
+                                    <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                                `;
+                                chatMessages.appendChild(replyElement);
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+                            }, 2000);
+                        }
+                    }
+                    
+                    // Инициализация графика
+                    function initChart() {
+                        const ctx = document.getElementById('cryptoChart').getContext('2d');
+                        const chart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+                                datasets: [{
+                                    label: 'BTC/USDT',
+                                    data: [30000, 32000, 35000, 38000, 40000, 42000, 45000, 48000, 50000, 55000, 60000, 65000],
+                                    borderColor: '#2A5C9D',
+                                    tension: 0.1,
+                                    fill: false
+                                }, {
+                                    label: 'ETH/USDT',
+                                    data: [1800, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000],
+                                    borderColor: '#627EEA',
+                                    tension: 0.1,
+                                    fill: false
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: {
+                                        beginAtZero: false
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
+                    // Инициализация стакана цен
+                    function initOrderBook() {
+                        const orderBookBody = document.getElementById('orderBookBody');
+                        const pairs = {
+                            'BTC/USDT': [
+                                { price: 65234.12, amount: 1.25, total: 81542.65, type: 'bid' },
+                                { price: 65230.50, amount: 0.85, total: 55445.93, type: 'bid' },
+                                { price: 65225.75, amount: 2.10, total: 136974.08, type: 'bid' },
+                                { price: 65245.30, amount: 1.50, total: 97867.95, type: 'ask' },
+                                { price: 65250.80, amount: 0.75, total: 48938.10, type: 'ask' },
+                                { price: 65255.25, amount: 3.20, total: 208816.80, type: 'ask' }
+                            ],
+                            'ETH/USDT': [
+                                { price: 3256.80, amount: 5.25, total: 17098.20, type: 'bid' },
+                                { price: 3255.40, amount: 3.75, total: 12207.75, type: 'bid' },
+                                { price: 3254.20, amount: 8.50, total: 27660.70, type: 'bid' },
+                                { price: 3258.30, amount: 6.20, total: 20201.46, type: 'ask' },
+                                { price: 3259.75, amount: 4.80, total: 15646.80, type: 'ask' },
+                                { price: 3261.50, amount: 10.25, total: 33430.38, type: 'ask' }
+                            ],
+                            'BNB/USDT': [
+                                { price: 425.75, amount: 12.50, total: 5321.88, type: 'bid' },
+                                { price: 425.50, amount: 8.75, total: 3723.13, type: 'bid' },
+                                { price: 425.25, amount: 15.20, total: 6463.80, type: 'bid' },
+                                { price: 426.00, amount: 10.50, total: 4473.00, type: 'ask' },
+                                { price: 426.25, amount: 7.80, total: 3324.75, type: 'ask' },
+                                { price: 426.50, amount: 20.25, total: 8666.63, type: 'ask' }
+                            ]
+                        };
+                        
+                        function updateOrderBook(pair) {
+                            orderBookBody.innerHTML = '';
+                            pairs[pair].forEach(order => {
+                                const row = document.createElement('tr');
+                                row.className = order.type;
+                                
+                                const priceCell = document.createElement('td');
+                                priceCell.textContent = order.price.toFixed(2);
+                                
+                                const amountCell = document.createElement('td');
+                                amountCell.textContent = order.amount.toFixed(2);
+                                
+                                const totalCell = document.createElement('td');
+                                totalCell.textContent = order.total.toFixed(2);
+                                
+                                row.appendChild(priceCell);
+                                row.appendChild(amountCell);
+                                row.appendChild(totalCell);
+                                
+                                orderBookBody.appendChild(row);
+                            });
+                        }
+                        
+                        // Инициализация для выбранной пары
+                        const pairSelector = document.getElementById('pairSelector');
+                        updateOrderBook(pairSelector.value);
+                        
+                        // Обновление при изменении пары
+                        pairSelector.addEventListener('change', (e) => {
+                            updateOrderBook(e.target.value);
+                        });
+                    }
+                    
+                    // Генерация случайных транзакций
+                    function generateRandomTransactions() {
+                        const transactionsList = document.getElementById('transactionsList');
+                        const types = ['Обмен', 'Получение', 'Перевод', 'Вывод', 'Пополнение'];
+                        const now = new Date();
+                        
+                        // Очищаем существующие транзакции (кроме первой, которая будет самой свежей)
+                        while (transactionsList.children.length > 1) {
+                            transactionsList.removeChild(transactionsList.lastChild);
+                        }
+                        
+                        // Добавляем 10 случайных транзакций
+                        for (let i = 0; i < 10; i++) {
+                            const type = types[Math.floor(Math.random() * types.length)];
+                            const isPositive = Math.random() > 0.5;
+                            const amount = (Math.random() * 0.5).toFixed(4);
+                            const time = new Date(now - i * 60000);
+                            const hours = time.getHours().toString().padStart(2, '0');
+                            const minutes = time.getMinutes().toString().padStart(2, '0');
+                            const seconds = time.getSeconds().toString().padStart(2, '0');
+                            
+                            const transaction = document.createElement('div');
+                            transaction.className = 'transaction';
+                            transaction.innerHTML = `
+                                <div class="transaction-info">
+                                    <div class="transaction-type">${type}</div>
+                                    <div class="transaction-time">${hours}:${minutes}:${seconds}</div>
+                                </div>
+                                <div class="transaction-amount ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : '-'}${amount}</div>
+                            `;
+                            
+                            transactionsList.appendChild(transaction);
+                        }
+                    }
+                    
+                    // Генерация случайных транзакций каждые 30 секунд
+                    setInterval(generateRandomTransactions, 30000);
+                </script>
+            </body>
+            </html>
