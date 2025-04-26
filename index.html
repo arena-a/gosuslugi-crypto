@@ -1,2052 +1,2150 @@
+<
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>КриптоОборот</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Caveat:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #3B82F6;
-            --secondary: #1E40AF;
-            --bg: #F5F5F7;
-            --text: #1F2937;
-            --card: #FFFFFF;
-            --online: #10B981;
-            --offline: #EF4444;
-            --away: #FBBF24;
-            --positive: #10B981;
-            --negative: #EF4444;
-            --hover-blue: #60A5FA;
-            --gradient-text: linear-gradient(90deg, #1F2937, #4B5563);
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        body {
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-        }
-        
-        .welcome-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            text-align: center;
-        }
-        
-        .welcome-container h1 {
-            font-size: 36px;
-            font-weight: 700;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .welcome-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-            width: 100%;
-            max-width: 300px;
-        }
-        
-        .welcome-btn {
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            width: 100%;
-        }
-        
-        .login-btn {
-            background: white;
-            color: var(--primary);
-        }
-        
-        .login-btn:hover {
-            background: #f0f0f0;
-        }
-        
-        .gosuslugi-btn {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-        
-        .gosuslugi-logo {
-            height: 20px;
-        }
-        
-        .register-btn {
-            background: var(--secondary);
-            color: white;
-        }
-        
-        .register-btn:hover {
-            background: #172554;
-        }
-        
-        .login-page {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            text-align: center;
-        }
-        
-        .login-form {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            color: var(--text);
-        }
-        
-        .login-title {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--primary);
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .input-group {
-            margin-bottom: 15px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-        
-        .form-btn {
-            width: 100%;
-            padding: 12px;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
-        
-        .submit-btn {
-            background: var(--primary);
-        }
-        
-        .submit-btn:hover {
-            background: var(--hover-blue);
-        }
-        
-        .back-btn {
-            background: #6b7280;
-        }
-        
-        .back-btn:hover {
-            background: #4b5563;
-        }
-        
-        .register-page {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            text-align: center;
-        }
-        
-        .register-form {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            color: var(--text);
-            margin: 20px 0;
-        }
-        
-        .form-section {
-            margin-bottom: 20px;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary);
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .welcome-message-page {
-            display: flex;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 200;
-            flex-direction: column;
-        }
-        
-        .welcome-message-text {
-            font-family: 'Caveat', cursive;
-            font-size: 36px;
-            line-height: 1.4;
-            padding: 20px;
-        }
-        
-        .continue-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: white;
-            color: var(--primary);
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .continue-btn:hover {
-            background: #f0f0f0;
-        }
-        
-        .app {
-            display: none;
-        }
-        
-        .top-nav {
-            background: var(--primary);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            align-items: flex-start;
-        }
-        
-        .profile-btn-nav {
-            width: 40px;
-            height: 40px;
-            background: white url('png.png') no-repeat center center;
-            background-size: cover;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-bottom: 8px;
-        }
-        
-        .profile-btn-nav:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .online-status-container {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .online-status {
-            width: 20px;
-            height: 20px;
-            background: var(--online);
-            border-radius: 50%;
-            transition: background 0.3s;
-        }
-        
-        .user-info:hover .online-status {
-            background: var(--away);
-        }
-        
-        .user-info:active .online-status {
-            background: var(--offline);
-        }
-        
-        .username {
-            font-weight: 600;
-            font-size: 16px;
-            margin-left: 8px;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .main-nav {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 4px;
-            transition: background 0.2s;
-            white-space: nowrap;
-            font-size: 16px;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .content {
-            padding-top: 80px;
-            padding-bottom: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .balance-section {
-            padding: 20px;
-            background: white;
-            margin: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-top: 10px;
-        }
-        
-        .balance-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .balance-title {
-            font-size: 20px;
-            font-weight: 600;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .balance-amount {
-            font-size: 32px;
-            font-weight: bold;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .balance-details {
-            display: flex;
-            gap: 20px;
-            margin-top: 15px;
-        }
-        
-        .crypto-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .crypto-name {
-            font-size: 16px;
-            opacity: 0.7;
-        }
-        
-        .crypto-amount {
-            font-weight: bold;
-            margin-top: 5px;
-            font-size: 18px;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .chart-container {
-            padding: 20px;
-            background: white;
-            margin: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            height: 400px;
-            position: relative;
-        }
-        
-        #cryptoChart {
-            width: 100%;
-            height: 100%;
-            max-height: 360px;
-        }
-        
-        .transactions {
-            padding: 20px;
-            background: white;
-            margin: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        
-        .transactions-header {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .transaction {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            animation: fadeIn 0.5s;
-        }
-        
-        .transaction:last-child {
-            border-bottom: none;
-        }
-        
-        .transaction-info {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .transaction-type {
-            font-weight: 500;
-            font-size: 16px;
-        }
-        
-        .transaction-time {
-            font-size: 14px;
-            opacity: 0.6;
-            margin-top: 3px;
-        }
-        
-        .transaction-amount {
-            font-weight: 500;
-            font-size: 16px;
-        }
-        
-        .positive {
-            color: var(--positive);
-        }
-        
-        .negative {
-            color: var(--negative);
-        }
-        
-        .tax-page {
-            display: none;
-            padding: 20px;
-        }
-        
-        .tax-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        
-        .tax-table th, .tax-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-            font-size: 16px;
-        }
-        
-        .tax-table th {
-            background: var(--primary);
-            color: white;
-            font-weight: 500;
-        }
-        
-        .tax-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .tax-table tr:hover {
-            background: rgba(42,92,157,0.05);
-        }
-        
-        .wallet-page {
-            display: none;
-            padding: 20px;
-            padding-top: 120px;
-        }
-        
-        .wallet-page h2, .wallet-page h3 {
-            margin-bottom: 15px;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .meme-tokens {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 40px;
-        }
-        
-        .token-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
-        .token-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .token-icon {
-            width: 30px;
-            height: 30px;
-            background: #eee;
-            border-radius: 50%;
-            margin-right: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        
-        .token-name {
-            font-weight: 600;
-            font-size: 16px;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .token-balance {
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .token-value {
-            font-weight: bold;
-            margin-top: 5px;
-            font-size: 16px;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .order-book {
-            margin-top: 40px;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        
-        .order-book-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .order-book-title {
-            font-size: 20px;
-            font-weight: 600;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .pair-selector {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        .order-book-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .order-book-table th, .order-book-table td {
-            padding: 10px;
-            text-align: right;
-            font-size: 16px;
-        }
-        
-        .order-book-table th:first-child, .order-book-table td:first-child {
-            text-align: left;
-        }
-        
-        .order-book-table th {
-            font-weight: 500;
-            color: #666;
-            font-size: 16px;
-        }
-        
-        .bid {
-            color: var(--positive);
-        }
-        
-        .ask {
-            color: var(--negative);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>КриптоОборот</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Caveat:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #3B82F6;
+  --secondary: #1E40AF;
+  --bg: #F5F5F7;
+  --text: #1F2937;
+  --card: #FFFFFF;
+  --online: #10B981;
+  --offline: #EF4444;
+  --away: #FBBF24;
+  --positive: #10B981;
+  --negative: #EF4444;
+  --hover-blue: #60A5FA;
+  --gradient-text: linear-gradient(90deg, #1F2937, #4B5563);
+}
 
-        .order-book-chart-container {
-            margin-top: 20px;
-            height: 200px;
-            position: relative;
-        }
-        
-        #orderBookChart {
-            width: 100%;
-            height: 100%;
-        }
-        
-        .p2p-page {
-            display: none;
-            padding: 20px;
-            padding-top: 120px;
-        }
-        
-        .p2p-page h2 {
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .p2p-page p {
-            margin-top: 15px;
-        }
-        
-        .p2p-container {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-top: 40px;
-        }
-        
-        .p2p-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        
-        .p2p-table th, .p2p-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-            font-size: 16px;
-        }
-        
-        .p2p-table th {
-            background: var(--primary);
-            color: white;
-            font-weight: 500;
-        }
-        
-        .p2p-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .p2p-table tr:hover {
-            background: rgba(42,92,157,0.05);
-        }
-        
-        .p2p-buy-btn {
-            padding: 8px 15px;
-            background: var(--positive);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .p2p-buy-btn:hover {
-            background: var(--hover-blue);
-        }
-        
-        .payment-methods {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-        
-        .payment-method {
-            background: #f0f0f0;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-        
-        .chat-page {
-            display: none;
-            padding: 20px;
-            padding-top: 120px;
-        }
-        
-        .chat-page h2 {
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .chat-page p {
-            margin-top: 15px;
-        }
-        
-        .chat-container {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-top: 40px;
-            height: 500px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-        }
-        
-        .message {
-            margin-bottom: 15px;
-            padding: 10px 15px;
-            border-radius: 8px;
-            background: #f5f5f5;
-            max-width: 80%;
-            animation: fadeIn 0.3s;
-        }
-        
-        .message-self {
-            margin-left: auto;
-            background: var(--primary);
-            color: white;
-        }
-        
-        .message-sender {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        
-        .message-text {
-            font-size: 16px;
-            line-height: 1.4;
-        }
-        
-        .message-time {
-            font-size: 12px;
-            color: #666;
-            text-align: right;
-            margin-top: 5px;
-        }
-        
-        .message-self .message-time {
-            color: rgba(255,255,255,0.7);
-        }
-        
-        .chat-input {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .chat-input input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-        
-        .chat-input button {
-            padding: 12px 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        
-        .chat-input button:hover {
-            background: var(--hover-blue);
-        }
-        
-        .support-page {
-            display: none;
-            padding: 20px;
-            padding-top: 120px;
-        }
-        
-        .support-page h2 {
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .support-page p {
-            margin-top: 15px;
-        }
-        
-        .support-info {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-top: 40px;
-        }
-        
-        .profile-page {
-            display: none;
-            padding: 20px;
-            padding-top: 90px;
-        }
-        
-        .profile-content {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            gap: 20px;
-        }
-        
-        .profile-left, .profile-right {
-            flex: 1;
-        }
-        
-        .profile-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .profile-title {
-            font-size: 24px;
-            font-weight: 600;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .profile-section {
-            margin-bottom: 20px;
-        }
-        
-        .profile-field {
-            margin-bottom: 15px;
-        }
-        
-        .field-label {
-            font-size: 16px;
-            opacity: 0.7;
-            margin-bottom: 5px;
-        }
-        
-        .field-value {
-            font-weight: 500;
-            padding: 10px;
-            background: var(--bg);
-            border-radius: 6px;
-            font-size: 16px;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .profile-icon-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .profile-icon {
-            width: 100px;
-            height: 100px;
-            background: url('png.png') no-repeat center center;
-            background-size: cover;
-            border-radius: 8px;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @media (max-width: 768px) {
-            .main-nav {
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            
-            .balance-details {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .welcome-buttons {
-                max-width: 250px;
-            }
-            
-            .welcome-btn {
-                font-size: 16px;
-                padding: 12px;
-            }
-            
-            .nav-link {
-                font-size: 14px;
-                padding: 6px 8px;
-            }
-            
-            .username {
-                font-size: 14px;
-            }
-            
-            .p2p-table th, .p2p-table td {
-                padding: 8px 10px;
-                font-size: 14px;
-            }
-            
-            .p2p-buy-btn {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-            
-            .payment-method {
-                font-size: 10px;
-            }
-            
-            .chart-container {
-                height: 300px;
-            }
-            
-            .chat-container {
-                height: 400px;
-            }
-            
-            .profile-content {
-                flex-direction: column;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .welcome-buttons {
-                max-width: 220px;
-            }
-            
-            .login-form, .register-form {
-                padding: 20px;
-            }
-            
-            .p2p-table, .tax-table, .order-book-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-            
-            .main-nav {
-                display: none;
-            }
-            
-            .top-nav {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .user-info {
-                margin-bottom: 10px;
-            }
-            
-            .chat-container {
-                height: 350px;
-            }
-            
-            .message {
-                max-width: 90%;
-            }
-        }
-    </style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  text-align: center;
+}
+
+.welcome-container h1 {
+  font-size: 36px;
+  font-weight: 700;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.welcome-btn {
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  width: 100%;
+}
+
+.login-btn {
+  background: white;
+  color: var(--primary);
+}
+
+.login-btn:hover {
+  background: #f0f0f0;
+}
+
+.gosuslugi-btn {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.gosuslugi-logo {
+  height: 20px;
+}
+
+.register-btn {
+  background: var(--secondary);
+  color: white;
+}
+
+.register-btn:hover {
+  background: #172554;
+}
+
+.login-page {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  text-align: center;
+}
+
+.login-form {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  color: var(--text);
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.form-btn {
+  width: 100%;
+  padding: 12px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.submit-btn {
+  background: var(--primary);
+}
+
+.submit-btn:hover {
+  background: var(--hover-blue);
+}
+
+.back-btn {
+  background: #6b7280;
+}
+
+.back-btn:hover {
+  background: #4b5563;
+}
+
+.register-page {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  text-align: center;
+}
+
+.register-form {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  color: var(--text);
+  margin: 20px 0;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--primary);
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome-message-page {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 200;
+  flex-direction: column;
+}
+
+.welcome-message-text {
+  font-family: 'Caveat', cursive;
+  font-size: 36px;
+  line-height: 1.4;
+  padding: 20px;
+}
+
+.continue-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: white;
+  color: var(--primary);
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.continue-btn:hover {
+  background: #f0f0f0;
+}
+
+.app {
+  display: none;
+}
+
+.top-nav {
+  background: var(--primary);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  align-items: flex-start;
+}
+
+.profile-btn-nav {
+  width: 40px;
+  height: 40px;
+  background: white url('png.png') no-repeat center center;
+  background-size: cover;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 8px;
+}
+
+.profile-btn-nav:hover {
+  background-color: #f0f0f0;
+}
+
+.online-status-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.online-status {
+  width: 20px;
+  height: 20px;
+  background: var(--online);
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.user-info:hover .online-status {
+  background: var(--away);
+}
+
+.user-info:active .online-status {
+  background: var(--offline);
+}
+
+.username {
+  font-weight: 600;
+  font-size: 16px;
+  margin-left: 8px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.main-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  white-space: nowrap;
+  font-size: 16px;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: rgba(255,255,255,0.1);
+}
+
+.content {
+  padding-top: 80px;
+  padding-bottom: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.balance-section {
+  padding: 20px;
+  background: white;
+  margin: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-top: 10px;
+}
+
+.balance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.balance-title {
+  font-size: 20px;
+  font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.balance-amount {
+  font-size: 32px;
+  font-weight: bold;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.balance-details {
+  display: flex;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.crypto-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.crypto-name {
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+.crypto-amount {
+  font-weight: bold;
+  margin-top: 5px;
+  font-size: 18px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chart-container {
+  padding: 20px;
+  background: white;
+  margin: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  height: 400px;
+  position: relative;
+}
+
+#cryptoChart {
+  width: 100%;
+  height: 100%;
+  max-height: 360px;
+}
+
+.transactions {
+  padding: 20px;
+  background: white;
+  margin: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.transactions-header {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.transaction {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  animation: fadeIn 0.5s;
+}
+
+.transaction:last-child {
+  border-bottom: none;
+}
+
+.transaction-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-type {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.transaction-time {
+  font-size: 14px;
+  opacity: 0.6;
+  margin-top: 3px;
+}
+
+.transaction-amount {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.positive {
+  color: var(--positive);
+}
+
+.negative {
+  color: var(--negative);
+}
+
+.tax-page {
+  display: none;
+  padding: 20px;
+}
+
+.tax-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.tax-table th, .tax-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+}
+
+.tax-table th {
+  background: var(--primary);
+  color: white;
+  font-weight: 500;
+}
+
+.tax-table tr:last-child td {
+  border-bottom: none;
+}
+
+.tax-table tr:hover {
+  background: rgba(42,92,157,0.05);
+}
+
+.wallet-page {
+  display: none;
+  padding: 20px;
+  padding-top: 120px;
+}
+
+.wallet-page h2, .wallet-page h3 {
+  margin-bottom: 15px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.meme-tokens {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.token-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.token-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.token-icon {
+  width: 30px;
+  height: 30px;
+  background: #eee;
+  border-radius: 50%;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.token-name {
+  font-weight: 600;
+  font-size: 16px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.token-balance {
+  font-size: 14px;
+  color: #666;
+}
+
+.token-value {
+  font-weight: bold;
+  margin-top: 5px;
+  font-size: 16px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.order-book {
+  margin-top: 40px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.order-book-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.order-book-title {
+  font-size: 20px;
+  font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pair-selector {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.order-book-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-book-table th, .order-book-table td {
+  padding: 10px;
+  text-align: right;
+  font-size: 16px;
+}
+
+.order-book-table th:first-child, .order-book-table td:first-child {
+  text-align: left;
+}
+
+.order-book-table th {
+  font-weight: 500;
+  color: #666;
+  font-size: 16px;
+}
+
+.bid {
+  color: var(--positive);
+}
+
+.ask {
+  color: var(--negative);
+}
+
+.order-book-chart-container {
+  margin-top: 20px;
+  height: 200px;
+  position: relative;
+}
+
+#orderBookChart {
+  width: 100%;
+  height: 100%;
+}
+
+.p2p-page {
+  display: none;
+  padding: 20px;
+  padding-top: 120px;
+}
+
+.p2p-page h2 {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.p2p-page p {
+  margin-top: 15px;
+}
+
+.p2p-container {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-top: 40px;
+}
+
+.p2p-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.p2p-table th, .p2p-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+}
+
+.p2p-table th {
+  background: var(--primary);
+  color: white;
+  font-weight: 500;
+}
+
+.p2p-table tr:last-child td {
+  border-bottom: none;
+}
+
+.p2p-table tr:hover {
+  background: rgba(42,92,157,0.05);
+}
+
+.p2p-buy-btn {
+  padding: 8px 15px;
+  background: var(--positive);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.p2p-buy-btn:hover {
+  background: var(--hover-blue);
+}
+
+.payment-methods {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.payment-method {
+  background: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.chat-page {
+  display: none;
+  padding: 20px;
+  padding-top: 120px;
+}
+
+.chat-page h2 {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chat-page p {
+  margin-top: 15px;
+}
+
+.chat-container {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-top: 40px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.message {
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: #f5f5f5;
+  max-width: 80%;
+  animation: fadeIn 0.3s;
+}
+
+.message-self {
+  margin-left: auto;
+  background: var(--primary);
+  color: white;
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.message-text {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.message-time {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+  margin-top: 5px;
+}
+
+.message-self .message-time {
+  color: rgba(255,255,255,0.7);
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.chat-input button {
+  padding: 12px 20px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background: var(--hover-blue);
+}
+
+.support-page {
+  display: none;
+  padding: 20px;
+  padding-top: 120px;
+}
+
+.support-page h2 {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.support-page h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.support-page p {
+  margin-top: 15px;
+}
+
+.support-info {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-top: 40px;
+}
+
+.chat-placeholder {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-top: 20px;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-placeholder::before {
+  content: "Чат поддержки (скоро будет доступен)";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+}
+
+.chat-placeholder .message-placeholder {
+  margin-bottom: 15px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: #f5f5f5;
+  max-width: 80%;
+  height: 40px;
+}
+
+.chat-placeholder .message-placeholder:nth-child(even) {
+  margin-left: auto;
+  background: var(--primary);
+}
+
+.faq-section {
+  margin-top: 40px;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+.faq-question {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.faq-answer {
+  font-size: 14px;
+  color: #666;
+}
+
+.profile-page {
+  display: none;
+  padding: 20px;
+  padding-top: 90px;
+}
+
+.profile-content {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+}
+
+.profile-left, .profile-right {
+  flex: 1;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-title {
+  font-size: 24px;
+  font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profile-section {
+  margin-bottom: 20px;
+}
+
+.profile-field {
+  margin-bottom: 15px;
+}
+
+.field-label {
+  font-size: 16px;
+  opacity: 0.7;
+  margin-bottom: 5px;
+}
+
+.field-value {
+  font-weight: 500;
+  padding: 10px;
+  background: var(--bg);
+  border-radius: 6px;
+  font-size: 16px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profile-icon-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.profile-icon {
+  width: 100px;
+  height: 100px;
+  background: url('png.png') no-repeat center center;
+  background-size: cover;
+  border-radius: 8px;
+}
+
+.profile-icon-2 {
+  width: 100px;
+  height: 100px;
+  background: url('png2.png') no-repeat center center;
+  background-size: cover;
+  border-radius: 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .main-nav {
+      flex-wrap: wrap;
+      gap: 10px;
+  }
+  
+  .balance-details {
+      flex-direction: column;
+      gap: 10px;
+  }
+  
+  .welcome-buttons {
+      max-width: 250px;
+  }
+  
+  .welcome-btn {
+      font-size: 16px;
+      padding: 12px;
+  }
+  
+  .nav-link {
+      font-size: 14px;
+      padding: 6px 8px;
+  }
+  
+  .username {
+      font-size: 14px;
+  }
+  
+  .p2p-table th, .p2p-table td {
+      padding: 8px 10px;
+      font-size: 14px;
+  }
+  
+  .p2p-buy-btn {
+      padding: 6px 10px;
+      font-size: 12px;
+  }
+  
+  .payment-method {
+      font-size: 10px;
+  }
+  
+  .chart-container {
+      height: 300px;
+  }
+  
+  .chat-container {
+      height: 400px;
+  }
+  
+  .profile-content {
+      flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-buttons {
+      max-width: 220px;
+  }
+  
+  .login-form, .register-form {
+      padding: 20px;
+  }
+  
+  .p2p-table, .tax-table, .order-book-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+  }
+  
+  .main-nav {
+      display: none;
+  }
+  
+  .top-nav {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+  
+  .user-info {
+      margin-bottom: 10px;
+  }
+  
+  .chat-container {
+      height: 350px;
+  }
+  
+  .message {
+      max-width: 90%;
+  }
+}
+</style>
 </head>
 <body>
-    <div class="welcome-message-page" id="welcomeMessagePage">
-        <div class="welcome-message-text">
-            Добро пожаловать на платформу Крипто Оборот.<br>
-            Здесь вы можете купить или обменять криптовалюту,<br>
-            так же вывести безопасно на ваш счет.
+<div class="welcome-message-page" id="welcomeMessagePage">
+<div class="welcome-message-text">
+  Добро пожаловать на платформу Крипто Оборот.<br>
+  Здесь вы можете купить или обменять криптовалюту,<br>
+  так же вывести безопасно на ваш счет.
+</div>
+<button class="continue-btn" id="continueBtn">Продолжить</button>
+</div>
+
+<div class="welcome-container" id="welcomePage" style="display: none;">
+<h1>КриптоОборот</h1>
+
+<div class="welcome-buttons">
+  <button class="welcome-btn login-btn" id="welcomeLoginBtn">Войти</button>
+  <button class="welcome-btn gosuslugi-btn" id="gosuslugiBtn">
+      <img src="https://www.gosuslugi.ru/static/portal/svg/logo-ru.svg" alt="Госуслуги" class="gosuslugi-logo">
+      Войти через Госуслуги
+  </button>
+  <button class="welcome-btn register-btn" id="welcomeRegisterBtn">Зарегистрироваться</button>
+</div>
+</div>
+
+<div class="login-page" id="loginPage" style="display: none;">
+<div class="login-form">
+  <h1 class="login-title">Вход в систему</h1>
+  <div class="input-group">
+      <label for="username">Логин</label>
+      <input type="text" id="username" placeholder="Введите ваш логин">
+  </div>
+  <div class="input-group">
+      <label for="password">Пароль</label>
+      <input type="password" id="password" placeholder="Введите ваш пароль">
+  </div>
+  <button class="form-btn submit-btn" id="loginBtn">Войти</button>
+  <button class="form-btn back-btn" id="loginBackBtn">Назад</button>
+</div>
+</div>
+
+<div class="register-page" id="registerPage" style="display: none;">
+<div class="register-form">
+  <h1 class="login-title">Регистрация</h1>
+  
+  <div class="form-section">
+      <div class="section-title">Личные данные</div>
+      <div class="input-group">
+          <label for="reg-username">Логин</label>
+          <input type="text" id="reg-username" placeholder="Придумайте логин">
+      </div>
+      <div class="input-group">
+          <label for="reg-password">Пароль</label>
+          <input type="password" id="reg-password" placeholder="Придумайте пароль">
+      </div>
+      <div class="input-group">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" placeholder="Введите ваш email">
+      </div>
+      <div class="input-group">
+          <label for="reg-phone">Телефон</label>
+          <input type="tel" id="reg-phone" placeholder="Введите ваш телефон">
+      </div>
+  </div>
+  
+  <button class="form-btn submit-btn" id="registerBtn">Зарегистрироваться</button>
+  <button class="form-btn back-btn" id="registerBackBtn">Назад</button>
+</div>
+</div>
+
+<div class="app" id="app" style="display: none;">
+<div class="top-nav">
+  <div class="user-info">
+      <button class="profile-btn-nav" id="userProfileBtn"></button>
+      <div class="online-status-container">
+          <div class="online-status"></div>
+          <div class="username">No Name</div>
+      </div>
+  </div>
+  
+  <div class="main-nav">
+      <a href="#" class="nav-link active" data-page="main">Трейдинг</a>
+      <a href="#" class="nav-link" data-page="wallet">Кошелек</a>
+      <a href="#" class="nav-link" data-page="tax">Налоги</a>
+      <a href="#" class="nav-link" data-page="p2p">P2P</a>
+      <a href="#" class="nav-link" data-page="chat">Чат</a>
+      <a href="#" class="nav-link" data-page="support">Поддержка</a>
+  </div>
+</div>
+
+<div class="content" id="mainPage" style="display: block;">
+  <div class="balance-section">
+      <div class="balance-header">
+          <div class="balance-title">Общий баланс</div>
+      </div>
+      <div class="balance-amount">19 350,00 $</div>
+      <div class="balance-details">
+          <div class="crypto-item">
+              <div class="crypto-name">BTC</div>
+              <div class="crypto-amount">0.42</div>
+          </div>
+          <div class="crypto-item">
+              <div class="crypto-name">USDT</div>
+              <div class="crypto-amount">1,500</div>
+          </div>
+          <div class="crypto-item">
+              <div class="crypto-name">RUB</div>
+              <div class="crypto-amount">85,000</div>
+          </div>
+      </div>
+  </div>
+  
+  <div class="chart-container">
+      <canvas id="cryptoChart"></canvas>
+  </div>
+  
+  <div class="transactions">
+      <div class="transactions-header">Последние транзакции</div>
+      <div id="transactionsList">
+          <div class="transaction">
+              <div class="transaction-info">
+                  <div class="transaction-type">Обмен</div>
+                  <div class="transaction-time">21:31:02</div>
+              </div>
+              <div class="transaction-amount negative">-0.4520</div>
+          </div>
+          <div class="transaction">
+              <div class="transaction-info">
+                  <div class="transaction-type">Получение</div>
+                  <div class="transaction-time">21:30:37</div>
+              </div>
+              <div class="transaction-amount negative">-0.3583</div>
+          </div>
+          <div class="transaction">
+              <div class="transaction-info">
+                  <div class="transaction-type">Перевод</div>
+                  <div class="transaction-time">21:29:31</div>
+              </div>
+              <div class="transaction-amount negative">-0.1613</div>
+          </div>
+          <div class="transaction">
+              <div class="transaction-info">
+                  <div class="transaction-type">Перевод</div>
+                  <div class="transaction-time">21:29:21</div>
+              </div>
+              <div class="transaction-amount positive">+0.2402</div>
+            </div>
+            <div class="transaction">
+                <div class="transaction-info">
+                    <div class="transaction-type">Перевод</div>
+                    <div class="transaction-time">21:29:11</div>
+                </div>
+                <div class="transaction-amount negative">-0.2491</div>
+            </div>
         </div>
-        <button class="continue-btn" id="continueBtn">Продолжить</button>
     </div>
+</div>
+
+<div class="tax-page" id="taxPage" style="display: none;">
+    <h2>Налоговая отчетность</h2>
+    <p>Расчет налогов на доход от криптовалютных операций</p>
     
-    <div class="welcome-container" id="welcomePage" style="display: none;">
-        <h1>КриптоОборот</h1>
+    <table class="tax-table">
+        <thead>
+            <tr>
+                <th>Операция</th>
+                <th>Куплено</th>
+                <th>Продано</th>
+                <th>Доход</th>
+                <th>Налог (13%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>BTC/USDT</td>
+                <td>0.5 BTC по $30,000</td>
+                <td>0.5 BTC по $38,500</td>
+                <td>+$4,250</td>
+                <td>$552.50</td>
+            </tr>
+            <tr>
+                <td>ETH/USDT</td>
+                <td>2.3 ETH по $1,800</td>
+                <td>2.0 ETH по $2,200</td>
+                <td>+$800</td>
+                <td>$104</td>
+            </tr>
+            <tr>
+                <td>SOL/USDT</td>
+                <td>50 SOL по $50</td>
+                <td>50 SOL по $75</td>
+                <td>+$1,250</td>
+                <td>$162.50</td>
+            </tr>
+            <tr>
+                <td>DOGE/USDT</td>
+                <td>100,000 DOGE по $0.05</td>
+                <td>100,000 DOGE по $0.08</td>
+                <td>+$3,000</td>
+                <td>$390</td>
+            </tr>
+            <tr>
+                <td>BNB/USDT</td>
+                <td>1.2 BNB по $300</td>
+                <td>1.2 BNB по $350</td>
+                <td>+$60</td>
+                <td>$7.80</td>
+            </tr>
+            <tr>
+                <td><strong>Итого</strong></td>
+                <td></td>
+                <td></td>
+                <td><strong>+$9,360</strong></td>
+                <td><strong>$1,216.80</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 20px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <h3>Формула расчета налога:</h3>
+        <p>Налог = (Сумма продажи - Сумма покупки) × 13%</p>
+        <p>Пример для BTC: (38,500 - 30,000) × 0.13 = 8,500 × 0.13 = $1,105</p>
+    </div>
+</div>
+
+<div class="wallet-page" id="walletPage" style="display: none;">
+    <h2>Мой кошелек</h2>
+    <p>Ваши криптовалютные активы</p>
+    
+    <h3>Мем-токены</h3>
+    <div class="meme-tokens">
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">DOGE</div>
+                <div>
+                    <div class="token-name">Dogecoin</div>
+                    <div class="token-balance">Баланс: 15,000</div>
+                </div>
+            </div>
+            <div class="token-value">≈ $1,050 (куплено за $750)</div>
+        </div>
         
-        <div class="welcome-buttons">
-            <button class="welcome-btn login-btn" id="welcomeLoginBtn">Войти</button>
-            <button class="welcome-btn gosuslugi-btn" id="gosuslugiBtn">
-                <img src="https://www.gosuslugi.ru/static/portal/svg/logo-ru.svg" alt="Госуслуги" class="gosuslugi-logo">
-                Войти через Госуслуги
-            </button>
-            <button class="welcome-btn register-btn" id="welcomeRegisterBtn">Зарегистрироваться</button>
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">SHIB</div>
+                <div>
+                    <div class="token-name">Shiba Inu</div>
+                    <div class="token-balance">Баланс: 5,000,000</div>
+                </div>
+            </div>
+            <div class="token-value">≈ $750 (куплено за $500)</div>
+        </div>
+        
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">PEPE</div>
+                <div>
+                    <div class="token-name">Pepe Coin</div>
+                    <div class="token-balance">Баланс: 10,000,000</div>
+                </div>
+            </div>
+            <div class="token-value">≈ $500 (куплено за $300)</div>
+        </div>
+        
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">FLOKI</div>
+                <div>
+                    <div class="token-name">Floki Inu</div>
+                    <div class="token-balance">Баланс: 1,000,000</div>
+                </div>
+            </div>
+            <div class="token-value">≈ $300 (куплено за $200)</div>
+        </div>
+        
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">BONK</div>
+                <div>
+                    <div class="token-name">Bonk</div>
+                    <div class="token-balance">Баланс: 50,000,000</div>
+                </div>
+            </div>
+            <div class="token-value">≈ $250 (куплено за $150)</div>
+        </div>
+        
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">MEME</div>
+                <div>
+                    <div class="token-name">Memecoin</div>
+                    <div class="token-balance">Баланс: 100,000</div>
+                </div>
+            </div>
+            <div class="token-value">≈ $200 (куплено за $100)</div>
         </div>
     </div>
     
-    <div class="login-page" id="loginPage" style="display: none;">
-        <div class="login-form">
-            <h1 class="login-title">Вход в систему</h1>
-            <div class="input-group">
-                <label for="username">Логин</label>
-                <input type="text" id="username" placeholder="Введите ваш логин">
-            </div>
-            <div class="input-group">
-                <label for="password">Пароль</label>
-                <input type="password" id="password" placeholder="Введите ваш пароль">
-            </div>
-            <button class="form-btn submit-btn" id="loginBtn">Войти</button>
-            <button class="form-btn back-btn" id="loginBackBtn">Назад</button>
+    <div class="order-book">
+        <div class="order-book-header">
+            <div class="order-book-title">Стакан цен</div>
+            <select class="pair-selector" id="pairSelector">
+                <option value="BTC/USDT">BTC/USDT</option>
+                <option value="ETH/USDT">ETH/USDT</option>
+                <option value="BNB/USDT">BNB/USDT</option>
+            </select>
+        </div>
+        
+        <table class="order-book-table" id="orderBookTable">
+            <thead>
+                <tr>
+                    <th>Цена (USDT)</th>
+                    <th>Количество</th>
+                    <th>Сумма</th>
+                </tr>
+            </thead>
+            <tbody id="orderBookBody">
+            </tbody>
+        </table>
+
+        <div class="order-book-chart-container">
+            <canvas id="orderBookChart"></canvas>
         </div>
     </div>
+</div>
+
+<div class="p2p-page" id="p2pPage" style="display: none;">
+    <h2>P2P Торговля</h2>
+    <p>Покупка и продажа криптовалюты напрямую у других пользователей</p>
     
-    <div class="register-page" id="registerPage" style="display: none;">
-        <div class="register-form">
-            <h1 class="login-title">Регистрация</h1>
+    <div class="p2p-container">
+        <table class="p2p-table" id="p2pTable">
+            <thead>
+                <tr>
+                    <th>Продавец</th>
+                    <th>Цена (RUB)</th>
+                    <th>Лимиты</th>
+                    <th>Доступно</th>
+                    <th>Методы оплаты</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody id="p2pTableBody">
+                <tr>
+                    <td>CryptoTrader1</td>
+                    <td>92.50</td>
+                    <td>5,000 - 50,000 RUB</td>
+                    <td>100 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">Сбербанк</span>
+                        <span class="payment-method">Тинькофф</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="CryptoTrader1">Купить</button></td>
+                </tr>
+                <tr>
+                    <td>TradeMaster</td>
+                    <td>92.75</td>
+                    <td>10,000 - 100,000 RUB</td>
+                    <td>200 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">Тинькофф</span>
+                        <span class="payment-method">Альфа-Банк</span>
+                        <span class="payment-method">ЮMoney</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="TradeMaster">Купить</button></td>
+                </tr>
+                <tr>
+                    <td>BitPro</td>
+                    <td>92.30</td>
+                    <td>2,000 - 20,000 RUB</td>
+                    <td>50 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">Сбербанк</span>
+                        <span class="payment-method">ВТБ</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="BitPro">Купить</button></td>
+                </tr>
+                <tr>
+                    <td>CoinSeller</td>
+                    <td>93.00</td>
+                    <td>15,000 - 150,000 RUB</td>
+                    <td>300 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">Тинькофф</span>
+                        <span class="payment-method">Сбербанк</span>
+                        <span class="payment-method">Qiwi</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="CoinSeller">Купить</button></td>
+                </tr>
+                <tr>
+                    <td>FastTrade</td>
+                    <td>92.80</td>
+                    <td>5,000 - 80,000 RUB</td>
+                    <td>150 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">Альфа-Банк</span>
+                        <span class="payment-method">Сбербанк</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="FastTrade">Купить</button></td>
+                </tr>
+                <tr>
+                    <td>CryptoKing</td>
+                    <td>92.60</td>
+                    <td>10,000 - 90,000 RUB</td>
+                    <td>120 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">Тинькофф</span>
+                        <span class="payment-method">ЮMoney</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="CryptoKing">Купить</button></td>
+                </tr>
+                <tr>
+                    <td>TokenGuru</td>
+                    <td>92.90</td>
+                    <td>3,000 - 30,000 RUB</td>
+                    <td>80 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">Сбербанк</span>
+                        <span class="payment-method">ВТБ</span>
+                        <span class="payment-method">Qiwi</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="TokenGuru">Купить</button></td>
+                </tr>
+                <tr>
+                    <td>ExchangePro</td>
+                    <td>92.70</td>
+                    <td>20,000 - 200,000 RUB</td>
+                    <td>500 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">Тинькофф</span>
+                        <span class="payment-method">Альфа-Банк</span>
+                        <span class="payment-method">ЮMoney</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="ExchangePro">Купить</button></td>
+                </tr>
+                <tr>
+                    <td>BitMerchant</td>
+                    <td>92.85</td>
+                    <td>5,000 - 60,000 RUB</td>
+                    <td>90 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">Сбербанк</span>
+                        <span class="payment-method">Тинькофф</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="BitMerchant">Купить</button></td>
+                </tr>
+                <tr>
+                    <td>CryptoStar</td>
+                    <td>92.55</td>
+                    <td>10,000 - 100,000 RUB</td>
+                    <td>200 USDT</td>
+                    <td class="payment-methods">
+                        <span class="payment-method">ВТБ</span>
+                        <span class="payment-method">Qiwi</span>
+                        <span class="payment-method">ЮMoney</span>
+                    </td>
+                    <td><button class="p2p-buy-btn" data-seller="CryptoStar">Купить</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="chat-page" id="chatPage" style="display: none;">
+    <h2>Трейдинг Чат</h2>
+    <p>Обсуждение сделок с другими пользователями</p>
+    
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+            <div class="message">
+                <div class="message-sender">User123</div>
+                <div class="message-text">Взял лонг на BTC!</div>
+                <div class="message-time">08:52</div>
+            </div>
+            <div class="message">
+                <div class="message-sender">User123</div>
+                <div class="message-text">Тейк на 89000</div>
+                <div class="message-time">08:53</div>
+            </div>
+            <div class="message message-self">
+                <div class="message-text">Хорошая точка входа!</div>
+                <div class="message-time">08:54</div>
+            </div>
+            <div class="message">
+                <div class="message-sender">TraderPro</div>
+                <div class="message-text">BTC тестирует сопротивление на 65k. Если пробьет, ждем 68k.</div>
+                <div class="message-time">09:15</div>
+            </div>
+            <div class="message message-self">
+                <div class="message-text">Какие индикаторы используете?</div>
+                <div class="message-time">09:16</div>
+            </div>
+            <div class="message">
+                <div class="message-sender">TraderPro</div>
+                <div class="message-text">EMA 50/200, RSI, Volume Profile. RSI сейчас 58.</div>
+                <div class="message-time">09:17</div>
+            </div>
+        </div>
+        
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Введите сообщение...">
+            <button id="sendMessageBtn">Отправить</button>
+        </div>
+    </div>
+</div>
+
+<div class="support-page" id="supportPage" style="display: none;">
+    <h2>Поддержка</h2>
+    <p>Свяжитесь с нами, если у вас возникли вопросы</p>
+    
+    <div class="support-info">
+        <h3>Контактная информация</h3>
+        <p><strong>Телефон:</strong> +7 (473) 200-01-01</p>
+        <p><strong>Адрес:</strong> г. Воронеж, ул. Ленина, д. 1</p>
+        <p><strong>Email:</strong> <a href="mailto:info@cryptooborot.ru">info@cryptooborot.ru</a></p>
+        
+        <h3>Наши Telegram-каналы</h3>
+        <p><strong>Основной:</strong> <a href="https://t.me/cryptooborot_main" target="_blank">@CryptoOborotMain</a></p>
+        <p><strong>Новостной:</strong> <a href="https://t.me/cryptooborot_news" target="_blank">@CryptoOborotNews</a></p>
+        <p><strong>Сделки:</strong> <a href="https://t.me/cryptooborot_trades" target="_blank">@CryptoOborotTrades</a></p>
+        <p><strong>Обсуждения:</strong> <a href="https://t.me/cryptooborot_chat" target="_blank">@CryptoOborotChat</a></p>
+    </div>
+
+    <div class="faq-section">
+        <h3>Часто задаваемые вопросы</h3>
+        <div class="faq-item">
+            <div class="faq-question">Обязательно ли надо регистрироваться?</div>
+            <div class="faq-answer">Да, регистрация необходима для доступа к торговле, P2P-обмену и другим функциям платформы. Это также помогает нам обеспечить безопасность ваших операций.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Нужно ли сдавать отчётность в налоговую?</div>
+            <div class="faq-answer">Да, в России доходы от операций с криптовалютой подлежат налогообложению. Мы предоставляем раздел "Налоги" для расчёта, но рекомендуем проконсультироваться с налоговым специалистом.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Почему нет графиков?</div>
+            <div class="faq-answer">Графики есть в разделе "Трейдинг", но если вы их не видите, возможно, это связано с настройками браузера или блокировкой скриптов. Попробуйте очистить кэш или отключить блокировщики рекламы.</div>
+        </div>
+    </div>
+
+    <div class="chat-placeholder">
+        <div class="message-placeholder"></div>
+        <div class="message-placeholder"></div>
+        <div class="message-placeholder"></div>
+    </div>
+</div>
+
+<div class="profile-page" id="profilePage" style="display: none;">
+    <div class="profile-content">
+        <div class="profile-left">
+            <div class="profile-header">
+                <div class="profile-title">Профиль</div>
+            </div>
             
-            <div class="form-section">
+            <div class="profile-icon-container">
+                <div class="profile-icon"></div>
+                <div class="profile-icon-2"></div>
+            </div>
+            
+            <div class="profile-section">
+                <div class="section-title">Мои документы</div>
+                <div class="profile-field">
+                    <div class="field-label">СНИЛС</div>
+                    <div class="field-value">123-456-789 00</div>
+                </div>
+                <div class="profile-field">
+                    <div class="field-label">ИНН</div>
+                    <div class="field-value">123456789012</div>
+                </div>
+                <div class="profile-field">
+                    <div class="field-label">ПАСПОРТНЫЕ ДАННЫЕ</div>
+                    <div class="field-value">Серия AB № 1234567, выдан 01.01.2010</div>
+                </div>
+            </div>
+            
+            <div class="profile-section">
                 <div class="section-title">Личные данные</div>
-                <div class="input-group">
-                    <label for="reg-username">Логин</label>
-                    <input type="text" id="reg-username" placeholder="Придумайте логин">
+                <div class="profile-field">
+                    <div class="field-label">ИМЯ</div>
+                    <div class="field-value">Иван</div>
                 </div>
-                <div class="input-group">
-                    <label for="reg-password">Пароль</label>
-                    <input type="password" id="reg-password" placeholder="Придумайте пароль">
+                <div class="profile-field">
+                    <div class="field-label">ФАМИЛИЯ</div>
+                    <div class="field-value">Иванов</div>
                 </div>
-                <div class="input-group">
-                    <label for="reg-email">Email</label>
-                    <input type="email" id="reg-email" placeholder="Введите ваш email">
+                <div class="profile-field">
+                    <div class="field-label">ОТЧЕСТВО</div>
+                    <div class="field-value">Иванович</div>
                 </div>
-                <div class="input-group">
-                    <label for="reg-phone">Телефон</label>
-                    <input type="tel" id="reg-phone" placeholder="Введите ваш телефон">
+                <div class="profile-field">
+                    <div class="field-label">ДАТА РОЖДЕНИЯ</div>
+                    <div class="field-value">15.03.1990</div>
+                </div>
+                <div class="profile-field">
+                    <div class="field-label">СТРАНА</div>
+                    <div class="field-value">Россия</div>
+                </div>
+                <div class="profile-field">
+                    <div class="field-label">ГОРОД</div>
+                    <div class="field-value">Москва</div>
+                </div>
+                <div class="profile-field">
+                    <div class="field-label">АДРЕС</div>
+                    <div class="field-value">ул. Примерная, д. 123</div>
                 </div>
             </div>
-            
-            <button class="form-btn submit-btn" id="registerBtn">Зарегистрироваться</button>
-            <button class="form-btn back-btn" id="registerBackBtn">Назад</button>
+        </div>
+        
+        <div class="profile-right">
+            <div class="profile-section">
+                <div class="section-title">Мое оборудование</div>
+                <div class="profile-field">
+                    <div class="field-label">МОЩНОСТЬ</div>
+                    <div class="field-value">1234W</div>
+                </div>
+                <div class="profile-field">
+                    <div class="field-label">ПРОИЗВОДИТЕЛЬ</div>
+                    <div class="field-value">D-Link</div>
+                </div>
+                <div class="profile-field">
+                    <div class="field-label">МОДЕЛЬ</div>
+                    <div class="field-value">DAP-1420</div>
+                </div>
+                <div class="profile-field">
+                    <div class="field-label">СЕРИЙНЫЙ НОМЕР</div>
+                    <div class="field-value">SN RAX0CXBC01977</div>
+                </div>
+            </div>
         </div>
     </div>
-        
-    <div class="app" id="app" style="display: none;">
-        <div class="top-nav">
-            <div class="user-info">
-                <button class="profile-btn-nav" id="userProfileBtn"></button>
-                <div class="online-status-container">
-                    <div class="online-status"></div>
-                    <div class="username">No Name</div>
-                </div>
-            </div>
-            
-            <div class="main-nav">
-                <a href="#" class="nav-link active" data-page="main">Трейдинг</a>
-                <a href="#" class="nav-link" data-page="wallet">Кошелек</a>
-                <a href="#" class="nav-link" data-page="tax">Налоги</a>
-                <a href="#" class="nav-link" data-page="p2p">P2P</a>
-                <a href="#" class="nav-link" data-page="chat">Чат</a>
-                <a href="#" class="nav-link" data-page="support">Поддержка</a>
-            </div>
-        </div>
-        
-        <div class="content" id="mainPage" style="display: block;">
-            <div class="balance-section">
-                <div class="balance-header">
-                    <div class="balance-title">Общий баланс</div>
-                </div>
-                <div class="balance-amount">19 350,00 $</div>
-                <div class="balance-details">
-                    <div class="crypto-item">
-                        <div class="crypto-name">BTC</div>
-                        <div class="crypto-amount">0.42</div>
-                    </div>
-                    <div class="crypto-item">
-                        <div class="crypto-name">USDT</div>
-                        <div class="crypto-amount">1,500</div>
-                    </div>
-                    <div class="crypto-item">
-                        <div class="crypto-name">RUB</div>
-                        <div class="crypto-amount">85,000</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chart-container">
-                <canvas id="cryptoChart"></canvas>
-            </div>
-            
-            <div class="transactions">
-                <div class="transactions-header">Последние транзакции</div>
-                <div id="transactionsList">
-                    <div class="transaction">
-                        <div class="transaction-info">
-                            <div class="transaction-type">Обмен</div>
-                            <div class="transaction-time">21:31:02</div>
-                        </div>
-                        <div class="transaction-amount negative">-0.4520</div>
-                    </div>
-                    <div class="transaction">
-                        <div class="transaction-info">
-                            <div class="transaction-type">Получение</div>
-                            <div class="transaction-time">21:30:37</div>
-                        </div>
-                        <div class="transaction-amount negative">-0.3583</div>
-                    </div>
-                    <div class="transaction">
-                        <div class="transaction-info">
-                            <div class="transaction-type">Перевод</div>
-                            <div class="transaction-time">21:29:31</div>
-                        </div>
-                        <div class="transaction-amount negative">-0.1613</div>
-                    </div>
-                    <div class="transaction">
-                        <div class="transaction-info">
-                            <div class="transaction-type">Перевод</div>
-                            <div class="transaction-time">21:29:21</div>
-                        </div>
-                        <div class="transaction-amount positive">+0.2402</div>
-                    </div>
-                    <div class="transaction">
-                        <div class="transaction-info">
-                            <div class="transaction-type">Перевод</div>
-                            <div class="transaction-time">21:29:11</div>
-                        </div>
-                        <div class="transaction-amount negative">-0.2491</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="tax-page" id="taxPage" style="display: none;">
-            <h2>Налоговая отчетность</h2>
-            <p>Расчет налогов на доход от криптовалютных операций</p>
-            
-            <table class="tax-table">
-                <thead>
-                    <tr>
-                        <th>Операция</th>
-                        <th>Куплено</th>
-                        <th>Продано</th>
-                        <th>Доход</th>
-                        <th>Налог (13%)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>BTC/USDT</td>
-                        <td>0.5 BTC по $30,000</td>
-                        <td>0.5 BTC по $38,500</td>
-                        <td>+$4,250</td>
-                        <td>$552.50</td>
-                    </tr>
-                    <tr>
-                        <td>ETH/USDT</td>
-                        <td>2.3 ETH по $1,800</td>
-                        <td>2.0 ETH по $2,200</td>
-                        <td>+$800</td>
-                        <td>$104</td>
-                    </tr>
-                    <tr>
-                        <td>SOL/USDT</td>
-                        <td>50 SOL по $50</td>
-                        <td>50 SOL по $75</td>
-                        <td>+$1,250</td>
-                        <td>$162.50</td>
-                    </tr>
-                    <tr>
-                        <td>DOGE/USDT</td>
-                        <td>100,000 DOGE по $0.05</td>
-                        <td>100,000 DOGE по $0.08</td>
-                        <td>+$3,000</td>
-                        <td>$390</td>
-                    </tr>
-                    <tr>
-                        <td>BNB/USDT</td>
-                        <td>1.2 BNB по $300</td>
-                        <td>1.2 BNB по $350</td>
-                        <td>+$60</td>
-                        <td>$7.80</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Итого</strong></td>
-                        <td></td>
-                        <td></td>
-                        <td><strong>+$9,360</strong></td>
-                        <td><strong>$1,216.80</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div style="margin-top: 20px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                <h3>Формула расчета налога:</h3>
-                <p>Налог = (Сумма продажи - Сумма покупки) × 13%</p>
-                <p>Пример для BTC: (38,500 - 30,000) × 0.13 = 8,500 × 0.13 = $1,105</p>
-            </div>
-        </div>
-        
-        <div class="wallet-page" id="walletPage" style="display: none;">
-            <h2>Мой кошелек</h2>
-            <p>Ваши криптовалютные активы</p>
-            
-            <h3>Мем-токены</h3>
-            <div class="meme-tokens">
-                <div class="token-card">
-                    <div class="token-header">
-                        <div class="token-icon">DOGE</div>
-                        <div>
-                            <div class="token-name">Dogecoin</div>
-                            <div class="token-balance">Баланс: 15,000</div>
-                        </div>
-                    </div>
-                    <div class="token-value">≈ $1,050 (куплено за $750)</div>
-                </div>
-                
-                <div class="token-card">
-                    <div class="token-header">
-                        <div class="token-icon">SHIB</div>
-                        <div>
-                            <div class="token-name">Shiba Inu</div>
-                            <div class="token-balance">Баланс: 5,000,000</div>
-                        </div>
-                    </div>
-                    <div class="token-value">≈ $750 (куплено за $500)</div>
-                </div>
-                
-                <div class="token-card">
-                    <div class="token-header">
-                        <div class="token-icon">PEPE</div>
-                        <div>
-                            <div class="token-name">Pepe Coin</div>
-                            <div class="token-balance">Баланс: 10,000,000</div>
-                        </div>
-                    </div>
-                    <div class="token-value">≈ $500 (куплено за $300)</div>
-                </div>
-                
-                <div class="token-card">
-                    <div class="token-header">
-                        <div class="token-icon">FLOKI</div>
-                        <div>
-                            <div class="token-name">Floki Inu</div>
-                            <div class="token-balance">Баланс: 1,000,000</div>
-                        </div>
-                    </div>
-                    <div class="token-value">≈ $300 (куплено за $200)</div>
-                </div>
-                
-                <div class="token-card">
-                    <div class="token-header">
-                        <div class="token-icon">BONK</div>
-                        <div>
-                            <div class="token-name">Bonk</div>
-                            <div class="token-balance">Баланс: 50,000,000</div>
-                        </div>
-                    </div>
-                    <div class="token-value">≈ $250 (куплено за $150)</div>
-                </div>
-                
-                <div class="token-card">
-                    <div class="token-header">
-                        <div class="token-icon">MEME</div>
-                        <div>
-                            <div class="token-name">Memecoin</div>
-                            <div class="token-balance">Баланс: 100,000</div>
-                        </div>
-                    </div>
-                    <div class="token-value">≈ $200 (куплено за $100)</div>
-                </div>
-            </div>
-            
-            <div class="order-book">
-                <div class="order-book-header">
-                    <div class="order-book-title">Стакан цен</div>
-                    <select class="pair-selector" id="pairSelector">
-                        <option value="BTC/USDT">BTC/USDT</option>
-                        <option value="ETH/USDT">ETH/USDT</option>
-                        <option value="BNB/USDT">BNB/USDT</option>
-                    </select>
-                </div>
-                
-                <table class="order-book-table" id="orderBookTable">
-                    <thead>
-                        <tr>
-                            <th>Цена (USDT)</th>
-                            <th>Количество</th>
-                            <th>Сумма</th>
-                        </tr>
-                    </thead>
-                    <tbody id="orderBookBody">
-                    </tbody>
-                </table>
+    <button class="form-btn submit-btn" style="margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto; display: block;" id="logoutBtn">Выйти</button>
+</div>
+</div>
 
-                <div class="order-book-chart-container">
-                    <canvas id="orderBookChart"></canvas>
-                </div>
-            </div>
-        </div>
-        
-        <div class="p2p-page" id="p2pPage" style="display: none;">
-            <h2>P2P Торговля</h2>
-            <p>Покупка и продажа криптовалюты напрямую у других пользователей</p>
-            
-            <div class="p2p-container">
-                <table class="p2p-table" id="p2pTable">
-                    <thead>
-                        <tr>
-                            <th>Продавец</th>
-                            <th>Цена (RUB)</th>
-                            <th>Лимиты</th>
-                            <th>Доступно</th>
-                            <th>Методы оплаты</th>
-                            <th>Действие</th>
-                        </tr>
-                    </thead>
-                    <tbody id="p2pTableBody">
-                        <tr>
-                            <td>CryptoTrader1</td>
-                            <td>92.50</td>
-                            <td>5,000 - 50,000 RUB</td>
-                            <td>100 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">Сбербанк</span>
-                                <span class="payment-method">Тинькофф</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="CryptoTrader1">Купить</button></td>
-                        </tr>
-                        <tr>
-                            <td>TradeMaster</td>
-                            <td>92.75</td>
-                            <td>10,000 - 100,000 RUB</td>
-                            <td>200 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">Тинькофф</span>
-                                <span class="payment-method">Альфа-Банк</span>
-                                <span class="payment-method">ЮMoney</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="TradeMaster">Купить</button></td>
-                        </tr>
-                        <tr>
-                            <td>BitPro</td>
-                            <td>92.30</td>
-                            <td>2,000 - 20,000 RUB</td>
-                            <td>50 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">Сбербанк</span>
-                                <span class="payment-method">ВТБ</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="BitPro">Купить</button></td>
-                        </tr>
-                        <tr>
-                            <td>CoinSeller</td>
-                            <td>93.00</td>
-                            <td>15,000 - 150,000 RUB</td>
-                            <td>300 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">Тинькофф</span>
-                                <span class="payment-method">Сбербанк</span>
-                                <span class="payment-method">Qiwi</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="CoinSeller">Купить</button></td>
-                        </tr>
-                        <tr>
-                            <td>FastTrade</td>
-                            <td>92.80</td>
-                            <td>5,000 - 80,000 RUB</td>
-                            <td>150 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">Альфа-Банк</span>
-                                <span class="payment-method">Сбербанк</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="FastTrade">Купить</button></td>
-                        </tr>
-                        <tr>
-                            <td>CryptoKing</td>
-                            <td>92.60</td>
-                            <td>10,000 - 90,000 RUB</td>
-                            <td>120 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">Тинькофф</span>
-                                <span class="payment-method">ЮMoney</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="CryptoKing">Купить</button></td>
-                        </tr>
-                        <tr>
-                            <td>TokenGuru</td>
-                            <td>92.90</td>
-                            <td>3,000 - 30,000 RUB</td>
-                            <td>80 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">Сбербанк</span>
-                                <span class="payment-method">ВТБ</span>
-                                <span class="payment-method">Qiwi</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="TokenGuru">Купить</button></td>
-                        </tr>
-                        <tr>
-                            <td>ExchangePro</td>
-                            <td>92.70</td>
-                            <td>20,000 - 200,000 RUB</td>
-                            <td>500 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">Тинькофф</span>
-                                <span class="payment-method">Альфа-Банк</span>
-                                <span class="payment-method">ЮMoney</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="ExchangePro">Купить</button></td>
-                        </tr>
-                        <tr>
-                            <td>BitMerchant</td>
-                            <td>92.85</td>
-                            <td>5,000 - 60,000 RUB</td>
-                            <td>90 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">Сбербанк</span>
-                                <span class="payment-method">Тинькофф</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="BitMerchant">Купить</button></td>
-                        </tr>
-                        <tr>
-                            <td>CryptoStar</td>
-                            <td>92.55</td>
-                            <td>10,000 - 100,000 RUB</td>
-                            <td>200 USDT</td>
-                            <td class="payment-methods">
-                                <span class="payment-method">ВТБ</span>
-                                <span class="payment-method">Qiwi</span>
-                                <span class="payment-method">ЮMoney</span>
-                            </td>
-                            <td><button class="p2p-buy-btn" data-seller="CryptoStar">Купить</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <div class="chat-page" id="chatPage" style="display: none;">
-            <h2>Трейдинг Чат</h2>
-            <p>Обсуждение сделок с другими пользователями</p>
-            
-            <div class="chat-container">
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message">
-                        <div class="message-sender">User123</div>
-                        <div class="message-text">Взял лонг на BTC!</div>
-                        <div class="message-time">08:52</div>
-                    </div>
-                    <div class="message">
-                        <div class="message-sender">User123</div>
-                        <div class="message-text">Тейк на 89000</div>
-                        <div class="message-time">08:53</div>
-                    </div>
-                    <div class="message message-self">
-                        <div class="message-text">Хорошая точка входа!</div>
-                        <div class="message-time">08:54</div>
-                    </div>
-                    <div class="message">
-                        <div class="message-sender">TraderPro</div>
-                        <div class="message-text">BTC тестирует сопротивление на 65k. Если пробьет, ждем 68k.</div>
-                        <div class="message-time">09:15</div>
-                    </div>
-                    <div class="message message-self">
-                        <div class="message-text">Какие индикаторы используете?</div>
-                        <div class="message-time">09:16</div>
-                    </div>
-                    <div class="message">
-                        <div class="message-sender">TraderPro</div>
-                        <div class="message-text">EMA 50/200, RSI, Volume Profile. RSI сейчас 58.</div>
-                        <div class="message-time">09:17</div>
-                    </div>
-                </div>
-                
-                <div class="chat-input">
-                    <input type="text" id="chatInput" placeholder="Введите сообщение...">
-                    <button id="sendMessageBtn">Отправить</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="support-page" id="supportPage" style="display: none;">
-            <h2>Поддержка</h2>
-            <p>Свяжитесь с нами, если у вас возникли вопросы</p>
-            
-            <div class="support-info">
-                <h3>Форум поддержки</h3>
-                <p>Посетите наш форум: <a href="https://forum.cryptooborot.example.com" target="_blank">forum.cryptooborot.example.com</a></p>
-                
-                <h3>Телефон горячей линии</h3>
-                <p>+7 (800) 123-45-67</p>
-                <p>Работаем круглосуточно</p>
-                
-                <h3>Электронная почта</h3>
-                <p><a href="mailto:support@cryptooborot.example.com">support@cryptooborot.example.com</a></p>
-                
-                <h3>Чат поддержки</h3>
-                <p>Доступен 24/7 в мобильном приложении</p>
-            </div>
-        </div>
-        
-        <div class="profile-page" id="profilePage" style="display: none;">
-            <div class="profile-content">
-                <div class="profile-left">
-                    <div class="profile-header">
-                        <div class="profile-title">Профиль</div>
-                    </div>
-                    
-                    <div class="profile-icon-container">
-                        <div class="profile-icon"></div>
-                    </div>
-                    
-                    <div class="profile-section">
-                        <div class="section-title">Мои документы</div>
-                        <div class="profile-field">
-                            <div class="field-label">СНИЛС</div>
-                            <div class="field-value">123-456-789 00</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">ИНН</div>
-                            <div class="field-value">123456789012</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">ПАСПОРТНЫЕ ДАННЫЕ</div>
-                            <div class="field-value">Серия AB № 1234567, выдан 01.01.2010</div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-section">
-                        <div class="section-title">Личные данные</div>
-                        <div class="profile-field">
-                            <div class="field-label">ИМЯ</div>
-                            <div class="field-value">Иван</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">ФАМИЛИЯ</div>
-                            <div class="field-value">Иванов</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">ОТЧЕСТВО</div>
-                            <div class="field-value">Иванович</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">ДАТА РОЖДЕНИЯ</div>
-                            <div class="field-value">15.03.1990</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">СТРАНА</div>
-                            <div class="field-value">Россия</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">ГОРОД</div>
-                            <div class="field-value">Москва</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">АДРЕС</div>
-                            <div class="field-value">ул. Примерная, д. 123</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="profile-right">
-                    <div class="profile-section">
-                        <div class="section-title">Мое оборудование</div>
-                        <div class="profile-field">
-                            <div class="field-label">МОЩНОСТЬ</div>
-                            <div class="field-value">1234W</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">ПРОИЗВОДИТЕЛЬ</div>
-                            <div class="field-value">ExampleCorp</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">МОДЕЛЬ</div>
-                            <div class="field-value">ModelX</div>
-                        </div>
-                        <div class="profile-field">
-                            <div class="field-label">СЕРИЙНЫЙ НОМЕР</div>
-                            <div class="field-value">SN123456789</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="form-btn submit-btn" style="margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto; display: block;" id="logoutBtn">Выйти</button>
-        </div>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <script>
-        const welcomeMessagePage = document.getElementById('welcomeMessagePage');
-        const continueBtn = document.getElementById('continueBtn');
-        const welcomePage = document.getElementById('welcomePage');
-        const loginPage = document.getElementById('loginPage');
-        const registerPage = document.getElementById('registerPage');
-        const app = document.getElementById('app');
-        const welcomeLoginBtn = document.getElementById('welcomeLoginBtn');
-        const welcomeRegisterBtn = document.getElementById('welcomeRegisterBtn');
-        const gosuslugiBtn = document.getElementById('gosuslugiBtn');
-        const loginBackBtn = document.getElementById('loginBackBtn');
-        const registerBackBtn = document.getElementById('registerBackBtn');
-        const loginBtn = document.getElementById('loginBtn');
-        const registerBtn = document.getElementById('registerBtn');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const regUsernameInput = document.getElementById('reg-username');
-        const regPasswordInput = document.getElementById('reg-password');
-        const regEmailInput = document.getElementById('reg-email');
-        const regPhoneInput = document.getElementById('reg-phone');
-        const userProfileBtn = document.getElementById('userProfileBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const pages = document.querySelectorAll('[id$="Page"]');
-        const chatInput = document.getElementById('chatInput');
-        const sendMessageBtn = document.getElementById('sendMessageBtn');
-        const chatMessages = document.getElementById('chatMessages');
-        const p2pTableBody = document.getElementById('p2pTableBody');
-        const usernameElement = document.querySelector('.username');
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+const welcomeMessagePage = document.getElementById('welcomeMessagePage');
+const continueBtn = document.getElementById('continueBtn');
+const welcomePage = document.getElementById('welcomePage');
+const loginPage = document.getElementById('loginPage');
+const registerPage = document.getElementById('registerPage');
+const app = document.getElementById('app');
+const welcomeLoginBtn = document.getElementById('welcomeLoginBtn');
+const welcomeRegisterBtn = document.getElementById('welcomeRegisterBtn');
+const gosuslugiBtn = document.getElementById('gosuslugiBtn');
+const loginBackBtn = document.getElementById('loginBackBtn');
+const registerBackBtn = document.getElementById('registerBackBtn');
+const loginBtn = document.getElementById('loginBtn');
+const registerBtn = document.getElementById('registerBtn');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const regUsernameInput = document.getElementById('reg-username');
+const regPasswordInput = document.getElementById('reg-password');
+const regEmailInput = document.getElementById('reg-email');
+const regPhoneInput = document.getElementById('reg-phone');
+const userProfileBtn = document.getElementById('userProfileBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const navLinks = document.querySelectorAll('.nav-link');
+const pages = document.querySelectorAll('[id$="Page"]');
+const chatInput = document.getElementById('chatInput');
+const sendMessageBtn = document.getElementById('sendMessageBtn');
+const chatMessages = document.getElementById('chatMessages');
+const p2pTableBody = document.getElementById('p2pTableBody');
+const usernameElement = document.querySelector('.username');
 
-        continueBtn.addEventListener('click', () => {
-            welcomeMessagePage.style.display = 'none';
-            welcomePage.style.display = 'flex';
+continueBtn.addEventListener('click', () => {
+    welcomeMessagePage.style.display = 'none';
+    welcomePage.style.display = 'flex';
+});
+
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        pages.forEach(page => {
+            page.style.display = 'none';
         });
+        const pageId = link.getAttribute('data-page') + 'Page';
+        document.getElementById(pageId).style.display = 'block';
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                pages.forEach(page => {
-                    page.style.display = 'none';
-                });
-                const pageId = link.getAttribute('data-page') + 'Page';
-                document.getElementById(pageId).style.display = 'block';
-            });
-        });
-
-        userProfileBtn.addEventListener('click', () => {
-            pages.forEach(page => page.style.display = 'none');
-            document.getElementById('profilePage').style.display = 'block';
-            navLinks.forEach(link => link.classList.remove('active'));
-            document.querySelector('.nav-link[data-page="main"]').classList.add('active');
-        });
-
-        welcomeLoginBtn.addEventListener('click', () => {
-            welcomePage.style.display = 'none';
-            loginPage.style.display = 'flex';
-        });
-
-        welcomeRegisterBtn.addEventListener('click', () => {
-            welcomePage.style.display = 'none';
-            registerPage.style.display = 'flex';
-        });
-
-        loginBackBtn.addEventListener('click', () => {
-            loginPage.style.display = 'none';
-            welcomePage.style.display = 'flex';
-        });
-
-        registerBackBtn.addEventListener('click', () => {
-            registerPage.style.display = 'none';
-            welcomePage.style.display = 'flex';
-        });
-
-        loginBtn.addEventListener('click', () => {
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            if (username && password) {
-                welcomeMessagePage.style.display = 'none';
-                loginPage.style.display = 'none';
-                app.style.display = 'block';
-                document.getElementById('mainPage').style.display = 'block';
-                navLinks.forEach(link => link.classList.remove('active'));
-                document.querySelector('.nav-link[data-page="main"]').classList.add('active');
-
-                document.querySelector('.username').textContent = username;
-
-                initChart();
-                initOrderBook();
-                generateRandomTransactions();
-                initP2PButtons();
-            }
-        });
-
-        registerBtn.addEventListener('click', () => {
-            const username = regUsernameInput.value.trim();
-            const password = regPasswordInput.value.trim();
-            const email = regEmailInput.value.trim();
-            const phone = regPhoneInput.value.trim();
-
-            if (username && password && email && phone) {
-                welcomeMessagePage.style.display = 'none';
-                registerPage.style.display = 'none';
-                app.style.display = 'block';
-                document.getElementById('mainPage').style.display = 'block';
-                navLinks.forEach(link => link.classList.remove('active'));
-                document.querySelector('.nav-link[data-page="main"]').classList.add('active');
-
-                document.querySelector('.username').textContent = username;
-
-                initChart();
-                initOrderBook();
-                generateRandomTransactions();
-                initP2PButtons();
-            }
-        });
-
-        logoutBtn.addEventListener('click', () => {
-            app.style.display = 'none';
-            welcomePage.style.display = 'flex';
-            usernameInput.value = '';
-            passwordInput.value = '';
-        });
-
-        sendMessageBtn.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        function sendMessage() {
-            const messageText = chatInput.value.trim();
-            if (messageText) {
-                const messageElement = document.createElement('div');
-                messageElement.className = 'message message-self';
-                messageElement.innerHTML = `
-                    <div class="message-text">${messageText}</div>
-                    <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-                `;
-                chatMessages.appendChild(messageElement);
-                chatInput.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-
-                setTimeout(() => {
-                    const replyElement = document.createElement('div');
-                    replyElement.className = 'message';
-                    replyElement.innerHTML = `
-                        <div class="message-sender">TraderPro</div>
-                        <div class="message-text">Интересная точка зрения. Какие индикаторы вы используете?</div>
-                        <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-                    `;
-                    chatMessages.appendChild(replyElement);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 2000);
-            }
+        if (pageId === 'walletPage') {
+            initOrderBook();
         }
+    });
+});
 
-        function initChart() {
-            const ctx = document.getElementById('cryptoChart').getContext('2d');
-            // Check if the chart exists before trying to destroy it
-            if (window.cryptoChart && typeof window.cryptoChart.destroy === 'function') {
-                window.cryptoChart.destroy();
-            }
+userProfileBtn.addEventListener('click', () => {
+    pages.forEach(page => page.style.display = 'none');
+    document.getElementById('profilePage').style.display = 'block';
+    navLinks.forEach(link => link.classList.remove('active'));
+    document.querySelector('.nav-link[data-page="main"]').classList.add('active');
+});
 
-            const labels = Array.from({length: 30}, (_, i) => {
-                const date = new Date();
-                date.setDate(date.getDate() - (29 - i));
-                return date.toLocaleDateString('ru-RU', {day: '2-digit', month: 'short'});
-            });
+welcomeLoginBtn.addEventListener('click', () => {
+    welcomePage.style.display = 'none';
+    loginPage.style.display = 'flex';
+});
 
-            const prices = [
-                50000, 51000, 49500, 52000, 53000, 52500, 54000, 53500, 55000, 56000,
-                55500, 57000, 56500, 58000, 57500, 59000, 58500, 60000, 61000, 60500,
-                62000, 61500, 63000, 62500, 64000, 63500, 65000, 64500, 66000, 67000
-            ];
+welcomeRegisterBtn.addEventListener('click', () => {
+    welcomePage.style.display = 'none';
+    registerPage.style.display = 'flex';
+});
 
-            window.cryptoChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'BTC/USD',
-                        data: prices,
-                        borderColor: '#000000',
-                        borderWidth: 2,
-                        fill: false,
-                        tension: 0.1,
-                        pointRadius: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            grid: {
-                                display: true,
-                                color: 'rgba(0, 0, 0, 0.1)'
-                            },
-                            ticks: {
-                                maxRotation: 0,
-                                autoSkip: true,
-                                maxTicksLimit: 10
-                            }
-                        },
-                        y: {
-                            beginAtZero: false,
-                            grid: {
-                                display: true,
-                                color: 'rgba(0, 0, 0, 0.1)'
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value;
-                                },
-                                stepSize: 5000
-                            }
-                        }
+loginBackBtn.addEventListener('click', () => {
+    loginPage.style.display = 'none';
+    welcomePage.style.display = 'flex';
+});
+
+registerBackBtn.addEventListener('click', () => {
+    registerPage.style.display = 'none';
+    welcomePage.style.display = 'flex';
+});
+
+loginBtn.addEventListener('click', () => {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (username && password) {
+        welcomeMessagePage.style.display = 'none';
+        loginPage.style.display = 'none';
+        app.style.display = 'block';
+        document.getElementById('mainPage').style.display = 'block';
+        navLinks.forEach(link => link.classList.remove('active'));
+        document.querySelector('.nav-link[data-page="main"]').classList.add('active');
+
+        document.querySelector('.username').textContent = username;
+
+        initChart();
+        initOrderBook();
+        generateRandomTransactions();
+        initP2PButtons();
+    }
+});
+
+registerBtn.addEventListener('click', () => {
+    const username = regUsernameInput.value.trim();
+    const password = regPasswordInput.value.trim();
+    const email = regEmailInput.value.trim();
+    const phone = regPhoneInput.value.trim();
+
+    if (username && password && email && phone) {
+        welcomeMessagePage.style.display = 'none';
+        registerPage.style.display = 'none';
+        app.style.display = 'block';
+        document.getElementById('mainPage').style.display = 'block';
+        navLinks.forEach(link => link.classList.remove('active'));
+        document.querySelector('.nav-link[data-page="main"]').classList.add('active');
+
+        document.querySelector('.username').textContent = username;
+
+        initChart();
+        initOrderBook();
+        generateRandomTransactions();
+        initP2PButtons();
+    }
+});
+
+logoutBtn.addEventListener('click', () => {
+    app.style.display = 'none';
+    welcomePage.style.display = 'flex';
+    usernameInput.value = '';
+    passwordInput.value = '';
+});
+
+sendMessageBtn.addEventListener('click', sendMessage);
+chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    const messageText = chatInput.value.trim();
+    if (messageText) {
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message message-self';
+        messageElement.innerHTML = `
+            <div class="message-text">${messageText}</div>
+            <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+        `;
+        chatMessages.appendChild(messageElement);
+        chatInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        setTimeout(() => {
+            const replyElement = document.createElement('div');
+            replyElement.className = 'message';
+            replyElement.innerHTML = `
+                <div class="message-sender">TraderPro</div>
+                <div class="message-text">Интересная точка зрения. Какие индикаторы вы используете?</div>
+                <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+            `;
+            chatMessages.appendChild(replyElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 2000);
+    }
+}
+
+function initChart() {
+    const ctx = document.getElementById('cryptoChart').getContext('2d');
+    if (window.cryptoChart && typeof window.cryptoChart.destroy === 'function') {
+        window.cryptoChart.destroy();
+    }
+
+    const labels = Array.from({length: 30}, (_, i) => {
+        const date = new Date();
+        date.setDate(date.getDate() - (29 - i));
+        return date.toLocaleDateString('ru-RU', {day: '2-digit', month: 'short'});
+    });
+
+    const prices = [
+        50000, 51000, 49500, 52000, 53000, 52500, 54000, 53500, 55000, 56000,
+        55500, 57000, 56500, 58000, 57500, 59000, 58500, 60000, 61000, 60500,
+        62000, 61500, 63000, 62500, 64000, 63500, 65000, 64500, 66000, 67000
+    ];
+
+    window.cryptoChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'BTC/USD',
+                data: prices,
+                borderColor: '#000000',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.1,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: {
+                        display: true,
+                        color: 'rgba(0, 0, 0, 0.1)'
                     },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
+                    ticks: {
+                        maxRotation: 0,
+                        autoSkip: true,
+                        maxTicksLimit: 10
+                    }
+                },
+                y: {
+                    beginAtZero: false,
+                    grid: {
+                        display: true,
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value;
+                        },
+                        stepSize: 5000
                     }
                 }
-            });
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function initOrderBook() {
+    const orderBookBody = document.getElementById('orderBookBody');
+    const pairSelector = document.getElementById('pairSelector');
+    const pairs = {
+        'BTC/USDT': [
+            { price: 65234.12, amount: 1.25, total: 81542.65, type: 'bid' },
+            { price: 65230.50, amount: 0.85, total: 55445.93, type: 'bid' },
+            { price: 65225.75, amount: 2.10, total: 136974.08, type: 'bid' },
+            { price: 65245.30, amount: 1.50, total: 97867.95, type: 'ask' },
+            { price: 65250.80, amount: 0.75, total: 48938.10, type: 'ask' },
+            { price: 65255.25, amount: 3.20, total: 208816.80, type: 'ask' }
+        ],
+        'ETH/USDT': [
+            { price: 3256.80, amount: 5.25, total: 17098.20, type: 'bid' },
+            { price: 3255.40, amount: 3.75, total: 12207.75, type: 'bid' },
+            { price: 3254.20, amount: 8.50, total: 27660.70, type: 'bid' },
+            { price: 3258.30, amount: 6.20, total: 20201.46, type: 'ask' },
+            { price: 3259.75, amount: 4.80, total: 15646.80, type: 'ask' },
+            { price: 3261.50, amount: 10.25, total: 33430.38, type: 'ask' }
+        ],
+        'BNB/USDT': [
+            { price: 425.75, amount: 12.50, total: 5321.88, type: 'bid' },
+            { price: 425.50, amount: 8.75, total: 3723.13, type: 'bid' },
+            { price: 425.25, amount: 15.20, total: 6463.80, type: 'bid' },
+            { price: 426.00, amount: 10.50, total: 4473.00, type: 'ask' },
+            { price: 426.25, amount: 7.80, total: 3324.75, type: 'ask' },
+            { price: 426.50, amount: 20.25, total: 8666.63, type: 'ask' }
+        ]
+    };
+
+    function updateOrderBook(pair) {
+        orderBookBody.innerHTML = '';
+        pairs[pair].forEach(order => {
+            const row = document.createElement('tr');
+            row.className = order.type;
+
+            const priceCell = document.createElement('td');
+            priceCell.textContent = order.price.toFixed(2);
+
+            const amountCell = document.createElement('td');
+            amountCell.textContent = order.amount.toFixed(2);
+
+            const totalCell = document.createElement('td');
+            totalCell.textContent = order.total.toFixed(2);
+
+            row.appendChild(priceCell);
+            row.appendChild(amountCell);
+            row.appendChild(totalCell);
+
+            orderBookBody.appendChild(row);
+        });
+
+        const bids = pairs[pair].filter(order => order.type === 'bid').sort((a, b) => b.price - a.price);
+        const asks = pairs[pair].filter(order => order.type === 'ask').sort((a, b) => a.price - b.price);
+
+        const bidPrices = bids.map(order => order.price);
+        const bidAmounts = bids.map(order => order.amount);
+        const askPrices = asks.map(order => order.price);
+        const askAmounts = asks.map(order => order.amount);
+
+        const orderBookCtx = document.getElementById('orderBookChart').getContext('2d');
+        if (window.orderBookChart && typeof window.orderBookChart.destroy === 'function') {
+            window.orderBookChart.destroy();
         }
 
-        function initOrderBook() {
-            const orderBookBody = document.getElementById('orderBookBody');
-            const pairs = {
-                'BTC/USDT': [
-                    { price: 65234.12, amount: 1.25, total: 81542.65, type: 'bid' },
-                    { price: 65230.50, amount: 0.85, total: 55445.93, type: 'bid' },
-                    { price: 65225.75, amount: 2.10, total: 136974.08, type: 'bid' },
-                    { price: 65245.30, amount: 1.50, total: 97867.95, type: 'ask' },
-                    { price: 65250.80, amount: 0.75, total: 48938.10, type: 'ask' },
-                    { price: 65255.25, amount: 3.20, total: 208816.80, type: 'ask' }
-                ],
-                'ETH/USDT': [
-                    { price: 3256.80, amount: 5.25, total: 17098.20, type: 'bid' },
-                    { price: 3255.40, amount: 3.75, total: 12207.75, type: 'bid' },
-                    { price: 3254.20, amount: 8.50, total: 27660.70, type: 'bid' },
-                    { price: 3258.30, amount: 6.20, total: 20201.46, type: 'ask' },
-                    { price: 3259.75, amount: 4.80, total: 15646.80, type: 'ask' },
-                    { price: 3261.50, amount: 10.25, total: 33430.38, type: 'ask' }
-                ],
-                'BNB/USDT': [
-                    { price: 425.75, amount: 12.50, total: 5321.88, type: 'bid' },
-                    { price: 425.50, amount: 8.75, total: 3723.13, type: 'bid' },
-                    { price: 425.25, amount: 15.20, total: 6463.80, type: 'bid' },
-                    { price: 426.00, amount: 10.50, total: 4473.00, type: 'ask' },
-                    { price: 426.25, amount: 7.80, total: 3324.75, type: 'ask' },
-                    { price: 426.50, amount: 20.25, total: 8666.63, type: 'ask' }
-                ]
-            };
-
-            function updateOrderBook(pair) {
-                orderBookBody.innerHTML = '';
-                pairs[pair].forEach(order => {
-                    const row = document.createElement('tr');
-                    row.className = order.type;
-
-                    const priceCell = document.createElement('td');
-                    priceCell.textContent = order.price.toFixed(2);
-
-                    const amountCell = document.createElement('td');
-                    amountCell.textContent = order.amount.toFixed(2);
-
-                    const totalCell = document.createElement('td');
-                    totalCell.textContent = order.total.toFixed(2);
-
-                    row.appendChild(priceCell);
-                    row.appendChild(amountCell);
-                    row.appendChild(totalCell);
-
-                    orderBookBody.appendChild(row);
-                });
-
-                const bids = pairs[pair].filter(order => order.type === 'bid').sort((a, b) => b.price - a.price);
-                const asks = pairs[pair].filter(order => order.type === 'ask').sort((a, b) => a.price - b.price);
-
-                const bidPrices = bids.map(order => order.price);
-                const bidAmounts = bids.map(order => order.amount);
-                const askPrices = asks.map(order => order.price);
-                const askAmounts = asks.map(order => order.amount);
-
-                const orderBookCtx = document.getElementById('orderBookChart').getContext('2d');
-                if (window.orderBookChart && typeof window.orderBookChart.destroy === 'function') {
-                    window.orderBookChart.destroy();
-                }
-
-                window.orderBookChart = new Chart(orderBookCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: [...bidPrices, ...askPrices],
-                        datasets: [
-                            {
-                                label: 'Покупка',
-                                data: [...bidAmounts, ...new Array(askAmounts.length).fill(0)],
-                                backgroundColor: 'rgba(16, 185, 129, 0.5)',
-                                borderColor: 'rgba(16, 185, 129, 1)',
-                                borderWidth: 1
-                            },
-                            {
-                                label: 'Продажа',
-                                data: [...new Array(bidAmounts.length).fill(0), ...askAmounts],
-                                backgroundColor: 'rgba(239, 68, 68, 0.5)',
-                                borderColor: 'rgba(239, 68, 68, 1)',
-                                borderWidth: 1
-                            }
-                        ]
+        window.orderBookChart = new Chart(orderBookCtx, {
+            type: 'bar',
+            data: {
+                labels: [...bidPrices, ...askPrices],
+                datasets: [
+                    {
+                        label: 'Покупка',
+                        data: [...bidAmounts, ...new Array(askAmounts.length).fill(0)],
+                        backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        borderWidth: 1
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
+                    {
+                        label: 'Продажа',
+                        data: [...new Array(bidAmounts.length).fill(0), ...askAmounts],
+                        backgroundColor: 'rgba(239, 68, 68, 0.6)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'x',
                         scales: {
                             x: {
-                                title: {
-                                    display: true,
-                                    text: 'Цена (USDT)'
-                                }
+                                ticks: {
+                                    autoSkip: true,
+                                    maxTicksLimit: 10,
+                                },
                             },
                             y: {
-                                title: {
-                                    display: true,
-                                    text: 'Количество'
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + ' USDT';
+                                    }
                                 },
-                                beginAtZero: true
-                            }
-                        }
-                    }
+                            },
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                        },
+                    },
                 });
             }
 
-            const pairSelector = document.getElementById('pairSelector');
+            // Initialize the order book when the page is loaded
             updateOrderBook(pairSelector.value);
-
             pairSelector.addEventListener('change', (e) => {
                 updateOrderBook(e.target.value);
             });
         }
 
-        function generateRandomTransactions() {
-            const transactionsList = document.getElementById('transactionsList');
-            const types = ['Обмен', 'Получение', 'Перевод', 'Вывод', 'Пополнение'];
-            const now = new Date();
-
-            while (transactionsList.children.length > 1) {
-                transactionsList.removeChild(transactionsList.lastChild);
-            }
-
-            for (let i = 0; i < 10; i++) {
-                const type = types[Math.floor(Math.random() * types.length)];
-                const isPositive = Math.random() > 0.5;
-                const amount = (Math.random() * 0.5).toFixed(4);
-                const time = new Date(now - i * 60000);
-                const hours = time.getHours().toString().padStart(2, '0');
-                const minutes = time.getMinutes().toString().padStart(2, '0');
-                const seconds = time.getSeconds().toString().padStart(2, '0');
-
-                const transaction = document.createElement('div');
-                transaction.className = 'transaction';
-                transaction.innerHTML = `
-                    <div class="transaction-info">
-                        <div class="transaction-type">${type}</div>
-                        <div class="transaction-time">${hours}:${minutes}:${seconds}</div>
-                    </div>
-                    <div class="transaction-amount ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : '-'}${amount}</div>
-                `;
-
-                transactionsList.appendChild(transaction);
-            }
-        }
-
         function initP2PButtons() {
-            const buyButtons = document.querySelectorAll('.p2p-buy-btn');
-            buyButtons.forEach(button => {
+            const p2pButtons = document.querySelectorAll('.p2p-buy-btn');
+            p2pButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const seller = button.getAttribute('data-seller');
-                    alert(`Вы выбрали покупку у ${seller}. Пожалуйста, свяжитесь с продавцом для завершения сделки.`);
+                    alert(`Вы выбрали продавца: ${seller}`);
                 });
             });
         }
 
-        setInterval(generateRandomTransactions, 30000);
+        // Initialization for generating random transactions
+        function generateRandomTransactions() {
+            const transactionList = document.querySelector('#transactionsList');
+            const transactions = [
+                { type: 'Обмен', time: '21:31:02', amount: '-0.4520', positive: false },
+                { type: 'Получение', time: '21:30:37', amount: '-0.3583', positive: false },
+                { type: 'Перевод', time: '21:29:31', amount: '-0.1613', positive: false },
+                { type: 'Перевод', time: '21:29:21', amount: '0.2402', positive: true },
+                { type: 'Обмен', time: '21:29:11', amount: '-0.2491', positive: false },
+            ];
+            transactions.forEach((transaction) => {
+                const transactionElement = document.createElement('div');
+                transactionElement.classList.add('transaction');
+                transactionElement.innerHTML = `
+                    <div class="transaction-info">
+                        <div class="transaction-type">${transaction.type}</div>
+                        <div class="transaction-time">${transaction.time}</div>
+                    </div>
+                    <div class="transaction-amount ${transaction.positive ? 'positive' : 'negative'}">${transaction.amount}</div>
+                `;
+                transactionList.appendChild(transactionElement);
+            });
+        }
     </script>
 </body>
 </html>
+ 
+                
