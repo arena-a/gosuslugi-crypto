@@ -121,9 +121,12 @@
     </style>
 </head>
 <body>
-    <div id="welcome-page" class="welcome-page flex flex-col items-center justify-center h-screen p-4">
-        <h1 class="text-4xl font-bold mb-4 text-center">Добро пожаловать на платформу КриптоОборот! Здесь вы можете безопасно и удобно купить, продать, обменять свои цифровые активы. Подтвердить доходы полученные с помощью майнинга, трэйдинга. Исполнить обязательства по уплате налогов.</h1>
-        <button onclick="showLoginPage()" class="bg-white text-black font-bold py-2 px-6 rounded hover:bg-gray-300">Далее</button>
+    <div id="welcome-page" class="welcome-page flex flex-col items-center justify-center h-screen p-4 bg-blue-800 text-white">
+        <h1 class="text-4xl font-bold mb-4 text-center">ДОБРО ПОЖАЛОВАТЬ НА ПЛАТФОРМУ КРИПТООБОРОТ!</h1>
+        <p class="text-lg text-center max-w-3xl leading-tight">
+            Здесь вы можете безопасно и удобно купить, продать, обменять свои цифровые активы. Подтвердить доходы, полученные с помощью майнинга и трэйдинга. Исполнить обязательства по уплате налогов.
+        </p>
+        <button onclick="showLoginPage()" class="bg-white text-black font-bold py-2 px-6 rounded hover:bg-gray-300 mt-4">Далее</button>
     </div>
 
     <div id="login-page" class="login-page flex flex-col items-center justify-center h-screen p-4 hidden">
@@ -351,7 +354,7 @@
                     <p class="text-gray-700">3750 * 13%: 487,5 руб</p>
                 </div>
                 <button onclick="alert('Функционал скачивания справки 2-НДФЛ будет добавлен позже.')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Ска скачать справку 2-НДФЛ
+                     Скачать справку 2-НДФЛ
                 </button>
             </section>
 
@@ -361,129 +364,191 @@
                     <button onclick="showTaxSection('purchases')" class="tax-tab bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">История покупок</button>
                     <button onclick="showTaxSection('sales')" class="tax-tab bg-gray-400 hover:bg-gray-500 text-gray-700 font-bold py-2 px-4 rounded">История продаж</button>
                 </div>
+            
+                <style>
+                    .tax-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-bottom: 1.5rem;
+                        table-layout: fixed; /* Фиксированная ширина столбцов */
+                    }
+                    .tax-table th, .tax-table td {
+                        padding: 0.5rem 1rem;
+                        border: 1px solid #d1d5db;
+                        text-align: left;
+                        color: #374151;
+                        vertical-align: middle; /* Выравнивание по центру по высоте */
+                        height: 2.5rem; /* Фиксированная высота строки */
+                    }
+                    .tax-table th {
+                        background-color: #f9fafb;
+                        font-weight: 600;
+                    }
+                    .tax-table .font-bold {
+                        font-weight: 700;
+                    }
+                    .tax-section.hidden {
+                        display: none;
+                    }
+                    /* Ширина для таблиц с 3 столбцами */
+                    .three-col th, .three-col td {
+                        width: 33.33%;
+                    }
+                    /* Ширина для таблицы с 4 столбцами */
+                    .four-col th, .four-col td {
+                        width: 25%;
+                    }
+                </style>
+            
+                <script>
+                    function showTaxSection(sectionId) {
+                        document.querySelectorAll('.tax-section').forEach(section => {
+                            section.classList.add('hidden');
+                        });
+                        document.getElementById(sectionId).classList.remove('hidden');
+                    }
+                </script>
+            
                 <div id="purchases" class="tax-section">
                     <h3 class="text-xl font-medium mb-2 text-black">История покупок</h3>
-                    <table class="min-w-full bg-white border border-gray-300 mb-6">
+                    <table class="tax-table three-col min-w-full bg-white border border-gray-300 mb-6">
                         <thead>
                             <tr>
-                                <th class="py-2 px-4 border-b text-left text-gray-700">Дата</th>
-                                <th class="py-2 px-4 border-b text-left text-gray-700">Тип</th>
-                                <th class="py-2 px-4 border-b text-left text-gray-700">Сумма (RUB)</th>
+                                <th>Дата</th>
+                                <th>Тип</th>
+                                <th>Сумма (RUB)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="py-2 px-4 border-b text-gray-700">28.01.24</td>
-                                <td class="py-2 px-4 border-b text-gray-700">300 $UD по 85 RUB</td>
-                                <td class="py-2 px-4 border-b text-gray-700">25,500 RUB</td>
+                                <td>28.01.24</td>
+                                <td>300 $UD по 85 RUB</td>
+                                <td>25,500 RUB</td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-4 border-b text-gray-700">29.04.24</td>
-                                <td class="py-2 px-4 border-b text-gray-700">300 $UD по 95 RUB</td>
-                                <td class="py-2 px-4 border-b text-gray-700">22,500 RUB</td>
+                                <td>29.04.24</td>
+                                <td>300 $UD по 95 RUB</td>
+                                <td>22,500 RUB</td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-4 border-b text-gray-700">02.08.24</td>
-                                <td class="py-2 px-4 border-b text-gray-700">400 $UD по 90 RUB</td>
-                                <td class="py-2 px-4 border-b text-gray-700">36,000 RUB</td>
-                           
+                                <td>02.08.24</td>
+                                <td>400 $UD по 90 RUB</td>
+                                <td>36,000 RUB</td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-4 border-b font-bold text-gray-700">Итого</td>
-                                <td class="py-2 px-4 border-b font-bold text-gray-700">Средняя цена: 90 RUB</td>
-                                <td class="py-2 px-4 border-b font-bold text-gray-700">84 000 RUB</td>
+                                <td class="font-bold">Итого</td>
+                                <td class="font-bold">1000 $UD средняя цена: 90 RUB</td>
+                                <td class="font-bold">84,000 RUB</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+            
                 <div id="sales" class="tax-section hidden">
                     <h3 class="text-xl font-medium mb-2 text-black">История продаж</h3>
-                    <table class="min-w-full bg-white border border-gray-300 mb-6">
+                    <table class="tax-table three-col min-w-full bg-white border border-gray-300 mb-6">
                         <thead>
                             <tr>
-                                <th class="py-2 px-4 border-b text-left text-gray-700">Дата</th>
-                                <th class="py-2 px-4 border-b text-left text-gray-700">Тип</th>
-                                <th class="py-2 px-4 border-b text-left text-gray-700">Сумма (RUB)</th>
+                                <th>Дата</th>
+                                <th>Тип</th>
+                                <th>Сумма (RUB)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="py-2 px-4 border-b text-gray-700">01.04.25</td>
-                                <td class="py-2 px-4 border-b text-gray-700">500 $UD по 110 RUB</td>
-                                <td class="py-2 px-4 border-b text-gray-700">18,000 RUB</td>
+                                <td>01.04.25</td>
+                                <td>500 $UD по 110 RUB</td>
+                                <td>55,000 RUB</td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-4 border-b text-gray-700">05.04.25</td>
-                                <td class="py-2 px-4 border-b text-gray-700">500 $UD по 110 RUB</td>
-                                <td class="py-2 px-4 border-b text-gray-700">55,000 RUB</td>
+                                <td>05.04.25</td>
+                                <td>500 $UD по 110 RUB</td>
+                                <td>55,000 RUB</td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-4 border-b text-gray-700">07.04.25</td>
-                                <td class="py-2 px-4 border-b text-gray-700">500 $UD по 120 RUB</td>
-                                <td class="py-2 px-4 border-b text-gray-700">60,000 RUB</td>
+                                <td>07.04.25</td>
+                                <td>500 $UD по 120 RUB</td>
+                                <td>60,000 RUB</td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-4 border-b font-bold text-gray-700">Итого</td>
-                                <td class="py-2 px-4 border-b font-bold text-gray-700">Средняя цена: 95 RUB</td>
-                                <td class="py-2 px-4 border-b font-bold text-gray-700">133,000 RUB</td>
+                                <td class="font-bold">Итого</td>
+                                <td class="font-bold">1500 $UD средняя цена: 113 RUB</td>
+                                <td class="font-bold">170,000 RUB</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="bg-white p-4 rounded-lg mb-6 border border-gray-300">
-                    <h3 class="text-xl font-medium mb-2 text-black">Налог</h3>
-                    <p class="text-gray-700">Сумма с продаж: 137,500 RUB</p>
-                    <p class="text-gray-700">Налог (13% от суммы с продаж): 137,500 × 0.13 = 17,875 RUB</p>
+            
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-700 max-w-[1200px] mx-auto my-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800 border-b pb-2">Налог</h3>
+                    <div class="space-y-4 text-gray-700">
+                        <p class="text-lg">
+                            <span class="font-medium">Операция 1:</span><br>
+                            1,000 × 110 − 1,000 × 90 = <span class="font-bold text-green-600">20,000 руб.</span><br>
+                            Налог: 20,000 × 13% = <span class="font-bold text-green-600">2,600 руб.</span>
+                        </p>
+                        <p class="text-lg">
+                            <span class="font-medium">Операция 2:</span><br>
+                            500 × 110 = <span class="font-bold text-green-600">55,000 руб.</span><br>
+                            Налог: 55,000 × 13% = <span class="font-bold text-green-600">7,150 руб.</span>
+                        </p>
+                        <p class="text-lg font-semibold bg-gray-50 p-3 rounded-lg">
+                            Сумма налога в апреле: 2,600 + 7,150 = <span class="text-blue-600">9,750 руб.</span>
+                        </p>
+                        <p class="text-lg font-semibold bg-gray-50 p-3 rounded-lg">
+                            С учётом майнинга: 9,750 + 487.5 = <span class="text-blue-600">10,237.5 руб.</span>
+                        </p>
+                    </div>
                 </div>
-                <table class="min-w-full bg-white border border-gray-300">
+            
+                <table class="tax-table four-col min-w-full bg-white border border-gray-300">
                     <thead>
                         <tr>
-                            <th class="py-2 px-4 border-b text-left text-gray-700">Дата</th>
-                            <th class="py-2 px-4 border-b text-left text-gray-700">Тип</th>
-                            <th class="py-2 px-4 border-b text-left text-gray-700">Сумма (RUB)</th>
-                            <th class="py-2 px-4 border-b text-left text-gray-700">Налог (13%)</th>
+                            <th>Дата</th>
+                            <th>Тип</th>
+                            <th>Сумма (RUB)</th>
+                            <th>Налог (13%)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="py-2 px-4 border-b text-gray-700">28.01.24</td>
-                            <td class="py-2 px-4 border-b text-gray-700">300 $UD по 85 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">25,500 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">3,315 RUB</td>
+                            <td>28.01.24</td>
+                            <td>300 $UD по 85 RUB</td>
+                            <td>25,500 RUB</td>
+                            <td>3,315 RUB</td>
                         </tr>
                         <tr>
-                            <td class="py-2 px-4 border-b text-gray-700">29.04.24</td>
-                            <td class="py-2 px-4 border-b text-gray-700">300 $UD по 75 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">22,500 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">2,925 RUB</td>
+                            <td>29.04.24</td>
+                            <td>300 $UD по 75 RUB</td>
+                            <td>22,500 RUB</td>
+                            <td>2,925 RUB</td>
                         </tr>
                         <tr>
-                            <td class="py-2 px-4 border-b text-gray-700">02.08.24</td>
-                            <td class="py-2 px-4 border-b text-gray-700">400 $UD по 90 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">36,000 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">4,680 RUB</td>
+                            <td>02.08.24</td>
+                            <td>400 $UD по 90 RUB</td>
+                            <td>36,000 RUB</td>
+                            <td>4,680 RUB</td>
                         </tr>
                         <tr>
-                            <td class="py-2 px-4 border-b text-gray-700">01.04.2025</td>
-                            <td class="py-2 px-4 border-b text-gray-700">500 $UD по 110 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">55,000 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">7,150 RUB</td>
+                            <td>01.04.2025</td>
+                            <td>500 $UD по 110 RUB</td>
+                            <td>55,000 RUB</td>
+                            <td>7,150 RUB</td>
                         </tr>
                         <tr>
-                            <td class="py-2 px-4 border-b text-gray-700">05.04.2025</td>
-                            <td class="py-2 px-4 border-b text-gray-700">500 $UD по 110 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">55,000 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">7,150 RUB</td>
+                            <td>05.04.2025</td>
+                            <td>500 $UD по 110 RUB</td>
+                            <td>55,000 RUB</td>
+                            <td>7,150 RUB</td>
                         </tr>
                         <tr>
-                            <td class="py-2 px-4 border-b text-gray-700">07.04.2025</td>
-                            <td class="py-2 px-4 border-b text-gray-700">500 $UD по 120 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">60,000 RUB</td>
-                            <td class="py-2 px-4 border-b text-gray-700">7,800 RUB</td>
+                            <td>07.04.2025</td>
+                            <td>500 $UD по 120 RUB</td>
+                            <td>60,000 RUB</td>
+                            <td>7,800 RUB</td>
                         </tr>
                     </tbody>
                 </table>
-                <p class="mt-4 text-gray-700">Сумма налогов в апреле: 2600+7150+487,5=10237,5</p>
             </section>
 
             <section id="wallet" class="page bg-gray-200 shadow-md rounded-lg p-6 hidden">
