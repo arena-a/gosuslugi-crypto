@@ -2,793 +2,1478 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>КриптоОборот</title>
+  <title>КриптоОборот PRO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    html, body { height: 100%; margin: 0; padding: 0; }
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --secondary: #64748b;
+      --dark: #101624;
+      --darker: #0a0f1a;
+      --light: #f8fafc;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --card-bg: rgba(30, 41, 59, 0.6);
+      --card-border: rgba(255, 255, 255, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    
     body {
-      min-height: 100vh;
-      min-width: 100vw;
-      overflow: hidden;
-      font-family: 'Roboto', 'Inter', Arial, sans-serif;
-      background: #101624;
+  background-color: var(--dark); /* Основной фон (на случай если картинка не загрузится) */
+  color: var(--light);
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Новый фон */
+  background: url('png4.png') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+/* Затемнение фона (кроме верхней полосы) */
+body::after {
+  content: '';
+  position: fixed;
+  top: 80px; /* Отступ сверху = высота вашего меню */
+  left: 0;
+  width: 100%;
+  height: calc(100% - 80px);
+  background: rgba(16, 22, 36, 0.85);
+  z-index: -1;
+}
+
+    /* Анимации */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    #bg-img {
-      position: fixed; inset: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 0;
-      filter: brightness(0.6) blur(0.5px) saturate(1.1);
-      transition: filter 0.5s;
-      will-change: transform;
-      pointer-events: none;
+    
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
     }
-    #anim-canvas {
-      position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 1;
-      pointer-events: none;
+
+    /* Основные элементы */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      animation: fadeIn 0.5s ease-out;
     }
-    #metamask-fab {
-      position: fixed;
-      bottom: 32px;
-      right: 32px;
-      z-index: 200;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #f6851b 60%, #e2761b 100%);
-      box-shadow: 0 4px 24px #000a, 0 0 0 0 #f6851b;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+
+    /* Карточки */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    /* Кнопки */
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
       cursor: pointer;
-      transition: box-shadow 0.2s, transform 0.1s;
-      border: 3px solid #fff3;
-      outline: none;
-      animation: fadeInUp 1.2s cubic-bezier(.4,0,.2,1);
-    }
-    #metamask-fab:hover {
-      box-shadow: 0 8px 32px #f6851bcc, 0 0 24px #fff8;
-      transform: scale(1.08);
-    }
-    #metamask-fab:active {
-      box-shadow: 0 2px 8px #e2761bcc;
-      transform: scale(0.96);
-    }
-    #metamask-fab svg {
-      width: 38px;
-      height: 38px;
-      display: block;
-    }
-    #metamask-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(20,28,44,0.85);
-      z-index: 300;
-      display: none;
+      transition: all 0.3s ease;
+      border: none;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-    }
-    #metamask-modal.active { display: flex; }
-    #metamask-modal-content {
-      background: #fff;
-      color: #222;
-      border-radius: 18px;
-      padding: 32px 32px 24px 32px;
-      min-width: 320px;
-      box-shadow: 0 8px 48px #000a;
-      text-align: center;
+      gap: 8px;
       position: relative;
-      font-family: 'Roboto', 'Inter', Arial, sans-serif;
+      overflow: hidden;
     }
-    #metamask-modal-content h3 {
-      margin-top: 0;
-      font-size: 1.3rem;
-      margin-bottom: 18px;
-    }
-    #metamask-modal-content .close-btn {
+
+    .btn::after {
+      content: '';
       position: absolute;
-      top: 12px;
-      right: 18px;
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: #888;
-      cursor: pointer;
-      transition: color 0.2s;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+      opacity: 0;
+      transition: opacity 0.3s;
     }
-    #metamask-modal-content .close-btn:hover { color: #f6851b; }
-    #mm-connect-modal-btn {
-      background: #f6851b;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 12px 32px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-top: 18px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    #mm-connect-modal-btn:hover { background: #e2761b; }
-    #welcome-screen, #main-menu, #candles-animation {
-      position: fixed; inset: 0; z-index: 10;
-      display: flex; align-items: center; justify-content: center;
-      min-height: 100vh; min-width: 100vw;
-    }
-    #welcome-screen { z-index: 10000; }
-    #main-menu { z-index: 9000; flex-direction: column; align-items: flex-start; justify-content: flex-start; padding-top: 40px; }
-    #candles-animation { z-index: 9999; background: #101624; }
-    #welcome-content {
-      position: relative; z-index: 3; width: 100vw; height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      color: #fff;
-      text-shadow: 0 2px 16px #000, 0 0 32px #1e293b;
-      animation: fadeIn 1.2s cubic-bezier(.4,0,.2,1);
-    }
-    #welcome-title {
-      font-size: 2.4rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      letter-spacing: 2px;
-      text-align: center;
-      line-height: 1.2;
-      background: linear-gradient(90deg,#3b82f6,#64748b,#fff,#3b82f6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-family: 'Roboto', 'Inter', Arial, sans-serif;
-    }
-    #welcome-desc {
-      font-size: 1.15rem;
-      max-width: 600px;
-      margin-bottom: 2.5rem;
-      text-align: center;
-      color: #e0e0e0;
-      text-shadow: 0 2px 8px #000;
-      font-family: 'Roboto', 'Inter', Arial, sans-serif;
-    }
-    #continue-btn {
-      font-size: 1.3rem; padding: 18px 48px; border-radius: 32px; border: none;
-      background: rgba(30,58,138,0.7); color: #fff; cursor: pointer;
-      box-shadow: 0 0 24px #3b82f655, 0 0 32px #64748b55;
-      backdrop-filter: blur(8px);
-      transition: background 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.5s;
-      opacity: 0.95;
-      font-weight: 700;
-      letter-spacing: 2px;
-      margin-top: 20px;
-      border: 2px solid #64748b55;
-      outline: none;
-      animation: fadeInUp 1.5s cubic-bezier(.4,0,.2,1);
-      font-family: 'Roboto', 'Inter', Arial, sans-serif;
-    }
-    #continue-btn:hover {
-      background: rgba(30,58,138,0.9);
-      box-shadow: 0 0 48px #3b82f6cc, 0 0 64px #64748bcc;
-      transform: scale(1.04);
+
+    .btn:hover::after {
       opacity: 1;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95);}
-      to { opacity: 1; transform: scale(1);}
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px);}
-      to { opacity: 1; transform: translateY(0);}
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(59, 130, 246, 0.25);
     }
-    .menu-buttons {
-      display: flex; gap: 18px; margin-bottom: 32px; flex-wrap: wrap; justify-content: flex-start;
-      width: 100vw;
-      padding-left: 40px;
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    /* Формы */
+    .form-control {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: white;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Чекбоксы */
+    .checkbox-container {
+      display: block;
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-container input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      transition: all 0.3s;
+    }
+
+    .checkbox-container:hover input ~ .checkmark {
+      background-color: rgba(30, 41, 59, 0.7);
+    }
+
+    .checkbox-container input:checked ~ .checkmark {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    .checkbox-container input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    .checkbox-container .checkmark:after {
+      left: 7px;
+      top: 3px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    /* Ползунки */
+    .slider-container {
+      width: 100%;
+      margin: 15px 0;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Вкладки */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      cursor: pointer;
+      position: relative;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .tab:hover {
+      opacity: 1;
+    }
+
+    .tab.active {
+      opacity: 1;
+      color: var(--primary);
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary);
+      animation: tabUnderline 0.3s ease-out;
+    }
+
+    @keyframes tabUnderline {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* График */
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    /* Скелетоны */
+    .skeleton {
+      background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite linear;
+      border-radius: 4px;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: var(--darker);
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Модальные окна */
+    .modal {
       position: fixed;
       top: 0;
       left: 0;
-      background: linear-gradient(90deg, #101624 80%, #334155 100%);
-      z-index: 10;
-      box-shadow: 0 2px 24px #000a;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(5px);
     }
-    .menu-btn {
-      font-size: 1.1rem; padding: 12px 28px; border-radius: 16px; border: none;
-      background: #1e293bcc; color: #fff; cursor: pointer;
-      box-shadow: 0 0 16px #64748b55; transition: box-shadow 0.2s, background 0.2s, color 0.2s;
-      position: relative; overflow: hidden;
-      backdrop-filter: blur(4px);
-      margin: 8px 0;
-      font-weight: 600;
-      font-family: 'Roboto', 'Inter', Arial, sans-serif;
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: all;
     }
-    .menu-btn.metamask {
-      background: linear-gradient(90deg,#f6851b,#e2761b);
-      color: #fff;
-      font-weight: 700;
-      box-shadow: 0 0 16px #f6851b55;
-      min-width: 220px;
-    }
-    .menu-btn.metamask:hover {
-      background: linear-gradient(90deg,#e2761b,#f6851b);
-      color: #fff;
-      box-shadow: 0 0 32px #f6851bcc, 0 0 8px #fff2;
-    }
-    #menu-content {
-      margin-top: 80px;
-      width: 100vw;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-      color: #fff;
-      font-family: 'Roboto', 'Inter', Arial, sans-serif;
-      padding: 32px 24px 24px 24px;
-      background: linear-gradient(120deg, #1e293b 80%, #334155 100%);
-      border-radius: 24px;
-      box-shadow: 0 4px 32px #000a;
-      min-height: 400px;
-    }
-    h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 18px;
-      background: linear-gradient(90deg,#3b82f6,#64748b,#fff,#3b82f6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 1.5rem;
-      background: #222b;
-      color: #fff;
+
+    .modal-content {
+      background: var(--darker);
       border-radius: 12px;
-      overflow: hidden;
-    }
-    th, td {
-      padding: 8px 12px;
-      border-bottom: 1px solid #333a;
-      text-align: left;
-    }
-    th { background: #1e293bcc; }
-    tr:last-child td { border-bottom: none; }
-    .info-block {
-      background: #1e293bcc;
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 2px 12px #64748b33;
-    }
-    .gradient-text {
-      background: linear-gradient(90deg,#3b82f6,#64748b,#fff,#3b82f6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 700;
-    }
-    .calc-block {
-      background: #222b;
-      border-radius: 16px;
-      padding: 24px 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 2px 12px #64748b33;
-      color: #fff;
+      padding: 24px;
       max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
+      width: 100%;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
-    .calc-block input {
-      width: 100px;
-      padding: 6px 10px;
+
+    .modal.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: white;
+    }
+
+    /* Экран входа */
+    #login-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      z-index: 1000;
+    }
+
+    #login-form {
+      background: rgba(30, 41, 59, 0.8);
+      padding: 40px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 500px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      border: 1px solid #3b82f6;
-      margin: 0 8px 8px 0;
-      font-size: 1.1em;
-      background: #111;
-      color: #fff;
+      color: white;
+      font-size: 16px;
+      transition: all 0.3s;
     }
-    .calc-block label { font-size: 1.1em; }
-    .calc-block button {
-      background: #3b82f6; color: #fff; border: none; border-radius: 8px;
-      padding: 8px 24px; font-weight: 700; cursor: pointer; font-size: 1.1em;
+
+    .login-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-size: 16px;
       margin-top: 10px;
     }
-    .calc-block button:hover { background: #2563eb; color: #fff; }
-    .calc-result { margin-top: 18px; font-size: 1.2em; }
-    @media (max-width: 900px) {
-      #menu-content { padding: 12px 2vw; }
-      .menu-buttons { padding-left: 2vw; }
+
+    /* Главное меню */
+    #main-menu {
+      display: none;
+      padding-top: 80px;
     }
-    @media (max-width: 700px) {
-      #welcome-title { font-size: 1.5rem; }
-      #welcome-desc { font-size: 1rem; }
-      #continue-btn { font-size: 1.1rem; padding: 12px 24px; }
-      .menu-btn { font-size: 1rem; padding: 8px 10px; }
-      #menu-content { margin-top: 60px; }
+
+    .menu-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+  background: var(--darker); /* Черный фон для верхней полосы */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  /* Уберите градиент если был */
+}
+
+    .menu-btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      background: rgba(30, 41, 59, 0.7);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background: rgba(59, 130, 246, 0.2);
+    }
+
+    .menu-btn:hover::after {
+      transform: scaleX(1);
+    }
+
+    .menu-btn.active {
+      background: rgba(59, 130, 246, 0.3);
+      color: var(--primary);
+    }
+
+    .menu-btn.active::after {
+      transform: scaleX(1);
+    }
+
+    .menu-btn.metamask {
+      background: linear-gradient(135deg, #f6851b 0%, #e2761b 100%);
+    }
+
+    .menu-btn.metamask::after {
+      background: #fff;
+    }
+
+    /* Контент меню */
+    #menu-content {
+  margin-top: 80px; /* Чтобы контент не заезжал под верхнее меню */
+  position: relative; /* Важно для z-index */
+  z-index: 1; /* Поднимаем над затемненным фоном */
+}
+
+    /* Разделы */
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+    }
+
+    /* Торговые пары */
+    .pair-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .pair-tab {
+      padding: 8px 16px;
+      border-radius: 6px;
+      background: rgba(30, 41, 59, 0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .pair-tab:hover {
+      background: rgba(59, 130, 246, 0.2);
+    }
+
+    .pair-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Торговая форма */
+    .trade-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .trade-form-group {
+      margin-bottom: 15px;
+    }
+
+    .trade-form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .trade-form-input {
+      width: 100%;
+      padding: 12px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: white;
+    }
+
+    .trade-form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .trade-action-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      margin-top: 10px;
+    }
+
+    .buy-btn {
+      background: var(--success);
+      color: white;
+    }
+
+    .buy-btn:hover {
+      background: #0d9b6c;
+    }
+
+    .sell-btn {
+      background: var(--danger);
+      color: white;
+    }
+
+    .sell-btn:hover {
+      background: #dc2626;
+    }
+
+    /* P2P таблица */
+    .p2p-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .p2p-table th {
+      background: rgba(30, 41, 59, 0.8);
+      padding: 12px;
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .p2p-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .p2p-table tr:hover {
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      .menu-buttons {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .trade-form {
+        grid-template-columns: 1fr;
+      }
+      
+      .modal-content {
+        width: 90%;
+      }
     }
   </style>
 </head>
 <body>
-  <img src="png4.png" id="bg-img" alt="Welcome">
-  <canvas id="anim-canvas"></canvas>
-  <div id="metamask-fab" title="MetaMask">
-    <svg viewBox="0 0 318.6 318.6" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <polygon fill="#E2761B" points="274.1,35.5 175.6,109.6 194.1,68.2 "/>
-        <polygon fill="#E4761B" points="44.5,35.5 123.9,69.1 142.2,109.6 "/>
-        <polygon fill="#E4761B" points="238.2,221.2 210.2,260.2 269.1,276.2 285.7,222.5 "/>
-        <polygon fill="#E4761B" points="32.7,222.5 49.3,276.2 108.2,260.2 80.2,221.2 "/>
-        <polygon fill="#763D16" points="108.2,260.2 142.1,249.1 109.6,225.1 "/>
-        <polygon fill="#763D16" points="210.2,260.2 209,225.1 176.5,249.1 "/>
-        <polygon fill="#F6851B" points="176.5,249.1 210.2,260.2 208.9,225.1 209,225.1 176.5,249.1 159.3,251.7 142.1,249.1 109.6,225.1 108.2,260.2 142.1,249.1 159.3,251.7 "/>
-        <polygon fill="#C0AD9E" points="142.2,109.6 123.9,69.1 128.2,133.2 "/>
-        <polygon fill="#C0AD9E" points="175.6,109.6 190.4,133.2 194.1,68.2 "/>
-        <polygon fill="#E4761B" points="209.1,180.2 218.2,156.2 194.1,168.2 "/>
-        <polygon fill="#E4761B" points="109.5,168.2 85.4,156.2 94.5,180.2 "/>
-      </g>
-    </svg>
+  <!-- Экран входа -->
+  <div id="login-screen">
+    <h1 style="margin-bottom: 30px; font-size: 2.5rem; background: linear-gradient(90deg, #3b82f6, #64748b, #fff, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;">КриптоОборот PRO</h1>
+    
+    <form id="login-form">
+      <input type="text" class="login-input" placeholder="Логин">
+      <input type="password" class="login-input" placeholder="Пароль">
+      
+      <button type="button" class="login-btn" style="background: var(--primary); color: white;" 
+              onclick="login()">Войти</button>
+      
+      <button type="button" class="login-btn" style="background: rgba(255,255,255,0.1); color: white;"
+              onclick="loginWithGosuslugi()">Войти через Госуслуги</button>
+    </form>
   </div>
-  <div id="metamask-modal">
-    <div id="metamask-modal-content">
-      <button class="close-btn" id="mm-modal-close">×</button>
-      <h3>MetaMask</h3>
-      <div id="mm-modal-status">MetaMask: не подключено</div>
-      <div id="mm-modal-balance"></div>
-      <button id="mm-connect-modal-btn">Подключить</button>
-    </div>
-  </div>
-  <div id="welcome-screen">
-    <div id="welcome-content">
-      <div id="welcome-title">КриптоОборот — профессиональная платформа для работы с цифровыми активами</div>
-      <div id="welcome-desc">
-        Безопасные операции с криптовалютой, автоматизация налогового учёта, поддержка и удобный кошелёк.<br>
-        Всё для вашего бизнеса и инвестиций.
-      </div>
-      <button id="continue-btn">Войти на платформу</button>
-    </div>
-        </div>
-  <div id="candles-animation" style="display:none;">
-    <canvas id="candles-canvas" width="700" height="400"></canvas>
-      </div>
-  <div id="main-menu" style="display:none;">
+
+  <!-- Главное меню -->
+  <div id="main-menu">
     <div class="menu-buttons">
-      <button class="menu-btn" data-section="transactions">Транзакции</button>
       <button class="menu-btn" data-section="mining">Майнинг</button>
       <button class="menu-btn" data-section="taxes">Налоги</button>
       <button class="menu-btn" data-section="wallet">Кошелек</button>
-      <button class="menu-btn" data-section="trading">Торговля</button>
+      <button class="menu-btn active" data-section="trading">Торговля</button>
       <button class="menu-btn" data-section="p2p">P2P</button>
       <button class="menu-btn" data-section="chat">Чат</button>
       <button class="menu-btn" data-section="support">Поддержка</button>
       <button class="menu-btn" data-section="calc">Калькулятор</button>
-      <button class="menu-btn metamask" id="metamask-main-btn">Подключить MetaMask</button>
+      <button class="menu-btn metamask" onclick="showMetamaskModal()">MetaMask</button>
     </div>
-    <div id="menu-content"></div>
+
+    <div class="container" id="menu-content">
+      <!-- Контент будет загружаться здесь -->
     </div>
-  <script>
-    // --- Фон: png4.png на welcome, png5.png на основной, движение ---
-    const bgImg = document.getElementById('bg-img');
-    let bgOffset = 0, bgDir = 1, mainMode = false;
-    setInterval(() => {
-      bgOffset += bgDir * 0.3;
-      if (bgOffset > 20 || bgOffset < -20) bgDir *= -1;
-      bgImg.style.transform = `translateX(${bgOffset}px)`;
-    }, 30);
+  </div>
 
-    // --- Живой фон: световые пятна ---
-    const animCanvas = document.getElementById('anim-canvas');
-    const actx = animCanvas.getContext('2d');
-    let w = window.innerWidth, h = window.innerHeight;
-    animCanvas.width = w; animCanvas.height = h;
-    window.addEventListener('resize', () => {
-      w = window.innerWidth; h = window.innerHeight;
-      animCanvas.width = w; animCanvas.height = h;
-    });
-    const blobs = [];
-    for(let i=0;i<8;i++){
-      blobs.push({
-        x: Math.random()*w, y: Math.random()*h,
-        r: 120+Math.random()*180,
-        dx: -0.5+Math.random(), dy: -0.5+Math.random(),
-        color: `hsla(${210+Math.random()*40},60%,60%,0.10)`
-      });
-    }
-    function animateBlobs() {
-      actx.clearRect(0,0,w,h);
-      for(const b of blobs){
-        actx.beginPath();
-        actx.arc(b.x,b.y,b.r,0,2*Math.PI);
-        actx.fillStyle = b.color;
-        actx.shadowColor = '#3b82f6';
-        actx.shadowBlur = 60;
-        actx.fill();
-        b.x += b.dx; b.y += b.dy;
-        if(b.x<0||b.x>w) b.dx*=-1;
-        if(b.y<0||b.y>h) b.dy*=-1;
-      }
-      // Вспышки
-      if (Math.random() < 0.01) {
-        actx.save();
-        actx.globalAlpha = 0.12 + Math.random()*0.15;
-        actx.beginPath();
-        actx.arc(Math.random()*w, Math.random()*h, 60+Math.random()*80, 0, 2*Math.PI);
-        actx.fillStyle = '#fff';
-        actx.shadowColor = '#3b82f6';
-        actx.shadowBlur = 80;
-        actx.fill();
-        actx.restore();
-      }
-      requestAnimationFrame(animateBlobs);
-    }
-    animateBlobs();
+  <!-- Модальное окно MetaMask -->
+  <div id="metamask-modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="hideMetamaskModal()">×</button>
+      <h2 style="margin-bottom: 20px;">Подключение MetaMask</h2>
+      <div id="mm-status" style="margin-bottom: 15px;">Статус: не подключено</div>
+      <div id="mm-balance" style="margin-bottom: 25px;"></div>
+      <button id="mm-connect-btn" class="btn btn-primary" style="width: 100%;">Подключить кошелек</button>
+    </div>
+  </div>
 
-    // --- Новый MetaMask FAB и модалка ---
-    const mmFab = document.getElementById('metamask-fab');
-    const mmModal = document.getElementById('metamask-modal');
-    const mmModalClose = document.getElementById('mm-modal-close');
-    const mmModalStatus = document.getElementById('mm-modal-status');
-    const mmModalBalance = document.getElementById('mm-modal-balance');
-    const mmConnectModalBtn = document.getElementById('mm-connect-modal-btn');
-    let mmAccount = null;
-
-    mmFab.onclick = function() {
-      mmModal.classList.add('active');
-    };
-    mmModalClose.onclick = function() {
-      mmModal.classList.remove('active');
-    };
-    mmModal.onclick = function(e) {
-      if (e.target === mmModal) mmModal.classList.remove('active');
-    };
-
-    async function connectMetaMask() {
-      if (typeof window.ethereum === 'undefined') {
-        mmModalStatus.textContent = 'MetaMask не установлен';
-        alert('Установите MetaMask для подключения кошелька!');
-        return;
-      }
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        mmAccount = accounts[0];
-        mmModalStatus.textContent = 'MetaMask: ' + mmAccount.slice(0,6) + '...' + mmAccount.slice(-4);
-        getBalance();
-        window.ethereum.on('accountsChanged', (accounts) => {
-          mmAccount = accounts[0];
-          mmModalStatus.textContent = 'MetaMask: ' + mmAccount.slice(0,6) + '...' + mmAccount.slice(-4);
-          getBalance();
-        });
-      } catch (e) {
-        mmModalStatus.textContent = 'MetaMask: отказано';
-      }
-    }
-    async function getBalance() {
-      if (!window.ethereum || !mmAccount) return;
-      const balance = await window.ethereum.request({
-        method: 'eth_getBalance',
-        params: [mmAccount, 'latest']
-      });
-      mmModalBalance.textContent = 'Баланс: ' + (parseInt(balance,16)/1e18).toFixed(4) + ' ETH';
-    }
-    mmConnectModalBtn.onclick = function(e) {
-      e.preventDefault();
-      connectMetaMask();
-    };
-
-    // --- Приветственный экран ---
-    const welcome = document.getElementById('welcome-screen');
-    const continueBtn = document.getElementById('continue-btn');
-    const candlesAnim = document.getElementById('candles-animation');
-    const candlesCanvas = document.getElementById('candles-canvas');
-    const menu = document.getElementById('main-menu');
-    const menuContent = document.getElementById('menu-content');
-    const menuBtns = document.querySelectorAll('.menu-btn');
-    continueBtn.onclick = () => {
-      welcome.style.display = 'none';
-      showCandlesAnimation(()=>{
-        mainMode = true;
-        bgImg.src = 'png5.png';
-        menu.style.display = 'flex';
-        showSection('transactions');
-      });
-    };
-
-    // --- Анимация японской свечи (график) ---
-    function showCandlesAnimation(cb) {
-      candlesAnim.style.display = 'flex';
-      const ctx = candlesCanvas.getContext('2d');
-      let t = 0;
-      function draw() {
-        ctx.clearRect(0,0,candlesCanvas.width,candlesCanvas.height);
-        ctx.fillStyle = '#101624';
-        ctx.fillRect(0,0,candlesCanvas.width,candlesCanvas.height);
-        ctx.strokeStyle = '#fff8';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(60, 40); ctx.lineTo(60, 360); ctx.lineTo(660, 360);
-        ctx.stroke();
-        let baseY = 320, candleH = Math.min(220, t*3);
-        let candleX = 180, candleW = 32;
-        ctx.strokeStyle = '#3b82f6';
-        ctx.lineWidth = 4;
-        ctx.beginPath();
-        ctx.moveTo(candleX + candleW/2, baseY);
-        ctx.lineTo(candleX + candleW/2, baseY - candleH - 40*Math.abs(Math.sin(t/10)));
-        ctx.stroke();
-        ctx.fillStyle = '#3b82f6';
-        ctx.fillRect(candleX, baseY - candleH, candleW, candleH);
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(candleX + candleW/2, baseY - candleH - 40*Math.abs(Math.sin(t/10)));
-        ctx.lineTo(candleX + candleW/2 - 16, baseY - candleH - 20 - 40*Math.abs(Math.sin(t/10)));
-        ctx.lineTo(candleX + candleW/2 + 16, baseY - candleH - 20 - 40*Math.abs(Math.sin(t/10)));
-        ctx.closePath();
-        ctx.fillStyle = '#3b82f6';
-        ctx.globalAlpha = 0.8 + 0.2*Math.sin(t/5);
-        ctx.fill();
-        ctx.globalAlpha = 1;
-        ctx.restore();
-        for(let i=0;i<7;i++){
-          let x = 80 + i*80;
-          let h = 40 + 120*Math.abs(Math.sin(t/10+i));
-          ctx.fillStyle = i%2==0 ? '#64748b' : '#2563eb';
-          ctx.fillRect(x, 360-h, 24, h);
-          ctx.strokeStyle = '#fff';
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.moveTo(x+12, 360-h-20); ctx.lineTo(x+12, 360);
-          ctx.stroke();
-        }
-        ctx.font = 'bold 2rem Roboto,Arial,sans-serif';
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'center';
-        ctx.fillText('Загрузка...', candlesCanvas.width/2, 60);
-        t++;
-        if(t<70) requestAnimationFrame(draw);
-        else {
-          candlesAnim.style.display = 'none';
-          if(cb) cb();
-        }
-      }
-      draw();
-    }
-
-    // --- Контент для каждой кнопки ---
-    const sections = {
-      transactions: `<h2>Транзакции</h2>
-        <div class="info-block">График биткоина (BTC)</div>
-        <table>
-          <thead>
-            <tr><th>Дата</th><th>Тип</th><th>Количество</th><th>Сумма (RUB)</th><th>Статус</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>01.05.2025</td><td>Покупка</td><td>0.02 BTC</td><td>250,000 RUB</td><td>Завершено</td></tr>
-            <tr><td>30.04.2025</td><td>Продажа</td><td>0.01 BTC</td><td>125,000 RUB</td><td>Завершено</td></tr>
-            <tr><td>29.04.2025</td><td>Покупка</td><td>0.015 BTC</td><td>187,500 RUB</td><td>Завершено</td></tr>
-            <tr><td>28.04.2025</td><td>Продажа</td><td>0.03 BTC</td><td>375,000 RUB</td><td>Завершено</td></tr>
-          </tbody>
-        </table>`,
-      mining: `<h2>Майнинг</h2>
-        <div class="info-block">
-          <b>Модель:</b> DAP-1420<br>
-          <b>Потребляемая мощность:</b> 3 квт<br>
-          <b>Тариф Воронеж:</b> 3,2руб/квт<br>
-          <b>Затраты:</b> 7000 руб
-        </div>
-        <div class="info-block">
-          <b>Текущая стоимость:</b> 60000 руб<br>
-          <b>К возмещению апрель:</b> 1.250 руб
-        </div>
-        <div class="info-block">
-          <b>Общая стоимость возможного возмещения:</b> 8250 руб<br>
-          <b>Электроэнергия к возмещению в апреле:</b> 3,2х30х72,9166=7000 руб<br>
-          <b>Продано BTC на сумму:</b> 12000 руб<br>
-          <b>Итого к уплате:</b> 12000-8250=3750 руб<br>
-          <b>3750 * 13%:</b> 487,5 руб
-        </div>
-        <button class="menu-btn" style="background:#3b82f6;color:#fff;">Скачать справку 2-НДФЛ</button>`,
-      taxes: `<h2>Налоги</h2>
-        <div class="info-block">
-          <b>История покупок</b>
-          <table>
-            <thead><tr><th>Дата</th><th>Тип</th><th>Сумма (RUB)</th></tr></thead>
-            <tbody>
-              <tr><td>28.01.24</td><td>300 $UD по 85 RUB</td><td>25,500 RUB</td></tr>
-              <tr><td>29.04.24</td><td>300 $UD по 95 RUB</td><td>22,500 RUB</td></tr>
-              <tr><td>02.08.24</td><td>400 $UD по 90 RUB</td><td>36,000 RUB</td></tr>
-              <tr><td class="gradient-text">Итого</td><td class="gradient-text">1000 $UD средняя цена: 90 RUB</td><td class="gradient-text">84,000 RUB</td></tr>
-            </tbody>
-          </table>
+  <!-- Модальное окно выставления счета -->
+  <div id="invoice-modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="hideInvoiceModal()">×</button>
+      <h2 style="margin-bottom: 20px;">Выставить счёт</h2>
+      
+      <div class="form-group" style="margin-bottom: 15px;">
+        <label class="trade-form-label">Сумма (RUB)</label>
+        <input type="number" class="form-control" placeholder="1000.00">
       </div>
-        <div class="info-block">
-          <b>Налог</b><br>
-          Операция 1: 1,000 × 110 − 1,000 × 90 = <b>20,000 руб.</b> Налог: 20,000 × 13% = <b>2,600 руб.</b><br>
-          Операция 2: 500 × 110 = <b>55,000 руб.</b> Налог: 55,000 × 13% = <b>7,150 руб.</b><br>
-          Сумма налога в апреле: 2,600 + 7,150 = <b>9,750 руб.</b><br>
-          С учётом майнинга: 9,750 + 487.5 = <b>10,237.5 руб.</b>
-        </div>
-        <table>
-          <thead>
-            <tr><th>Дата</th><th>Тип</th><th>Сумма (RUB)</th><th>Налог (13%)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>28.01.24</td><td>300 $UD по 85 RUB</td><td>25,500 RUB</td><td>3,315 RUB</td></tr>
-            <tr><td>29.04.24</td><td>300 $UD по 75 RUB</td><td>22,500 RUB</td><td>2,925 RUB</td></tr>
-            <tr><td>02.08.24</td><td>400 $UD по 90 RUB</td><td>36,000 RUB</td><td>4,680 RUB</td></tr>
-            <tr><td>01.04.2025</td><td>500 $UD по 110 RUB</td><td>55,000 RUB</td><td>7,150 RUB</td></tr>
-            <tr><td>05.04.2025</td><td>500 $UD по 110 RUB</td><td>55,000 RUB</td><td>7,150 RUB</td></tr>
-            <tr><td>07.04.2025</td><td>500 $UD по 120 RUB</td><td>60,000 RUB</td><td>7,800 RUB</td></tr>
-          </tbody>
-        </table>`,
-      wallet: `<h2>Кошелек</h2>
-        <div class="info-block">
-          <b>Мои активы</b><br>
-          RUB: 50,000 RUB<br>
-          $UD: 1,200 $UD<br>
-          USDT: 300 USDT<br>
-          BTC: 0.05 BTC<br>
-          ETH: 2 ETH<br>
-          DOGE: 10,000 DOGE
-        </div>
-        <div class="info-block">
-          <b>Пополнить</b><br>
-          <b>Банк:</b> Сбербанк<br>
-          <b>QR-код для пополнения:</b><br>
-          <img src="png5.png" alt="QR-код" style="width:80px;"><br>
-          <b>Адрес для пополнения:</b> 0x1234567890abcdef1234567890abcdef12345678
-        </div>
-        <div class="info-block">
-          <b>Перевод</b><br>
-          <b>Банк:</b> Сбербанк<br>
-          <b>QR-код для перевода:</b><br>
-          <img src="png5.png" alt="QR-код" style="width:80px;"><br>
-          <b>Адрес для перевода:</b> 0xabcdef1234567890abcdef1234567890abcdef12<br>
-          <b>Способ оплаты:</b> СПБ<br>
-          <b>Номер телефона:</b> +7 (920) 172-90-82<br>
-          <b>Номер банковской карты:</b> 2200 1300 4612 8420
-        </div>
-        <div class="info-block">
-          <b>Внутренний перевод</b><br>
-          <b>Email:</b> [email protected]<br>
-          <b>JSJSSJ</b><br>
-          <b>QR-код:</b><br>
-          <img src="png5.png" alt="QR-код" style="width:80px;">
-        </div>`,
-      trading: `<h2>Торговля</h2>
-        <div class="info-block">
-          <b>Торговая пара:</b> BTC/USDT<br>
-          <b>Доступно:</b> 10,000 USDT
-        </div>
-        <div class="info-block">
-          <b>Тип ордера:</b> Лимитный<br>
-          <b>Лимитная цена:</b> 0.00 USDT<br>
-          <b>Количество:</b> 0.00 BTC<br>
-          <b>Выбрать объем ордера:</b> Выберите объем<br>
-          <b>Маржа, TP/SL, Post-Only</b>
-        </div>
-        <div class="info-block">
-          <button class="menu-btn" style="background:#3b82f6;color:#fff;">КУПИТЬ</button>
-          <button class="menu-btn" style="background:#64748b;color:#fff;">ПРОДАТЬ</button>
-        </div>`,
-      p2p: `<h2>P2P Торговля</h2>
-        <div class="info-block">
-          <b>Криптовалюта:</b> USDT<br>
-          <b>БАНКИ:</b> сбер
-        </div>
-        <table>
-            <thead>
-            <tr>
-              <th>Продавец</th><th>Криптовалюта</th><th>Цена (RUB)</th><th>Объем</th><th>Лимиты (RUB)</th><th>Способы оплаты</th><th>Действие</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr><td>user123</td><td>USDT</td><td>110 RUB</td><td>500 USDT</td><td>10,000 - 55,000 RUB</td><td>сбер, т-банк</td><td><button class="menu-btn" style="background:#3b82f6;color:#fff;">КУПИТЬ</button></td></tr>
-            <tr><td>trader_x</td><td>BTC</td><td>12,000,000 RUB</td><td>0.1 BTC</td><td>500,000 - 1,200,000 RUB</td><td>альфа</td><td><button class="menu-btn" style="background:#3b82f6;color:#fff;">КУПИТЬ</button></td></tr>
-            <tr><td>crypto_guru</td><td>USDC</td><td>112 RUB</td><td>1000 USDC</td><td>20,000 - 112,000 RUB</td><td>сбер</td><td><button class="menu-btn" style="background:#3b82f6;color:#fff;">КУПИТЬ</button></td></tr>
-            <tr><td>seller99</td><td>USDT</td><td>108 RUB</td><td>300 USDT</td><td>5,000 - 32,400 RUB</td><td>втб</td><td><button class="menu-btn" style="background:#3b82f6;color:#fff;">КУПИТЬ</button></td></tr>
-            <tr><td>pro_trader</td><td>BTC</td><td>11,800,000 RUB</td><td>0.05 BTC</td><td>300,000 - 590,000 RUB</td><td>россельхоз</td><td><button class="menu-btn" style="background:#3b82f6;color:#fff;">КУПИТЬ</button></td></tr>
-            </tbody>
-        </table>`,
-      chat: `<h2>Чат</h2>
-        <div class="info-block">
-          <b>Трейдинг Чат</b><br>
-          <div style="margin:10px 0;">
-            <b>User123 08:52:</b> Взял лонг на BTC!<br>
-            <b>User123 08:53:</b> Тейк на 89000<br>
-            <b>User123 08:54:</b> Хорошая точка входа!<br>
-            <b>TraderPro 09:15:</b> BTC тестирует сопротивление на 65k. Если пробьет, ждем 68k.<br>
-            <b>TraderPro 09:16:</b> Какие индикаторы используете?<br>
-            <b>TraderPro 09:17:</b> EMA 50/200, RSI, Volume Profile. RSI сейчас 58.<br>
-          </div>
-          <input type="text" placeholder="Введите сообщение..." style="width:60%;padding:8px;border-radius:8px;border:none;">
-          <button class="menu-btn" style="background:#3b82f6;color:#fff;">Отправить</button>
-        </div>`,
-      support: `<h2>Поддержка</h2>
-        <div class="info-block">
-          <b>Свяжитесь с нами, если у вас возникли вопросы</b><br>
-          <b>Телефон:</b> +7 (473) 200-01-01<br>
-          <b>Адрес:</b> г. Воронеж, ул. Ленина, д. 1<br>
-          <b>Email:</b> <a href="mailto:support@cryptooborot.ru" style="color:#3b82f6;">support@cryptooborot.ru</a>
-        </div>
-        <div class="info-block">
-          <b>Наши Telegram-каналы</b><br>
-          <b>Основной:</b> @CryptoOborotMain<br>
-          <b>Новостной:</b> @CryptoOborotNews<br>
-          <b>Сделки:</b> @CryptoOborotTrades<br>
-          <b>Обсуждения:</b> @CryptoOborotChat
-        </div>
-        <div class="info-block">
-          <b>Часто задаваемые вопросы</b><br>
-          <b>Обязательно ли надо регистрироваться?</b> Да, регистрация необходима для доступа к торговле, P2P-обмену и другим функциям платформы. Это также помогает нам обеспечить безопасность ваших операций.<br>
-          <b>Нужно ли сдавать отчётность в налоговую?</b> Да, в России доходы от операций с криптовалютой подлежат налогообложению. Мы предоставляем раздел "Налоги" для расчёта, но рекомендуем проконсультироваться с налоговым специалистом.<br>
-          <b>Почему нет графиков?</b> Графики есть в разделе "Торговля", но если вы их не видите, возможно, это связано с настройками браузера или блокировкой скриптов. Попробуйте очистить кэш или отключить блокировщики рекламы.
-        </div>`,
-      calc: `<h2>Калькулятор прибыли и налога</h2>
-        <div class="calc-block">
-          <label>Курс покупки: <input type="number" id="buy-rate" value="100"></label>
-          <label>Кол-во покупки: <input type="number" id="buy-amount" value="1"></label><br>
-          <label>Курс продажи: <input type="number" id="sell-rate" value="120"></label>
-          <label>Кол-во продажи: <input type="number" id="sell-amount" value="1"></label><br>
-          <button onclick="calcProfit()">Рассчитать</button>
-          <div class="calc-result" id="calc-result"></div>
-        </div>
-      `
-    };
+      
+      <div class="form-group" style="margin-bottom: 15px;">
+        <label class="trade-form-label">Назначение платежа</label>
+        <input type="text" class="form-control" placeholder="Оплата услуг">
+      </div>
+      
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label class="checkbox-container">
+          <input type="checkbox" id="with-nds">
+          <span class="checkmark"></span>
+          С НДС 20%
+        </label>
+      </div>
+      
+      <div class="info-block" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); margin-bottom: 20px;">
+        <p style="color: var(--danger);">Для юридических лиц: убедитесь, что правильно указали НДС согласно законодательству РФ</p>
+      </div>
+      
+      <button class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">Создать счёт</button>
+      <button class="btn btn-outline" style="width: 100%;" onclick="hideInvoiceModal()">Отмена</button>
+    </div>
+  </div>
 
-    // --- Переключение секций ---
-    function showSection(section) {
-      menuContent.innerHTML = sections[section] || '';
-      if (section !== 'transactions') showCandlesAnimation(() => {});
-      if (section === 'calc') setTimeout(() => window.calcProfit && calcProfit(), 100);
+  <script>
+    // Глобальные переменные для графика
+let priceChart = null;
+let currentPair = 'BTC/USDT';
+
+function initChart() {
+  const ctx = document.getElementById('price-chart');
+  if (!ctx) return;
+
+  priceChart = new Chart(ctx.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+      datasets: [{
+        label: currentPair,
+        data: Array.from({length: 24}, () => Math.random() * 5000 + 50000),
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        borderWidth: 2,
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { mode: 'index', intersect: false }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.1)' } },
+        y: { grid: { color: 'rgba(255,255,255,0.1)' } }
+      }
     }
-    menuBtns.forEach(btn => {
-      btn.onclick = () => showSection(btn.dataset.section);
+  });
+}
+
+function changePair(pair) {
+  currentPair = pair;
+  if (priceChart) {
+    priceChart.data.datasets[0].label = pair;
+    priceChart.data.datasets[0].data = Array.from({length: 24}, () => Math.random() * 5000 + 50000);
+    priceChart.update();
+  }
+  
+  // Обновляем активную вкладку пары
+  document.querySelectorAll('.pair-tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  event.target.classList.add('active');
+}
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(initChart, 500);
+});// Инициализация
+    document.addEventListener('DOMContentLoaded', function() {
+      // Инициализация графиков
+      initCharts();
+      
+      // Загрузка данных
+      loadMarketData();
     });
 
-    // --- Показываем первую секцию по умолчанию ---
-    showSection('transactions');
+    // Функция входа
+    function login() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('main-menu').style.display = 'block';
+      loadSection('trading');
+    }
 
-    // --- Калькулятор прибыли и налога ---
-    function calcProfit() {
+    // Функция входа через Госуслуги
+    function loginWithGosuslugi() {
+      alert('Перенаправляем на портал Госуслуг...');
+      // Здесь будет редирект на API Госуслуг
+    }
+
+    // Загрузка раздела
+    function loadSection(section) {
+      // Убираем активный класс со всех кнопок
+      document.querySelectorAll('.menu-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Добавляем активный класс текущей кнопке
+      document.querySelector(`.menu-btn[data-section="${section}"]`).classList.add('active');
+      
+      // Показываем скелетон загрузки
+      document.getElementById('menu-content').innerHTML = `
+        <div class="card">
+          <div class="skeleton" style="height: 40px; width: 200px; margin-bottom: 20px;"></div>
+          <div class="skeleton" style="height: 300px; width: 100%;"></div>
+        </div>
+      `;
+      
+      // Загружаем контент (имитация задержки)
+      setTimeout(() => {
+        document.getElementById('menu-content').innerHTML = getSectionContent(section);
+        
+        // Инициализируем специфичные элементы для раздела
+        if (section === 'trading') {
+          initTradingForm();
+        } else if (section === 'p2p') {
+          initP2P();
+        } else if (section === 'wallet') {
+          initWallet();
+        } else if (section === 'calc') {
+          initCalculator();
+        }
+      }, 500);
+    }
+
+    // Контент для каждого раздела
+    function getSectionContent(section) {
+      const sections = {
+        mining: `
+          <div class="card">
+            <h2 class="section-title">Майнинг</h2>
+            <div class="info-block">
+              <h3>Ваши майнинг-устройства</h3>
+              <table class="p2p-table">
+                <thead>
+                  <tr>
+                    <th>Устройство</th>
+                    <th>Хешрейт</th>
+                    <th>Доход</th>
+                    <th>Статус</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>DAP-1420</td>
+                    <td>120 MH/s</td>
+                    <td>0.0024 BTC/день</td>
+                    <td><span style="color: var(--success);">Активно</span></td>
+                  </tr>
+                  <tr>
+                    <td>Antminer S19</td>
+                    <td>95 TH/s</td>
+                    <td>0.0018 BTC/день</td>
+                    <td><span style="color: var(--warning);">На обслуживании</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="info-block">
+              <h3>Налоговые вычеты</h3>
+              <p>Электроэнергия к возмещению: <strong>7,000 RUB</strong></p>
+              <p>Общая сумма к возмещению: <strong>8,250 RUB</strong></p>
+              <p>Итого налог к уплате: <strong>487.5 RUB</strong></p>
+              <button class="btn btn-primary" style="margin-top: 15px;">Скачать справку 2-НДФЛ</button>
+            </div>
+          </div>
+        `,
+        
+        taxes: `
+          <div class="card">
+            <h2 class="section-title">Налоговый отчёт</h2>
+            <div class="info-block">
+              <h3>История операций</h3>
+              <table class="p2p-table">
+                <thead>
+                  <tr>
+                    <th>Дата</th>
+                    <th>Тип операции</th>
+                    <th>Сумма</th>
+                    <th>Налог</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>28.01.24</td>
+                    <td>Покупка 300 $UD</td>
+                    <td>25,500 RUB</td>
+                    <td>3,315 RUB</td>
+                  </tr>
+                  <tr>
+                    <td>29.04.24</td>
+                    <td>Продажа 300 $UD</td>
+                    <td>22,500 RUB</td>
+                    <td>2,925 RUB</td>
+                  </tr>
+                  <tr>
+                    <td>02.08.24</td>
+                    <td>Покупка 400 $UD</td>
+                    <td>36,000 RUB</td>
+                    <td>4,680 RUB</td>
+                  </tr>
+                  <tr>
+                    <td>01.04.25</td>
+                    <td>Продажа 500 $UD</td>
+                    <td>55,000 RUB</td>
+                    <td>7,150 RUB</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="info-block">
+              <h3>Итого за период</h3>
+              <p>Общий доход: <strong>120,000 RUB</strong></p>
+              <p>Налоговая база: <strong>20,000 RUB</strong></p>
+              <p>Налог к уплате (13%): <strong>10,237.5 RUB</strong></p>
+              <button class="btn btn-primary" style="margin-top: 15px;">Сформировать отчёт</button>
+            </div>
+          </div>
+        `,
+        
+        wallet: `
+          <div class="card">
+            <h2 class="section-title">Кошелёк</h2>
+            
+            <div class="info-block">
+              <h3>Баланс</h3>
+              <table class="p2p-table">
+                <thead>
+                  <tr>
+                    <th>Актив</th>
+                    <th>Баланс</th>
+                    <th>Эквивалент</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>BTC</td>
+                    <td>0.05</td>
+                    <td>1,850,000 RUB</td>
+                  </tr>
+                  <tr>
+                    <td>ETH</td>
+                    <td>2.0</td>
+                    <td>240,000 RUB</td>
+                  </tr>
+                  <tr>
+                    <td>USDT</td>
+                    <td>300.0</td>
+                    <td>30,000 RUB</td>
+                  </tr>
+                  <tr>
+                    <td>RUB</td>
+                    <td>50,000</td>
+                    <td>50,000 RUB</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="info-block">
+              <h3>Реквизиты для пополнения</h3>
+              <p><strong>Банк:</strong> Тинькофф</p>
+              <p><strong>Счёт:</strong> 40817810500012345678</p>
+              <p><strong>БИК:</strong> 044525974</p>
+              <p><strong>Получатель:</strong> ООО "КриптоОборот"</p>
+              <p><strong>ИНН:</strong> 1234567890</p>
+              <button class="btn btn-primary" style="margin-top: 15px;" onclick="showInvoiceModal()">Выставить счёт</button>
+            </div>
+            
+            <div class="info-block" style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3);">
+              <h3 style="color: var(--warning);">Внимание</h3>
+              <p style="color: var(--warning);">При выставлении счетов для юридических лиц обязательно указывайте НДС согласно законодательству РФ.</p>
+            </div>
+          </div>
+        `,
+        
+        trading: `
+  <div class="card">
+    <h2 class="section-title">Торговля</h2>
+    
+    <div class="tabs">
+      <div class="tab active" onclick="switchTradeTab('spot')">Спот</div>
+      <div class="tab" onclick="switchTradeTab('convert')">Конвертация</div>
+      <div class="tab" onclick="switchTradeTab('margin')">Маржа</div>
+    </div>
+    
+    <div id="spot-tab" class="tab-content active">
+      <div class="pair-selector">
+        <div class="pair-tab active" onclick="changePair('BTC/USDT')">BTC/USDT</div>
+        <div class="pair-tab" onclick="changePair('ETH/USDT')">ETH/USDT</div>
+        <div class="pair-tab" onclick="changePair('SOL/USDT')">SOL/USDT</div>
+      </div>
+      
+      <div class="chart-container" style="position: relative; height:300px; width:100%">
+        <canvas id="price-chart"></canvas>
+      </div>
+      
+      <div class="trade-form">
+        <div>
+          <div class="trade-form-group">
+            <label class="trade-form-label">Цена</label>
+            <input type="text" class="trade-form-input" value="107445.1">
+            <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">USDT</span>
+          </div>
+          
+          <div class="trade-form-group">
+            <label class="trade-form-label">Количество</label>
+            <input type="text" class="trade-form-input" value="3107445.1">
+            <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">BTC</span>
+          </div>
+          
+          <div class="slider-container">
+            <input type="range" min="0" max="100" value="50" class="slider" id="amount-slider">
+          </div>
+        </div>
+        
+        <div>
+          <div class="trade-form-group">
+            <label class="trade-form-label">Стоимость ордера</label>
+            <input type="text" class="trade-form-input" value="333879749514.01" readonly>
+            <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">USDT ≈333,879,749,514.01 USD</span>
+          </div>
+          
+          <div class="trade-form-group">
+            <label class="trade-form-label">Доступный баланс</label>
+            <input type="text" class="trade-form-input" value="--" readonly>
+            <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">USDT</span>
+          </div>
+          
+          <button class="trade-action-btn buy-btn">Купить BTC</button>
+          <button class="trade-action-btn sell-btn">Продать BTC</button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="convert-tab" class="tab-content">
+      <p>Конвертация между активами</p>
+    </div>
+    
+    <div id="margin-tab" class="tab-content">
+      <p>Маржинальная торговля</p>
+    </div>
+  </div>
+`,
+        
+        p2p: `
+          <div class="card">
+            <h2 class="section-title">P2P Торговля</h2>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+              <button class="btn ${p2pMode === 'buy' ? 'btn-primary' : 'btn-outline'}" onclick="setP2PMode('buy')">Покупка</button>
+              <button class="btn ${p2pMode === 'sell' ? 'btn-primary' : 'btn-outline'}" onclick="setP2PMode('sell')">Продажа</button>
+            </div>
+            
+            <div class="info-block">
+              <h3>Фильтры</h3>
+              
+              <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 10px;">Криптовалюта:</label>
+                <select class="form-control">
+                  <option>USDT</option>
+                  <option>BTC</option>
+                  <option>ETH</option>
+                </select>
+              </div>
+              
+              <div>
+                <label style="display: block; margin-bottom: 10px;">Банки:</label>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;">
+                  <label class="checkbox-container">
+                    <input type="checkbox" checked>
+                    <span class="checkmark"></span>
+                    Сбербанк
+                  </label>
+                  <label class="checkbox-container">
+                    <input type="checkbox" checked>
+                    <span class="checkmark"></span>
+                    Тинькофф
+                  </label>
+                  <label class="checkbox-container">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                    Альфа-банк
+                  </label>
+                  <label class="checkbox-container">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                    ВТБ
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="info-block">
+              <h3>Доступные предложения</h3>
+              
+              <table class="p2p-table">
+                <thead>
+                  <tr>
+                    <th>Пользователь</th>
+                    <th>Цена</th>
+                    <th>Лимиты</th>
+                    <th>Способы оплаты</th>
+                    <th>Действие</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>user123 (98%)</td>
+                    <td>110 RUB</td>
+                    <td>10,000-55,000 RUB</td>
+                    <td>Сбербанк, Тинькофф</td>
+                    <td><button class="btn btn-primary" style="padding: 8px 12px;">${p2pMode === 'buy' ? 'Купить' : 'Продать'}</button></td>
+                  </tr>
+                  <tr>
+                    <td>crypto_guru (100%)</td>
+                    <td>112 RUB</td>
+                    <td>20,000-112,000 RUB</td>
+                    <td>Сбербанк</td>
+                    <td><button class="btn btn-primary" style="padding: 8px 12px;">${p2pMode === 'buy' ? 'Купить' : 'Продать'}</button></td>
+                  </tr>
+                  <tr>
+                    <td>seller99 (95%)</td>
+                    <td>108 RUB</td>
+                    <td>5,000-32,400 RUB</td>
+                    <td>ВТБ</td>
+                    <td><button class="btn btn-primary" style="padding: 8px 12px;">${p2pMode === 'buy' ? 'Купить' : 'Продать'}</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `,
+        
+        chat: `
+          <div class="card">
+            <h2 class="section-title">Трейдинг чат</h2>
+            
+            <div class="info-block" style="height: 400px; overflow-y: auto;">
+              <div style="margin-bottom: 20px;">
+                <div style="color: var(--primary); font-weight: 500;">User123 [08:52]:</div>
+                <p>Взял лонг на BTC по 65,000 с тейком на 69,000</p>
+              </div>
+              
+              <div style="margin-bottom: 20px;">
+                <div style="color: var(--success); font-weight: 500;">TraderPro [09:15]:</div>
+                <p>BTC тестирует сопротивление на 65k. Если пробьет, следующий уровень 68k</p>
+              </div>
+              
+              <div style="margin-bottom: 20px;">
+                <div style="color: var(--warning); font-weight: 500;">CryptoGuru [09:30]:</div>
+                <p>Использую EMA 50/200 и RSI для входа. Сейчас RSI 58 - перекупленность</p>
+              </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <input type="text" class="form-control" placeholder="Введите сообщение...">
+              <button class="btn btn-primary">Отправить</button>
+            </div>
+          </div>
+        `,
+        
+        support: `
+          <div class="card">
+            <h2 class="section-title">Поддержка</h2>
+            
+            <div class="info-block">
+              <h3>Контакты</h3>
+              <p><strong>Телефон:</strong> +7 (473) 200-01-01</p>
+              <p><strong>Email:</strong> support@cryptooborot.ru</p>
+              <p><strong>Адрес:</strong> г. Воронеж, ул. Ленина, д. 1</p>
+            </div>
+            
+            <div class="info-block">
+              <h3>Telegram каналы</h3>
+              <p><strong>Новости:</strong> @CryptoOborotNews</p>
+              <p><strong>Поддержка:</strong> @CryptoOborotSupport</p>
+              <p><strong>Чат трейдеров:</strong> @CryptoOborotChat</p>
+            </div>
+            
+            <div class="info-block">
+              <h3>FAQ</h3>
+              <div style="margin-bottom: 15px;">
+                <p><strong>Как начать торговать?</strong></p>
+                <p>Пополните баланс через раздел "Кошелек" и перейдите в "Торговля"</p>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <p><strong>Как вывести средства?</strong></p>
+                <p>Используйте P2P или банковский перевод в разделе "Кошелек"</p>
+              </div>
+              
+              <div>
+                <p><strong>Нужно ли платить налоги?</strong></p>
+                <p>Да, все операции подлежат налогообложению согласно законодательству РФ</p>
+              </div>
+            </div>
+          </div>
+        `,
+        
+        calc: `
+          <div class="card">
+            <h2 class="section-title">Калькулятор прибыли</h2>
+            
+            <div class="trade-form">
+              <div>
+                <div class="trade-form-group">
+                  <label class="trade-form-label">Курс покупки</label>
+                  <input type="number" class="trade-form-input" id="buy-rate" value="100">
+                </div>
+                
+                <div class="trade-form-group">
+                  <label class="trade-form-label">Количество</label>
+                  <input type="number" class="trade-form-input" id="buy-amount" value="1">
+                </div>
+              </div>
+              
+              <div>
+                <div class="trade-form-group">
+                  <label class="trade-form-label">Курс продажи</label>
+                  <input type="number" class="trade-form-input" id="sell-rate" value="120">
+                </div>
+                
+                <div class="trade-form-group">
+                  <label class="trade-form-label">Сумма налога</label>
+                  <input type="text" class="trade-form-input" id="tax-result" readonly>
+                </div>
+              </div>
+            </div>
+            
+            <button class="btn btn-primary" style="margin-top: 15px;" onclick="calculateProfit()">Рассчитать</button>
+            
+            <div class="info-block" style="margin-top: 20px;">
+              <h3>Результат</h3>
+              <div id="calc-result"></div>
+            </div>
+          </div>
+        `
+      };
+      
+      return sections[section] || '<div class="card"><h2>Раздел в разработке</h2></div>';
+    }
+
+    // Инициализация торговой формы
+    function initTradingForm() {
+      // Инициализация слайдера
+      const slider = document.getElementById('amount-slider');
+      if (slider) {
+        slider.addEventListener('input', function() {
+          // Здесь будет логика изменения суммы при движении слайдера
+        });
+      }
+    }
+
+    // Инициализация P2P
+    let p2pMode = 'buy';
+    function initP2P() {
+      // Можно добавить загрузку данных P2P
+    }
+
+    function setP2PMode(mode) {
+      p2pMode = mode;
+      loadSection('p2p');
+    }
+
+    // Инициализация кошелька
+    function initWallet() {
+      // Можно добавить загрузку данных кошелька
+    }
+
+    // Инициализация калькулятора
+    function initCalculator() {
+      calculateProfit(); // Первоначальный расчет
+    }
+
+    function calculateProfit() {
       const buyRate = parseFloat(document.getElementById('buy-rate').value) || 0;
       const buyAmount = parseFloat(document.getElementById('buy-amount').value) || 0;
       const sellRate = parseFloat(document.getElementById('sell-rate').value) || 0;
-      const sellAmount = parseFloat(document.getElementById('sell-amount').value) || 0;
+      
       const buySum = buyRate * buyAmount;
-      const sellSum = sellRate * sellAmount;
+      const sellSum = sellRate * buyAmount;
       const profit = sellSum - buySum;
       const tax = profit > 0 ? profit * 0.13 : 0;
-      document.getElementById('calc-result').innerHTML =
-        'Потрачено: ' + buySum.toFixed(2) + ' RUB<br>' +
-        'Получено: ' + sellSum.toFixed(2) + ' RUB<br>' +
-        'Прибыль: <b>' + profit.toFixed(2) + ' RUB</b><br>' +
-        'Налог 13%: <b>' + tax.toFixed(2) + ' RUB</b>';
+      
+      document.getElementById('tax-result').value = tax.toFixed(2) + ' RUB';
+      
+      document.getElementById('calc-result').innerHTML = `
+        <p>Потрачено: <strong>${buySum.toFixed(2)} RUB</strong></p>
+        <p>Получено: <strong>${sellSum.toFixed(2)} RUB</strong></p>
+        <p>Прибыль: <strong style="color: ${profit >= 0 ? 'var(--success)' : 'var(--danger)'}">${profit.toFixed(2)} RUB</strong></p>
+        <p>Налог 13%: <strong>${tax.toFixed(2)} RUB</strong></p>
+      `;
     }
 
-    // --- MetaMask интеграция в главном меню ---
-    const mmMainBtn = document.getElementById('metamask-main-btn');
-    async function connectMetaMaskMain() {
+    // Переключение торговых вкладок
+    function switchTradeTab(tabId) {
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      event.target.classList.add('active');
+      document.getElementById(tabId + '-tab').classList.add('active');
+    }
+
+    // Инициализация графиков
+    function initCharts() {
+      const ctx = document.getElementById('price-chart');
+      if (ctx) {
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '23:59'],
+            datasets: [{
+              label: 'BTC/USDT',
+              data: [65000, 67000, 68500, 67500, 69000, 68500, 68000],
+              borderColor: '#3b82f6',
+              backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              tension: 0.4,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)'
+                }
+              },
+              x: {
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)'
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // Загрузка рыночных данных
+    function loadMarketData() {
+      // Здесь можно добавить загрузку данных с API
+    }
+
+    // MetaMask
+    let mmAccount = null;
+    
+    function showMetamaskModal() {
+      document.getElementById('metamask-modal').classList.add('active');
+    }
+    
+    function hideMetamaskModal() {
+      document.getElementById('metamask-modal').classList.remove('active');
+    }
+    
+    document.getElementById('mm-connect-btn').onclick = async function() {
       if (typeof window.ethereum === 'undefined') {
-        mmMainBtn.textContent = 'MetaMask не установлен';
-        mmMainBtn.disabled = true;
+        document.getElementById('mm-status').textContent = 'Статус: MetaMask не установлен';
+        alert('Пожалуйста, установите расширение MetaMask');
         return;
       }
+      
       try {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         mmAccount = accounts[0];
-        mmMainBtn.textContent = 'MetaMask: ' + mmAccount.slice(0,6) + '...' + mmAccount.slice(-4) + ' (загрузка...)';
-        getMainBalance();
-        window.ethereum.on('accountsChanged', (accounts) => {
-          mmAccount = accounts[0];
-          mmMainBtn.textContent = 'MetaMask: ' + mmAccount.slice(0,6) + '...' + mmAccount.slice(-4) + ' (загрузка...)';
-          getMainBalance();
+        document.getElementById('mm-status').textContent = 
+          'Статус: подключено ' + mmAccount.substring(0, 6) + '...' + mmAccount.substring(38);
+        
+        // Получаем баланс
+        const balance = await window.ethereum.request({
+          method: 'eth_getBalance',
+          params: [mmAccount, 'latest']
         });
-      } catch (e) {
-        mmMainBtn.textContent = 'MetaMask: отказано';
+        
+        const ethBalance = parseInt(balance) / 1e18;
+        document.getElementById('mm-balance').innerHTML = 
+          `<strong>Баланс:</strong> ${ethBalance.toFixed(4)} ETH`;
+          
+        // Слушаем изменения аккаунтов
+        window.ethereum.on('accountsChanged', (accounts) => {
+          if (accounts.length === 0) {
+            document.getElementById('mm-status').textContent = 'Статус: не подключено';
+            document.getElementById('mm-balance').textContent = '';
+          } else {
+            mmAccount = accounts[0];
+            document.getElementById('mm-status').textContent = 
+              'Статус: подключено ' + mmAccount.substring(0, 6) + '...' + mmAccount.substring(38);
+          }
+        });
+        
+      } catch (error) {
+        console.error(error);
+        document.getElementById('mm-status').textContent = 'Статус: ошибка подключения';
       }
+    };
+
+    // Выставление счета
+    function showInvoiceModal() {
+      document.getElementById('invoice-modal').classList.add('active');
     }
-    async function getMainBalance() {
-      if (!window.ethereum || !mmAccount) return;
-      const balance = await window.ethereum.request({
-        method: 'eth_getBalance',
-        params: [mmAccount, 'latest']
+    
+    function hideInvoiceModal() {
+      document.getElementById('invoice-modal').classList.remove('active');
+    }
+
+    // Назначаем обработчики кнопок меню
+    document.querySelectorAll('.menu-btn[data-section]').forEach(btn => {
+      btn.addEventListener('click', function() {
+        loadSection(this.dataset.section);
       });
-      mmMainBtn.textContent = 'MetaMask: ' + mmAccount.slice(0,6) + '...' + mmAccount.slice(-4) + ' | ' + (parseInt(balance,16)/1e18).toFixed(4) + ' ETH';
-    }
-    mmMainBtn.onclick = connectMetaMaskMain;
+    });
   </script>
 </body>
 </html>
