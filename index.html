@@ -1,2089 +1,1239 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>КриптоОборот PRO</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <style>
-/* Содержимое styles.css */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', Arial, sans-serif;
-  background: #f4f7fa;
-  color: #222;
-  min-height: 100vh;
-}
-.matrix-bg {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: #101624;
-  opacity: 0.9;
-}
-.login-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  background: linear-gradient(120deg, #e0e7ef 0%, #f4f7fa 100%);
-}
-.login-card {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-  padding: 40px 32px 32px 32px;
-  min-width: 340px;
-  max-width: 360px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-.logo-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-.logo-svg {
-  display: block;
-}
-.logo-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #3b82f6;
-}
-.matrix-welcome {
-  font-size: 1.1rem;
-  color: #64748b;
-  margin-bottom: 24px;
-  min-height: 28px;
-  font-family: 'Roboto Mono', monospace;
-  letter-spacing: 1px;
-  text-shadow: 0 0 8px #3b82f6, 0 0 2px #fff;
-  animation: matrix-fade 1.2s linear;
-}
-@keyframes matrix-fade {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.login-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.login-input {
-  padding: 12px 16px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background: #f8fafc;
-  font-size: 1rem;
-  color: #222;
-  transition: border 0.2s;
-}
-.login-input:focus {
-  border: 1.5px solid #3b82f6;
-  outline: none;
-}
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 0;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: box-shadow 0.2s, background 0.2s, color 0.2s;
-  box-shadow: 0 2px 8px rgba(59,130,246,0.04);
-}
-.btn-primary {
-  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-  color: #fff;
-}
-.btn-primary:hover {
-  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
-}
-.btn-google {
-  background: #fff;
-  color: #222;
-  border: 1px solid #e5e7eb;
-}
-.btn-google:hover {
-  background: #f1f5f9;
-}
-.btn-vk {
-  background: #2787F5;
-  color: #fff;
-}
-.btn-vk:hover {
-  background: #1a5fb4;
-}
-.btn-gosuslugi {
-  background: linear-gradient(90deg, #005ff9 0%, #e31e24 100%);
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0,95,249,0.08);
-}
-.btn-gosuslugi:hover {
-  background: linear-gradient(90deg, #e31e24 0%, #005ff9 100%);
-}
-.login-divider {
-  text-align: center;
-  margin: 10px 0 0 0;
-  color: #b0b8c1;
-  font-size: 0.95rem;
-  position: relative;
-}
-.login-divider span {
-  background: #fff;
-  padding: 0 10px;
-  position: relative;
-  z-index: 1;
-}
-.login-divider:before {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 0; right: 0; top: 50%;
-  height: 1px;
-  background: #e5e7eb;
-  z-index: 0;
-}
-.login-socials {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 2px;
-}
-/* Main app styles */
-.main-app {
-  min-height: 100vh;
-  background: #f4f7fa;
-  z-index: 1;
-}
-.main-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff;
-  box-shadow: 0 2px 12px rgba(59,130,246,0.06);
-  padding: 0 32px;
-  height: 64px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-.main-logo-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.main-menu {
-  display: flex;
-  gap: 8px;
-}
-.menu-btn {
-  background: none;
-  border: none;
-  color: #64748b;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 8px 18px;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  transition: background 0.18s, color 0.18s;
-  position: relative;
-}
-.menu-btn.active, .menu-btn:hover {
-  background: #e0e7ef;
-  color: #3b82f6;
-}
-.menu-btn.metamask {
-  background: linear-gradient(90deg, #f6851b 0%, #e2761b 100%);
-  color: #fff;
-  font-weight: 700;
-}
-.menu-btn.metamask:hover {
-  background: linear-gradient(90deg, #e2761b 0%, #f6851b 100%);
-}
-.menu-icon {
-  display: flex;
-  align-items: center;
-}
-.main-content {
-  max-width: 1100px;
-  margin: 32px auto 0 auto;
-  padding: 0 16px;
-}
-.markets-section h2 {
-  font-size: 1.4rem;
-  color: #222;
-  margin-bottom: 18px;
-}
-.markets-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(59,130,246,0.04);
-  overflow: hidden;
-}
-.markets-table th, .markets-table td {
-  padding: 12px 16px;
-  text-align: left;
-}
-.markets-table th {
-  background: #f4f7fa;
-  color: #64748b;
-  font-weight: 600;
-  font-size: 1rem;
-}
-.markets-table tr {
-  border-bottom: 1px solid #e5e7eb;
-  transition: background 0.15s;
-}
-.markets-table tr:hover {
-  background: #e0e7ef;
-}
-.markets-table td {
-  font-size: 1rem;
-  color: #222;
-}
-.markets-table .price-up {
-  color: #10b981;
-  font-weight: 600;
-}
-.markets-table .price-down {
-  color: #ef4444;
-  font-weight: 600;
-}
-@media (max-width: 700px) {
-  .main-header { flex-direction: column; height: auto; padding: 12px; }
-  .main-logo-row { margin-bottom: 8px; }
-  .main-menu { flex-wrap: wrap; gap: 4px; }
-  .main-content { padding: 0 4px; }
-  .login-card { min-width: 90vw; max-width: 98vw; padding: 24px 8px; }
-}
-/* TradingView-стиль главное меню */
-.tradingview-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #ffffff;
-  border-bottom: 1px solid #e1e5e9;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-.header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  height: 60px;
-}
-.header-left {
-  display: flex;
-  align-items: center;
-}
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 600;
-  font-size: 18px;
-  color: #131722;
-}
-.logo-text {
-  font-family: 'Roboto', sans-serif;
-}
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border: none;
-  background: transparent;
-  color: #787b86;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  text-decoration: none;
-}
-.nav-btn:hover {
-  background: #f0f3fa;
-  color: #131722;
-}
-.nav-btn.active {
-  background: #2962ff;
-  color: #ffffff;
-}
-.nav-btn svg {
-  width: 16px;
-  height: 16px;
-}
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.metamask-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border: 1px solid #e1e5e9;
-  background: #ffffff;
-  color: #131722;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-.metamask-btn:hover {
-  background: #f0f3fa;
-  border-color: #2962ff;
-}
-.login-btn-header {
-  padding: 8px 20px;
-  border: none;
-  background: #2962ff;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-.login-btn-header:hover {
-  background: #1e53e5;
-}
-/* Эффект матрицы */
-.matrix-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  z-index: -1;
-  overflow: hidden;
-}
-.matrix-bg::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(41, 98, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(41, 98, 255, 0.05) 0%, transparent 50%);
-  animation: matrixPulse 4s ease-in-out infinite;
-}
-@keyframes matrixPulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
-}
-/* Обновленная форма входа */
-.login-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  padding-top: 80px;
-}
-.login-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: 16px;
-  padding: 40px;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: fadeInUp 0.6s ease-out;
-}
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.logo-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-.logo-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #131722;
-}
-.matrix-welcome {
-  text-align: center;
-  font-size: 18px;
-  color: #2962ff;
-  margin-bottom: 32px;
-  font-weight: 500;
-  animation: matrixText 3s ease-in-out infinite;
-}
-@keyframes matrixText {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
-}
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.login-input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 16px;
-  background: #ffffff;
-  color: #131722;
-  transition: all 0.3s ease;
-}
-.login-input:focus {
-  outline: none;
-  border-color: #2962ff;
-  box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.1);
-}
-.login-btn {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  background: #2962ff;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.login-btn:hover {
-  background: #1e53e5;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(41, 98, 255, 0.3);
-}
-.login-divider {
-  text-align: center;
-  position: relative;
-  margin: 20px 0;
-}
-.login-divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: #e1e5e9;
-}
-.login-divider span {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 0 16px;
-  color: #787b86;
-  font-size: 14px;
-}
-.login-socials {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: #ffffff;
-  color: #131722;
-}
-.btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-.btn-google {
-  border-color: #4285f4;
-  color: #4285f4;
-}
-.btn-google:hover {
-  background: #4285f4;
-  color: #ffffff;
-}
-.btn-vk {
-  border-color: #2787f5;
-  color: #2787f5;
-}
-.btn-vk:hover {
-  background: #2787f5;
-  color: #ffffff;
-}
-.btn-gosuslugi {
-  border-color: #ff6b35;
-  color: #ff6b35;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  color: #ffffff;
-  font-weight: 600;
-}
-.btn-gosuslugi:hover {
-  background: linear-gradient(135deg, #e55a2b 0%, #e0851a 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
-}
-/* Приветственный экран */
-.welcome-screen {
-  padding-top: 80px;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-}
-.welcome-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
-.welcome-title {
-  font-size: 36px;
-  font-weight: 700;
-  color: #131722;
-  text-align: center;
-  margin-bottom: 16px;
-  background: linear-gradient(135deg, #2962ff 0%, #1e53e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.welcome-subtitle {
-  font-size: 18px;
-  color: #787b86;
-  text-align: center;
-  margin-bottom: 48px;
-}
-.markets-overview {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e1e5e9;
-}
-.markets-overview h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #131722;
-  margin-bottom: 24px;
-}
-.markets-table-container {
-  overflow-x: auto;
-}
-.markets-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-.markets-table th {
-  background: #f8fafc;
-  padding: 16px 12px;
-  text-align: left;
-  font-weight: 600;
-  color: #131722;
-  border-bottom: 2px solid #e1e5e9;
-}
-.markets-table td {
-  padding: 16px 12px;
-  border-bottom: 1px solid #f1f3f4;
-  color: #131722;
-}
-.markets-table tr:hover {
-  background: #f8fafc;
-}
-.market-pair {
-  font-weight: 600;
-  color: #131722;
-}
-.market-price {
-  font-weight: 600;
-  color: #131722;
-}
-.market-change {
-  font-weight: 600;
-}
-.market-change.positive {
-  color: #089981;
-}
-.market-change.negative {
-  color: #f23645;
-}
-.market-volume {
-  color: #787b86;
-}
-.trade-btn {
-  padding: 6px 12px;
-  border: none;
-  background: #2962ff;
-  color: #ffffff;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.trade-btn:hover {
-  background: #1e53e5;
-}
-/* Модальные окна */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  backdrop-filter: blur(5px);
-}
-.modal.active {
-  opacity: 1;
-  pointer-events: all;
-}
-.modal-content {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px;
-  max-width: 500px;
-  width: 90%;
-  transform: translateY(20px);
-  transition: transform 0.3s ease;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
-.modal.active .modal-content {
-  transform: translateY(0);
-}
-.modal-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: none;
-  border: none;
-  color: #787b86;
-  font-size: 24px;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.modal-close:hover {
-  color: #131722;
-}
-.modal h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #131722;
-  margin-bottom: 24px;
-}
-.form-group {
-  margin-bottom: 20px;
-}
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #131722;
-}
-.form-control {
-  width: 100%;
-  padding: 12px 16px;
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 14px;
-  background: #ffffff;
-  color: #131722;
-  transition: all 0.3s ease;
-}
-.form-control:focus {
-  outline: none;
-  border-color: #2962ff;
-  box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.1);
-}
-.info-block {
-  background: #f8fafc;
-  border: 1px solid #e1e5e9;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 20px;
-}
-.info-block p {
-  margin: 0;
-  color: #787b86;
-  font-size: 14px;
-}
-/* Чекбоксы */
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  user-select: none;
-}
-.checkbox-container input {
-  display: none;
-}
-.checkmark {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #e1e5e9;
-  border-radius: 4px;
-  position: relative;
-  transition: all 0.3s ease;
-}
-.checkbox-container input:checked ~ .checkmark {
-  background: #2962ff;
-  border-color: #2962ff;
-}
-.checkbox-container input:checked ~ .checkmark::after {
-  content: '';
-  position: absolute;
-  left: 6px;
-  top: 2px;
-  width: 6px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-/* Кнопки */
-.btn-primary {
-  background: #2962ff;
-  color: #ffffff;
-  border: none;
-}
-.btn-primary:hover {
-  background: #1e53e5;
-}
-.btn-outline {
-  background: transparent;
-  color: #2962ff;
-  border: 2px solid #2962ff;
-}
-.btn-outline:hover {
-  background: #2962ff;
-  color: #ffffff;
-}
-/* Адаптивность */
-@media (max-width: 768px) {
-  .header-container {
-    padding: 0 16px;
-  }
-  .header-nav {
-    display: none;
-  }
-  .login-card {
-    margin: 20px;
-    padding: 32px 24px;
-  }
-  .welcome-title {
-    font-size: 28px;
-  }
-  .markets-overview {
-    padding: 24px 16px;
-  }
-  .modal-content {
-    width: 95%;
-    padding: 24px;
-  }
-}
-/* Скрытие элементов по умолчанию */
-.tradingview-header {
-  display: none;
-}
-.main-app {
-  display: none;
-}
-/* Показ элементов после входа */
-.logged-in .tradingview-header {
-  display: block;
-}
-.logged-in .login-container {
-  display: none;
-}
-.logged-in .main-app {
-  display: block;
-}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КриптоОборот</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .welcome-page {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        .login-page, .main-content {
+            background-color: #ffffff;
+            color: #000000;
+            min-height: 100vh;
+        }
+        .header {
+            background-color: #1e3a8a;
+            color: #ffffff;
+        }
+        footer {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d1d5db;
+            transition: .4s;
+            border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #38bdf8;
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        .online-status {
+            width: 12px;
+            height: 12px;
+            background-color: #34c759;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .chat-message {
+            background-color: #e5e7eb;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+        .chat-message .username {
+            font-weight: bold;
+            color: #0510ab;
+        }
+        .chat-message .time {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-left: 8px;
+        }
+        #profile-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            background-color: #ffffff;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: #000000;
+        }
+        #profile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 40;
+        }
+        canvas {
+            background-color: #ffffff;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-  <div class="matrix-bg"></div>
-  
-  <!-- Новое главное меню в стиле TradingView -->
-  <header class="tradingview-header">
-    <div class="header-container">
-      <div class="header-left">
-        <div class="logo">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="32" height="32" rx="6" fill="#2962FF"/>
-            <text x="50%" y="50%" text-anchor="middle" fill="#fff" font-size="12" font-family="Roboto" dy=".3em">PRO</text>
-          </svg>
-          <span class="logo-text">КриптоОборот PRO</span>
-        </div>
-      </div>
-      
-      <nav class="header-nav">
-        <button class="nav-btn active" data-section="markets">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M2 12L6 8L10 10L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          Рынки
-        </button>
-        <button class="nav-btn" data-section="wallet">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <rect x="2" y="4" width="12" height="8" rx="2" stroke="currentColor" stroke-width="2"/>
-          </svg>
-          Кошелек
-        </button>
-        <button class="nav-btn" data-section="trading">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M3 12L8 6L13 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          Торговля
-        </button>
-        <button class="nav-btn" data-section="p2p">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <rect x="2" y="2" width="12" height="12" rx="3" stroke="currentColor" stroke-width="2"/>
-          </svg>
-          P2P
-        </button>
-        <button class="nav-btn" data-section="support">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
-            <path d="M8 12V8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="8" cy="6" r="0.5" fill="currentColor"/>
-          </svg>
-          Поддержка
-        </button>
-      </nav>
-      
-      <div class="header-right">
-        <button class="metamask-btn" id="metamask-btn">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <polygon points="8,1 14,6 8,14 2,6" fill="#F6851B"/>
-          </svg>
-          MetaMask
-        </button>
-        <button class="login-btn-header" id="login-btn-header">Войти</button>
-      </div>
+    <div id="welcome-page" class="welcome-page flex flex-col items-center justify-center h-screen p-4 bg-blue-800 text-white">
+        <h1 class="text-4xl font-bold mb-4 text-center">ДОБРО ПОЖАЛОВАТЬ НА ПЛАТФОРМУ КРИПТООБОРОТ!</h1>
+        <p class="text-lg text-center max-w-3xl leading-tight">
+            Здесь вы можете безопасно и удобно купить, продать, обменять свои цифровые активы. Подтвердить доходы, полученные с помощью майнинга и трэйдинга. Исполнить обязательства по уплате налогов.
+        </p>
+        <button onclick="showLoginPage()" class="bg-white text-black font-bold py-2 px-6 rounded hover:bg-gray-300 mt-4">Далее</button>
     </div>
-  </header>
 
-  <!-- Обновленная форма входа -->
-  <div class="login-container">
-    <div class="login-card">
-      <div class="logo-row">
-        <svg class="logo-svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="20" cy="20" r="20" fill="#2962FF"/>
-          <text x="50%" y="55%" text-anchor="middle" fill="#fff" font-size="18" font-family="Roboto" dy=".3em">PRO</text>
-        </svg>
-        <span class="logo-title">КриптоОборот PRO</span>
-      </div>
-      <div class="matrix-welcome" id="matrix-welcome">Добро пожаловать!</div>
-      <form class="login-form">
-        <input type="text" class="login-input" placeholder="Логин" autocomplete="username">
-        <input type="password" class="login-input" placeholder="Пароль" autocomplete="current-password">
-        <button type="button" class="btn btn-primary login-btn" id="login-btn">Войти</button>
-        <div class="login-divider"><span>или</span></div>
-        <div class="login-socials">
-          <button type="button" class="btn btn-google" id="google-login">
-            <svg width="20" height="20" viewBox="0 0 20 20"><g><path fill="#4285F4" d="M19.6 10.23c0-.68-.06-1.36-.18-2H10v3.79h5.5c-.24 1.28-.97 2.36-2.07 3.09v2.56h3.34c1.95-1.8 3.08-4.45 3.08-7.44z"/><path fill="#34A853" d="M10 20c2.7 0 4.97-.9 6.63-2.44l-3.34-2.56c-.93.62-2.12.99-3.29.99-2.53 0-4.68-1.71-5.44-4.01H1.1v2.52C2.82 17.98 6.13 20 10 20z"/><path fill="#FBBC05" d="M4.56 11.99A5.99 5.99 0 014.1 10c0-.69.12-1.36.32-1.99V5.49H1.1A9.98 9.98 0 000 10c0 1.64.39 3.19 1.1 4.51l3.46-2.52z"/><path fill="#EA4335" d="M10 4c1.47 0 2.78.51 3.81 1.51l2.85-2.85C14.97 1.09 12.7 0 10 0 6.13 0 2.82 2.02 1.1 5.49l3.46 2.52C5.32 5.71 7.47 4 10 4z"/></g></svg>
-            Google
-          </button>
-          <button type="button" class="btn btn-vk" id="vk-login">
-            <svg width="20" height="20" viewBox="0 0 20 20"><g><path fill="#2787F5" d="M10 0C4.48 0 0 4.48 0 10c0 5.52 4.48 10 10 10s10-4.48 10-10C20 4.48 15.52 0 10 0zm4.93 14.07h-1.13c-.36 0-.52-.29-.98-.74-.5-.5-.72-.52-.88-.52-.18 0-.23.13-.23.38v.62c0 .18-.07.23-.23.23H8.62c-.18 0-.23-.07-.23-.23v-2.1c0-.18.07-.23.23-.23h.62c.18 0 .23.07.23.23v.62c0 .18.07.23.23.23.13 0 .23-.07.23-.23v-.62c0-.18.07-.23.23-.23h.62c.18 0 .23.07.23.23v2.1c0 .18-.07.23-.23.23z"/></g></svg>
-            VK
-          </button>
-          <button type="button" class="btn btn-gosuslugi" id="gosuslugi-login">Войти через Госуслуги</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Приветственный экран с таблицей торговых пар -->
-  <div class="main-app" id="main-app" style="display:none;">
-    <div class="welcome-screen">
-      <div class="welcome-content">
-        <h1 class="welcome-title">Добро пожаловать в КриптоОборот PRO</h1>
-        <p class="welcome-subtitle">Ваш надежный партнер в мире криптовалют</p>
-        
-        <div class="markets-overview">
-          <h2>Торговые пары</h2>
-          <div class="markets-table-container">
-            <table class="markets-table" id="markets-table">
-              <thead>
-                <tr>
-                  <th>Пара</th>
-                  <th>Цена</th>
-                  <th>Изм. 24ч</th>
-                  <th>Объем</th>
-                  <th>Действие</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Данные CoinGecko будут подгружаться сюда -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Модальное окно MetaMask -->
-  <div id="metamask-modal" class="modal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="hideMetamaskModal()">×</button>
-      <h2>Подключение MetaMask</h2>
-      <div id="mm-status">Статус: не подключено</div>
-      <div id="mm-balance"></div>
-      <button id="mm-connect-btn" class="btn btn-primary">Подключить кошелек</button>
-    </div>
-  </div>
-
-  <!-- Модальное окно выставления счета -->
-  <div id="invoice-modal" class="modal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="hideInvoiceModal()">×</button>
-      <h2>Выставить счёт</h2>
-      
-      <div class="form-group">
-        <label>Сумма (RUB)</label>
-        <input type="number" class="form-control" placeholder="1000.00">
-      </div>
-      
-      <div class="form-group">
-        <label>Назначение платежа</label>
-        <input type="text" class="form-control" placeholder="Оплата услуг">
-      </div>
-      
-      <div class="form-group">
-        <label class="checkbox-container">
-          <input type="checkbox" id="with-nds">
-          <span class="checkmark"></span>
-          С НДС 20%
-        </label>
-      </div>
-      
-      <div class="info-block">
-        <p>Для юридических лиц: убедитесь, что правильно указали НДС согласно законодательству РФ</p>
-      </div>
-      
-      <button class="btn btn-primary">Создать счёт</button>
-      <button class="btn btn-outline" onclick="hideInvoiceModal()">Отмена</button>
-    </div>
-  </div>
-  <script>
-/* Содержимое script.js */
-// Глобальные переменные
-let mmAccount = null;
-let marketData = [];
-let updateInterval;
-let p2pMode = 'buy';
-
-// Эффект цифрового шума (матрицы)
-function matrixEffect() {
-  const canvas = document.createElement('canvas');
-  canvas.style.position = 'fixed';
-  canvas.style.top = 0;
-  canvas.style.left = 0;
-  canvas.style.width = '100vw';
-  canvas.style.height = '100vh';
-  canvas.style.zIndex = 0;
-  canvas.style.pointerEvents = 'none';
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  document.body.appendChild(canvas);
-  const ctx = canvas.getContext('2d');
-  const letters = 'АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЫЭЮЯ0123456789';
-  const fontSize = 18;
-  const columns = Math.floor(canvas.width / fontSize);
-  const drops = Array(columns).fill(1);
-  function draw() {
-    ctx.fillStyle = 'rgba(16,22,36,0.15)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = fontSize + 'px monospace';
-    ctx.fillStyle = '#3b82f6';
-    for (let i = 0; i < drops.length; i++) {
-      const text = letters[Math.floor(Math.random() * letters.length)];
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-      drops[i]++;
-    }
-  }
-  setInterval(draw, 50);
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-}
-
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    initMatrixEffect();
-    initEventListeners();
-    loadMarketData();
-});
-
-// Эффект матрицы для приветственного текста
-function initMatrixEffect() {
-    const welcomeText = document.getElementById('matrix-welcome');
-    if (!welcomeText) return;
-    
-    const originalText = welcomeText.textContent;
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*';
-    let iterations = 0;
-    
-    const interval = setInterval(() => {
-        welcomeText.textContent = originalText
-            .split('')
-            .map((char, index) => {
-                if (index < iterations) {
-                    return originalText[index];
-                }
-                return chars[Math.floor(Math.random() * chars.length)];
-            })
-            .join('');
-        
-        if (iterations >= originalText.length) {
-            clearInterval(interval);
-            welcomeText.textContent = originalText;
-        }
-        
-        iterations += 1/3;
-    }, 50);
-}
-
-// Инициализация обработчиков событий
-function initEventListeners() {
-    // Кнопка входа в главном меню
-    const loginBtnHeader = document.getElementById('login-btn-header');
-    if (loginBtnHeader) {
-        loginBtnHeader.addEventListener('click', showLoginForm);
-    }
-    
-    // Кнопка входа в форме
-    const loginBtn = document.getElementById('login-btn');
-    if (loginBtn) {
-        loginBtn.addEventListener('click', login);
-    }
-    
-    // Социальные кнопки входа
-    const googleLogin = document.getElementById('google-login');
-    if (googleLogin) {
-        googleLogin.addEventListener('click', loginWithGoogle);
-    }
-    
-    const vkLogin = document.getElementById('vk-login');
-    if (vkLogin) {
-        vkLogin.addEventListener('click', loginWithVK);
-    }
-    
-    const gosuslugiLogin = document.getElementById('gosuslugi-login');
-    if (gosuslugiLogin) {
-        gosuslugiLogin.addEventListener('click', loginWithGosuslugi);
-    }
-    
-    // MetaMask кнопка
-    const metamaskBtn = document.getElementById('metamask-btn');
-    if (metamaskBtn) {
-        metamaskBtn.addEventListener('click', showMetamaskModal);
-    }
-    
-    // Кнопка подключения MetaMask
-    const mmConnectBtn = document.getElementById('mm-connect-btn');
-    if (mmConnectBtn) {
-        mmConnectBtn.addEventListener('click', connectMetamask);
-    }
-    
-    // Навигационные кнопки
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const section = this.dataset.section;
-            if (section) {
-                switchSection(section);
-            }
-        });
-    });
-}
-
-// Показать форму входа
-function showLoginForm() {
-    document.querySelector('.login-container').style.display = 'flex';
-}
-
-// Функция входа
-function login() {
-    // Простая валидация
-    const loginInput = document.querySelector('.login-input[type="text"]');
-    const passwordInput = document.querySelector('.login-input[type="password"]');
-    
-    if (!loginInput.value || !passwordInput.value) {
-        alert('Пожалуйста, заполните все поля');
-        return;
-    }
-    
-    // Имитация успешного входа
-    performLogin();
-}
-
-// Вход через Google
-function loginWithGoogle() {
-    alert('Перенаправляем на Google OAuth...');
-    // Здесь будет редирект на Google OAuth
-    setTimeout(() => performLogin(), 1000);
-}
-
-// Вход через VK
-function loginWithVK() {
-    alert('Перенаправляем на VK OAuth...');
-    // Здесь будет редирект на VK OAuth
-    setTimeout(() => performLogin(), 1000);
-}
-
-// Вход через Госуслуги
-function loginWithGosuslugi() {
-    alert('Перенаправляем на портал Госуслуг...');
-    // Здесь будет редирект на API Госуслуг
-    setTimeout(() => performLogin(), 1000);
-}
-
-// Выполнение входа
-function performLogin() {
-    // Скрываем форму входа
-    document.querySelector('.login-container').style.display = 'none';
-    
-    // Показываем главное меню и приложение
-    document.querySelector('.tradingview-header').style.display = 'block';
-    document.querySelector('.main-app').style.display = 'block';
-    
-    // Добавляем класс для стилизации
-    document.body.classList.add('logged-in');
-    
-    // Загружаем данные рынка
-    loadMarketData();
-    
-    // Запускаем обновление данных
-    startMarketDataUpdates();
-}
-
-// Переключение разделов с полной информацией
-function switchSection(section) {
-    // Убираем активный класс со всех кнопок
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    // Добавляем активный класс текущей кнопке
-    const activeBtn = document.querySelector(`[data-section="${section}"]`);
-    if (activeBtn) {
-        activeBtn.classList.add('active');
-    }
-    
-    // Показываем скелетон загрузки
-    const welcomeContent = document.querySelector('.welcome-content');
-    if (welcomeContent) {
-        welcomeContent.innerHTML = `
-            <div class="card">
-                <div class="skeleton" style="height: 40px; width: 200px; margin-bottom: 20px;"></div>
-                <div class="skeleton" style="height: 300px; width: 100%;"></div>
+    <div id="login-page" class="login-page flex flex-col items-center justify-center h-screen p-4 hidden">
+        <h1 class="text-4xl font-bold mb-6 text-black">КриптоОборот</h1>
+        <div class="bg-gray-200 p-6 rounded-lg shadow-md w-full max-w-md">
+            <div class="mb-4">
+                <label for="login-username" class="block text-sm font-medium text-gray-700">Логин</label>
+                <input type="text" id="login-username" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" placeholder="Введите логин">
             </div>
-        `;
-    }
-    
-    // Загружаем контент (имитация задержки)
-    setTimeout(() => {
-        if (welcomeContent) {
-            welcomeContent.innerHTML = getSectionContent(section);
-        }
-        
-        // Инициализируем специфичные элементы для раздела
-        if (section === 'trading') {
-            initTradingForm();
-        } else if (section === 'p2p') {
-            initP2P();
-        } else if (section === 'wallet') {
-            initWallet();
-        } else if (section === 'calc') {
-            initCalculator();
-        }
-    }, 500);
-}
+            <div class="mb-4">
+                <label for="login-password" class="block text-sm font-medium text-gray-700">Пароль</label>
+                <input type="password" id="login-password" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" placeholder="Введите пароль">
+            </div>
+            <button onclick="login()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mb-4">Войти</button>
+            <button onclick="alert('Вход через Госуслуги будет добавлен позже.')" class="flex items-center justify-center bg-gray-400 hover:bg-gray-500 text-gray-700 font-bold py-2 px-4 rounded w-full mb-4">
+                <img src="png3.png" alt="Госуслуги" class="w-16 h-8 mr-2 object-contain"/>
+                Войти через Госуслуги
+            </button>
+            <button onclick="showRegisterPage()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full">Зарегистрироваться</button>
+        </div>
+    </div>
 
-// Полный контент для каждого раздела
-function getSectionContent(section) {
-    const sections = {
-        markets: `
-            <h1 class="welcome-title">Торговые пары</h1>
-            <p class="welcome-subtitle">Актуальные цены криптовалют</p>
-            
-            <div class="markets-overview">
-                <h2>Рыночные данные</h2>
-                <div class="markets-table-container">
-                    <table class="markets-table" id="markets-table">
-                        <thead>
-                            <tr>
-                                <th>Пара</th>
-                                <th>Цена</th>
-                                <th>Изм. 24ч</th>
-                                <th>Объем</th>
-                                <th>Действие</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Данные CoinGecko будут подгружаться сюда -->
-                        </tbody>
-                    </table>
+    <div id="register-page" class="login-page flex flex-col items-center justify-center h-screen p-4 hidden">
+        <h1 class="text-4xl font-bold mb-6 text-black">Регистрация</h1>
+        <div class="bg-gray-200 p-6 rounded-lg shadow-md w-full max-w-md">
+            <div class="mb-4">
+                <label for="register-name" class="block text-sm font-medium text-gray-700">Имя</label>
+                <input type="text" id="register-name" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" placeholder="Введите ваше имя">
+            </div>
+            <div class="mb-4">
+                <label for="register-email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="register-email" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" placeholder="Введите ваш email">
+            </div>
+            <div class="mb-4">
+                <label for="register-password" class="block text-sm font-medium text-gray-700">Пароль</label>
+                <input type="password" id="register-password" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" placeholder="Введите пароль">
+            </div>
+            <div class="mb-4">
+                <label for="register-phone" class="block text-sm font-medium text-gray-700">Номер телефона</label>
+                <input type="tel" id="register-phone" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" placeholder="+7 (___) ___-__-__">
+            </div>
+            <button onclick="register()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full mb-4">Зарегистрироваться</button>
+            <button onclick="showLoginPage()" class="bg-gray-400 hover:bg-gray-500 text-gray-700 font-bold py-2 px-4 rounded w-full">Назад</button>
+        </div>
+    </div>
+
+    <div id="main-content" class="main-content hidden">
+        <header class="header p-4 text-center">
+            <div class="flex justify-between items-start">
+                <div class="user-info text-left flex items-center">
+                    <img src="png.png" alt="Аватар" class="w-8 h-8 rounded-full mr-2"/>
+                    <div>
+                        <div class="flex items-center mb-2">
+                            <div class="online-status"></div>
+                            <span id="username-display" class="username text-lg">Иван Иванов</span>
+                        </div>
+                        <p class="text-sm text-gray-300">Верификация (KYC) пройдена.</p>
+                        <button onclick="toggleProfile()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">Показать профиль</button>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <h1 class="text-3xl font-bold">КриптоОборот</h1>
+                    <p class="mt-2">Покупка, продажа и майнинг криптовалют</p>
                 </div>
             </div>
-        `,
-        
-        mining: `
-            <h1 class="welcome-title">Майнинг</h1>
-            <p class="welcome-subtitle">Управление майнинг-устройствами</p>
-            
-            <div class="markets-overview">
-                <h2>Ваши майнинг-устройства</h2>
-                <table class="markets-table">
+        </header>
+
+        <div id="profile-overlay" class="hidden" onclick="toggleProfile()"></div>
+        <div id="profile-modal" class="hidden max-w-md w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Профиль</h3>
+                <button onclick="toggleProfile()" class="text-gray-600 hover:text-gray-800 text-2xl">×</button>
+            </div>
+            <div class="flex gap-4 mb-4">
+                <div>
+                    <img src="png.png" alt="Изображение 1" class="w-32 h-32"/>
+                </div>
+            </div>
+            <div class="mb-4">
+                <h4 class="text-lg font-medium">Мои документы</h4>
+                <p><strong>СНИЛС:</strong> 123-456-789 00</p>
+                <p><strong>ИНН:</strong> 123456789012</p>
+                <p><strong>ПАСПОРТНЫЕ ДАННЫЕ:</strong> Серия AB № 1234567, выдан 01.01.2010</p>
+            </div>
+            <div class="mb-4">
+                <h4 class="text-lg font-medium">Личные данные</h4>
+                <p><strong>ИМЯ:</strong> Иван</p>
+                <p><strong>ФАМИЛИЯ:</strong> Иванов</p>
+                <p><strong>ОТЧЕСТВО:</strong> Иванович</p>
+                <p><strong>ДАТА РОЖДЕНИЯ:</strong> 15.03.1990</p>
+                <p><strong>СТРАНА:</strong> Россия</p>
+                <p><strong>ГОРОД:</strong> Воронеж</p>
+                <p><strong>АДРЕС:</strong> ул. Примерная, д. 123</p>
+            </div>
+            <div class="mb-4">
+                <h4 class="text-lg font-medium">Мое оборудование</h4>
+                <p><strong>МОЩНОСТЬ:</strong> 3000 ват</p>
+                <p><strong>ПРОИЗВОДИТЕЛЬ:</strong> D-Link</p>
+                <p><strong>МОДЕЛЬ:</strong> DAP-1420</p>
+                <p><strong>СЕРИЙНЫЙ НОМЕР:</strong> SN RAX0CXBC01977</p>
+            </div>
+            <div class="mt-4">
+                <img src="png2.png" alt="Изображение 2" class="w-32 h-32"/>
+            </div>
+        </div>
+
+        <nav class="bg-white text-black p-4 border-b border-gray-300">
+            <ul class="flex flex-wrap gap-4 justify-center">
+                <li><button onclick="showPage('transactions')" class="nav-tab px-4 py-2 rounded hover:bg-gray-200">Транзакции</button></li>
+                <li><button onclick="showPage('mining')" class="nav-tab px-4 py-2 rounded hover:bg-gray-200">Майнинг</button></li>
+                <li><button onclick="showPage('taxes')" class="nav-tab px-4 py-2 rounded hover:bg-gray-200">Налоги</button></li>
+                <li><button onclick="showPage('wallet')" class="nav-tab px-4 py-2 rounded hover:bg-gray-200">Кошелек</button></li>
+                <li><button onclick="showPage('trading')" class="nav-tab px-4 py-2 rounded hover:bg-gray-200">Торговля</button></li>
+                <li><button onclick="showPage('p2p')" class="nav-tab px-4 py-2 rounded hover:bg-gray-200">P2P</button></li>
+                <li><button onclick="showPage('chat')" class="nav-tab px-4 py-2 rounded hover:bg-gray-200">Чат</button></li>
+                <li><button onclick="showPage('support')" class="nav-tab px-4 py-2 rounded hover:bg-gray-200">Поддержка</button></li>
+            </ul>
+        </nav>
+
+        <main class="max-w-6xl mx-auto mt-8 p-4">
+            <section id="transactions" class="page bg-gray-200 shadow-md rounded-lg p-6 hidden">
+                <h2 class="text-2xl font-semibold mb-4 text-black">Транзакции</h2>
+                <div class="mb-6">
+                    <h3 class="text-xl font-medium mb-2 text-black">График биткоина (BTC)</h3>
+                    <canvas id="bitcoinChart" class="w-full" style="max-height: 300px;"></canvas>
+                </div>
+                <div>
+                    <h3 class="text-xl font-medium mb-2 text-black">Последние транзакции по BTC</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-300">
+                            <thead>
+                                <tr>
+                                    <th class="py-2 px-4 border-b text-left text-gray-700">Дата</th>
+                                    <th class="py-2 px-4 border-b text-left text-gray-700">Тип</th>
+                                    <th class="py-2 px-4 border-b text-left text-gray-700">Количество</th>
+                                    <th class="py-2 px-4 border-b text-left text-gray-700">Сумма (RUB)</th>
+                                    <th class="py-2 px-4 border-b text-left text-gray-700">Статус</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2 px-4 border-b text-gray-700">01.05.2025</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">Покупка</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">0.02 BTC</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">250,000 RUB</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">Завершено</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b text-gray-700">30.04.2025</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">Продажа</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">0.01 BTC</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">125,000 RUB</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">Завершено</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b text-gray-700">29.04.2025</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">Покупка</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">0.015 BTC</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">187,500 RUB</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">Завершено</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 px-4 border-b text-gray-700">28.04.2025</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">Продажа</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">0.03 BTC</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">375,000 RUB</td>
+                                    <td class="py-2 px-4 border-b text-gray-700">Завершено</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mining" class="page bg-gray-200 shadow-md rounded-lg p-6 hidden">
+                <h2 class="text-2xl font-semibold mb-4 text-black">Майнинг</h2>
+                <h3 class="text-xl font-medium mb-2 text-black">Майнинг</h3>
+                <table class="min-w-full bg-white border border-gray-300 mb-6">
                     <thead>
                         <tr>
-                            <th>Устройство</th>
-                            <th>Хешрейт</th>
-                            <th>Доход</th>
-                            <th>Статус</th>
+                            <th class="py-2 px-4 border-b text-left text-gray-700">Модель</th>
+                            <th class="py-2 px-4 border-b text-left text-gray-700">DAP-1420</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>DAP-1420</td>
-                            <td>120 MH/s</td>
-                            <td>0.0024 BTC/день</td>
-                            <td><span style="color: #10b981;">Активно</span></td>
+                            <td class="py-2 px-4 border-b text-gray-700">Потребляемая мощность</td>
+                            <td class="py-2 px-4 border-b text-gray-700">3 квт</td>
                         </tr>
                         <tr>
-                            <td>Antminer S19</td>
-                            <td>95 TH/s</td>
-                            <td>0.0018 BTC/день</td>
-                            <td><span style="color: #f59e0b;">На обслуживании</span></td>
+                            <td class="py-2 px-4 border-b text-gray-700">Тариф Воронеж</td>
+                            <td class="py-2 px-4 border-b text-gray-700">3,2руб/квт</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b text-gray-700">Затраты</td>
+                            <td class="py-2 px-4 border-b text-gray-700">7000 руб</td>
                         </tr>
                     </tbody>
                 </table>
-                
-                <div class="info-block" style="margin-top: 20px;">
-                    <h3>Налоговые вычеты</h3>
-                    <p>Электроэнергия к возмещению: <strong>7,000 RUB</strong></p>
-                    <p>Общая сумма к возмещению: <strong>8,250 RUB</strong></p>
-                    <p>Итого налог к уплате: <strong>487.5 RUB</strong></p>
-                    <button class="btn btn-primary" style="margin-top: 15px;">Скачать справку 2-НДФЛ</button>
+                <h3 class="text-xl font-medium mb-2 text-black">Оборудование</h3>
+                <table class="min-w-full bg-white border border-gray-300 mb-6">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b text-left text-gray-700">Параметр</th>
+                            <th class="py-2 px-4 border-b text-left text-gray-700">Значение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 border-b text-gray-700">Текущая стоимость</td>
+                            <td class="py-2 px-4 border-b text-gray-700">60000 руб</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b text-gray-700">К возмещению апрель</td>
+                            <td class="py-2 px-4 border-b text-gray-700">1.250 руб</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="bg-white p-4 rounded-lg mb-6 border border-gray-300">
+                    <h3 class="text-xl font-medium mb-2 text-black">Итог</h3>
+                    <p class="text-gray-700">Общая стоимость возможного возмещения: 8250 руб</p>
+                    <p class="text-gray-700">Электроэнергия к возмещению в апреле: 3,2х30х72,9166=7000 руб</p>
+                    <p class="text-gray-700">Продано BTC на сумму: 12000 руб</p>
+                    <p class="text-gray-700">Итого к уплате: 12000-8250=3750 руб</p>
+                    <p class="text-gray-700">3750 * 13%: 487,5 руб</p>
                 </div>
-            </div>
-        `,
-        
-        taxes: `
-            <h1 class="welcome-title">Налоговый отчёт</h1>
-            <p class="welcome-subtitle">Управление налогами и отчётностью</p>
+                <button onclick="alert('Функционал скачивания справки 2-НДФЛ будет добавлен позже.')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                     Скачать справку 2-НДФЛ
+                </button>
+            </section>
+
+            <section id="taxes" class="page bg-gray-200 shadow-md rounded-lg p-6 hidden">
+                <h2 class="text-2xl font-semibold mb-4 text-black">Налоги</h2>
+                <div class="flex gap-4 mb-6">
+                    <button onclick="showTaxSection('purchases')" class="tax-tab bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">История покупок</button>
+                    <button onclick="showTaxSection('sales')" class="tax-tab bg-gray-400 hover:bg-gray-500 text-gray-700 font-bold py-2 px-4 rounded">История продаж</button>
+                </div>
             
-            <div class="markets-overview">
-                <h2>История операций</h2>
-                <table class="markets-table">
+                <style>
+                    .tax-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-bottom: 1.5rem;
+                        table-layout: fixed; /* Фиксированная ширина столбцов */
+                    }
+                    .tax-table th, .tax-table td {
+                        padding: 0.5rem 1rem;
+                        border: 1px solid #d1d5db;
+                        text-align: left;
+                        color: #374151;
+                        vertical-align: middle; /* Выравнивание по центру по высоте */
+                        height: 2.5rem; /* Фиксированная высота строки */
+                    }
+                    .tax-table th {
+                        background-color: #f9fafb;
+                        font-weight: 600;
+                    }
+                    .tax-table .font-bold {
+                        font-weight: 700;
+                    }
+                    .tax-section.hidden {
+                        display: none;
+                    }
+                    /* Ширина для таблиц с 3 столбцами */
+                    .three-col th, .three-col td {
+                        width: 33.33%;
+                    }
+                    /* Ширина для таблицы с 4 столбцами */
+                    .four-col th, .four-col td {
+                        width: 25%;
+                    }
+                </style>
+            
+                <script>
+                    function showTaxSection(sectionId) {
+                        document.querySelectorAll('.tax-section').forEach(section => {
+                            section.classList.add('hidden');
+                        });
+                        document.getElementById(sectionId).classList.remove('hidden');
+                    }
+                </script>
+            
+                <div id="purchases" class="tax-section">
+                    <h3 class="text-xl font-medium mb-2 text-black">История покупок</h3>
+                    <table class="tax-table three-col min-w-full bg-white border border-gray-300 mb-6">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Тип</th>
+                                <th>Сумма (RUB)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>28.01.24</td>
+                                <td>300 $UD по 85 RUB</td>
+                                <td>25,500 RUB</td>
+                            </tr>
+                            <tr>
+                                <td>29.04.24</td>
+                                <td>300 $UD по 95 RUB</td>
+                                <td>22,500 RUB</td>
+                            </tr>
+                            <tr>
+                                <td>02.08.24</td>
+                                <td>400 $UD по 90 RUB</td>
+                                <td>36,000 RUB</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Итого</td>
+                                <td class="font-bold">1000 $UD средняя цена: 90 RUB</td>
+                                <td class="font-bold">84,000 RUB</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            
+                <div id="sales" class="tax-section hidden">
+                    <h3 class="text-xl font-medium mb-2 text-black">История продаж</h3>
+                    <table class="tax-table three-col min-w-full bg-white border border-gray-300 mb-6">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Тип</th>
+                                <th>Сумма (RUB)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01.04.25</td>
+                                <td>500 $UD по 110 RUB</td>
+                                <td>55,000 RUB</td>
+                            </tr>
+                            <tr>
+                                <td>05.04.25</td>
+                                <td>500 $UD по 110 RUB</td>
+                                <td>55,000 RUB</td>
+                            </tr>
+                            <tr>
+                                <td>07.04.25</td>
+                                <td>500 $UD по 120 RUB</td>
+                                <td>60,000 RUB</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Итого</td>
+                                <td class="font-bold">1500 $UD средняя цена: 110 RUB</td>
+                                <td class="font-bold">170,000 RUB</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-700 max-w-[1200px] mx-auto my-6">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800 border-b pb-2">Налог</h3>
+                    <div class="space-y-4 text-gray-700">
+                        <p class="text-lg">
+                            <span class="font-medium">Операция 1:</span><br>
+                            1,000 × 110 − 1,000 × 90 = <span class="font-bold text-green-600">20,000 руб.</span><br>
+                            Налог: 20,000 × 13% = <span class="font-bold text-green-600">2,600 руб.</span>
+                        </p>
+                        <p class="text-lg">
+                            <span class="font-medium">Операция 2:</span><br>
+                            500 × 110 = <span class="font-bold text-green-600">55,000 руб.</span><br>
+                            Налог: 55,000 × 13% = <span class="font-bold text-green-600">7,150 руб.</span>
+                        </p>
+                        <p class="text-lg font-semibold bg-gray-50 p-3 rounded-lg">
+                            Сумма налога в апреле: 2,600 + 7,150 = <span class="text-blue-600">9,750 руб.</span>
+                        </p>
+                        <p class="text-lg font-semibold bg-gray-50 p-3 rounded-lg">
+                            С учётом майнинга: 9,750 + 487.5 = <span class="text-blue-600">10,237.5 руб.</span>
+                        </p>
+                    </div>
+                </div>
+            
+                <table class="tax-table four-col min-w-full bg-white border border-gray-300">
                     <thead>
                         <tr>
                             <th>Дата</th>
-                            <th>Тип операции</th>
-                            <th>Сумма</th>
-                            <th>Налог</th>
+                            <th>Тип</th>
+                            <th>Сумма (RUB)</th>
+                            <th>Налог (13%)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>28.01.24</td>
-                            <td>Покупка 300 $UD</td>
+                            <td>300 $UD по 85 RUB</td>
                             <td>25,500 RUB</td>
                             <td>3,315 RUB</td>
                         </tr>
                         <tr>
                             <td>29.04.24</td>
-                            <td>Продажа 300 $UD</td>
+                            <td>300 $UD по 75 RUB</td>
                             <td>22,500 RUB</td>
                             <td>2,925 RUB</td>
                         </tr>
                         <tr>
                             <td>02.08.24</td>
-                            <td>Покупка 400 $UD</td>
+                            <td>400 $UD по 90 RUB</td>
                             <td>36,000 RUB</td>
                             <td>4,680 RUB</td>
                         </tr>
                         <tr>
-                            <td>01.04.25</td>
-                            <td>Продажа 500 $UD</td>
+                            <td>01.04.2025</td>
+                            <td>500 $UD по 110 RUB</td>
                             <td>55,000 RUB</td>
                             <td>7,150 RUB</td>
                         </tr>
-                    </tbody>
-                </table>
-                
-                <div class="info-block" style="margin-top: 20px;">
-                    <h3>Итого за период</h3>
-                    <p>Общий доход: <strong>120,000 RUB</strong></p>
-                    <p>Налоговая база: <strong>20,000 RUB</strong></p>
-                    <p>Налог к уплате (13%): <strong>10,237.5 RUB</strong></p>
-                    <button class="btn btn-primary" style="margin-top: 15px;">Сформировать отчёт</button>
-                </div>
-            </div>
-        `,
-        
-        wallet: `
-            <h1 class="welcome-title">Кошелёк</h1>
-            <p class="welcome-subtitle">Управление активами и реквизитами</p>
-            
-            <div class="markets-overview">
-                <h2>Баланс</h2>
-                <table class="markets-table">
-                    <thead>
                         <tr>
-                            <th>Актив</th>
-                            <th>Баланс</th>
-                            <th>Эквивалент</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>BTC</td>
-                            <td>0.05</td>
-                            <td>1,850,000 RUB</td>
+                            <td>05.04.2025</td>
+                            <td>500 $UD по 110 RUB</td>
+                            <td>55,000 RUB</td>
+                            <td>7,150 RUB</td>
                         </tr>
                         <tr>
-                            <td>ETH</td>
-                            <td>2.0</td>
-                            <td>240,000 RUB</td>
-                        </tr>
-                        <tr>
-                            <td>USDT</td>
-                            <td>300.0</td>
-                            <td>30,000 RUB</td>
-                        </tr>
-                        <tr>
-                            <td>RUB</td>
-                            <td>50,000</td>
-                            <td>50,000 RUB</td>
+                            <td>07.04.2025</td>
+                            <td>500 $UD по 120 RUB</td>
+                            <td>60,000 RUB</td>
+                            <td>7,800 RUB</td>
                         </tr>
                     </tbody>
                 </table>
-                
-                <div class="info-block" style="margin-top: 20px;">
-                    <h3>Реквизиты для пополнения</h3>
-                    <p><strong>Банк:</strong> Тинькофф</p>
-                    <p><strong>Счёт:</strong> 40817810500012345678</p>
-                    <p><strong>БИК:</strong> 044525974</p>
-                    <p><strong>Получатель:</strong> ООО "КриптоОборот"</p>
-                    <p><strong>ИНН:</strong> 1234567890</p>
-                    <button class="btn btn-primary" style="margin-top: 15px;" onclick="showInvoiceModal()">Выставить счёт</button>
+            </section>
+
+            <section id="wallet" class="page bg-gray-200 shadow-md rounded-lg p-6 hidden">
+                <h2 class="text-2xl font-semibold mb-4 text-black">Кошелек</h2>
+                <div class="bg-white border-2 border-blue-600 p-4 rounded-lg mb-6">
+                    <h3 class="text-xl font-medium mb-2 text-black">Мои активы</h3>
+                    <p class="text-gray-700">RUB: 50,000 RUB</p>
+                    <p class="text-gray-700">$UD: 1,200 $UD</p>
+                    <p class="text-gray-700">USDT: 300 USDT</p>
+                    <p class="text-gray-700">BTC: 0.05 BTC</p>
+                    <p class="text-gray-700">ETH: 2 ETH</p>
+                    <p class="text-gray-700">DOGE: 10,000 DOGE</p>
                 </div>
-                
-                <div class="info-block" style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); margin-top: 20px;">
-                    <h3 style="color: #f59e0b;">Внимание</h3>
-                    <p style="color: #f59e0b;">При выставлении счетов для юридических лиц обязательно указывайте НДС согласно законодательству РФ.</p>
-                </div>
-            </div>
-        `,
-        
-        trading: `
-            <h1 class="welcome-title">Торговля</h1>
-            <p class="welcome-subtitle">Спот, конвертация и маржинальная торговля</p>
-            
-            <div class="markets-overview">
-                <div class="tabs">
-                    <div class="tab active" onclick="switchTradeTab('spot')">Спот</div>
-                    <div class="tab" onclick="switchTradeTab('convert')">Конвертация</div>
-                    <div class="tab" onclick="switchTradeTab('margin')">Маржа</div>
-                </div>
-                
-                <div id="spot-tab" class="tab-content active">
-                    <div class="pair-selector">
-                        <div class="pair-tab active">BTC/USDT</div>
-                        <div class="pair-tab">ETH/USDT</div>
-                        <div class="pair-tab">SOL/USDT</div>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="price-chart"></canvas>
-                    </div>
-                    
-                    <div class="trade-form">
-                        <div>
-                            <div class="trade-form-group">
-                                <label class="trade-form-label">Цена</label>
-                                <input type="text" class="trade-form-input" value="107445.1">
-                                <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">USDT</span>
-                            </div>
-                            
-                            <div class="trade-form-group">
-                                <label class="trade-form-label">Количество</label>
-                                <input type="text" class="trade-form-input" value="3107445.1">
-                                <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">BTC</span>
-                            </div>
-                            
-                            <div class="slider-container">
-                                <input type="range" min="0" max="100" value="50" class="slider" id="amount-slider">
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <div class="trade-form-group">
-                                <label class="trade-form-label">Стоимость ордера</label>
-                                <input type="text" class="trade-form-input" value="333879749514.01" readonly>
-                                <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">USDT ≈333,879,749,514.01 USD</span>
-                            </div>
-                            
-                            <div class="trade-form-group">
-                                <label class="trade-form-label">Доступный баланс</label>
-                                <input type="text" class="trade-form-input" value="--" readonly>
-                                <span style="color: rgba(255,255,255,0.5); font-size: 0.8rem;">USDT</span>
-                            </div>
-                            
-                            <button class="trade-action-btn buy-btn">Купить BTC</button>
-                            <button class="trade-action-btn sell-btn">Продать BTC</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="convert-tab" class="tab-content">
-                    <p>Конвертация между активами</p>
-                </div>
-                
-                <div id="margin-tab" class="tab-content">
-                    <p>Маржинальная торговля</p>
-                </div>
-            </div>
-        `,
-        
-        p2p: `
-            <h1 class="welcome-title">P2P Торговля</h1>
-            <p class="welcome-subtitle">Покупка и продажа криптовалют</p>
-            
-            <div class="markets-overview">
-                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <button class="btn ${p2pMode === 'buy' ? 'btn-primary' : 'btn-outline'}" onclick="setP2PMode('buy')">Покупка</button>
-                    <button class="btn ${p2pMode === 'sell' ? 'btn-primary' : 'btn-outline'}" onclick="setP2PMode('sell')">Продажа</button>
-                </div>
-                
-                <div class="info-block">
-                    <h3>Фильтры</h3>
-                    
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 10px;">Криптовалюта:</label>
-                        <select class="form-control">
-                            <option>USDT</option>
-                            <option>BTC</option>
-                            <option>ETH</option>
+                <div class="border-2 border-blue-600 p-4 rounded-lg mb-6 bg-white">
+                    <h3 class="text-xl font-medium mb-2 text-black">Пополнить</h3>
+                    <div class="mb-4">
+                        <label for="deposit-bank" class="block text-sm font-medium text-gray-700">Банк</label>
+                        <select id="deposit-bank" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black">
+                            <option>Сбербанк</option>
+                            <option>Т-Банк</option>
+                            <option>Альфа-Банк</option>
+                            <option>ВТБ</option>
+                            <option>Россельхозбанк</option>
                         </select>
                     </div>
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 10px;">Банки:</label>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;">
-                            <label class="checkbox-container">
-                                <input type="checkbox" checked>
-                                <span class="checkmark"></span>
-                                Сбербанк
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox" checked>
-                                <span class="checkmark"></span>
-                                Тинькофф
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                                Альфа-банк
-                            </label>
-                            <label class="checkbox-container">
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                                ВТБ
-                            </label>
-                        </div>
+                    <p class="mb-2 text-gray-700">QR-код для пополнения:</p>
+                    <img src="png5.png" alt="QR-код" class="w-32 h-32"/>
+                    <p class="mt-2 text-gray-700">Адрес для пополнения: 0x1234567890abcdef1234567890abcdef12345678</p>
+                </div>
+                <div class="border-2 border-blue-600 p-4 rounded-lg mb-6 bg-white">
+                    <h3 class="text-xl font-medium mb-2 text-black">Перевод</h3>
+                    <div class="mb-4">
+                        <label for="transfer-bank" class="block text-sm font-medium text-gray-700">Банк</label>
+                        <select id="transfer-bank" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black">
+                            <option>Сбербанк</option>
+                            <option>Т-Банк</option>
+                            <option>Альфа-Банк</option>
+                            <option>ВТБ</option>
+                            <option>Россельхозбанк</option>
+                        </select>
+                    </div>
+                    <p class="mb-2 text-gray-700">QR-код для перевода:</p>
+                    <img src="png5.png" alt="QR-код" class="w-32 h-32"/>
+                    <p class="mt-2 text-gray-700">Адрес для перевода: 0xabcdef1234567890abcdef1234567890abcdef12</p>
+                    <p class="text-gray-700">Способ оплаты: СПБ</p>
+                    <p class="text-gray-700">Номер телефона: +7 (920) 172-90-82</p>
+                    <p class="text-gray-700">Номер банковской карты: 2200 1300 4612 8420</p>
+                </div>
+                <div class="border-2 border-blue-600 p-4 rounded-lg mb-6 bg-white">
+                    <h3 class="text-xl font-medium mb-2 text-black">Внутренний перевод</h3>
+                    <p class="text-gray-700"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="31525550504f5254715449101c011d145f121e1c">[email protected]</a></p>
+                    <p class="text-gray-700">JSJSSJ</p>
+                    <p class="mb-2 text-gray-700">QR-код:</p>
+                    <img src="png5.png" alt="QR-код" class="w-32 h-32"/>
+                </div>
+            </section>
+
+            <section id="trading" class="page bg-gray-200 shadow-md rounded-lg p-6 hidden">
+                <h2 class="text-2xl font-semibold mb-4 text-black">Торговля</h2>
+                <div class="mb-4">
+                    <label for="trading-pair" class="block text-sm font-medium text-gray-700">Торговая пара</label>
+                    <select id="trading-pair" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" onchange="updateTradingPair()">
+                        <option value="BTC/USDT">BTC/USDT</option>
+                        <option value="ETH/USDT">ETH/USDT</option>
+                        <option value="DOGE/USDT">DOGE/USDT</option>
+                        <option value="SOL/USDT">SOL/USDT</option>
+                        <option value="$UD/USDT">$UD/USDT</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <p class="text-gray-700">Доступно: 10,000 USDT</p>
+                </div>
+                <div class="mb-4">
+                    <label for="order-type" class="block text-sm font-medium text-gray-700">Тип ордера</label>
+                    <select id="order-type" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" onchange="updateOrderType()">
+                        <option value="limit">Лимитный</option>
+                        <option value="market">Рыночный</option>
+                        <option value="stop-limit">Стоп-лимит</option>
+                        <option value="stop-market">Стоп-рынок</option>
+                    </select>
+                </div>
+                <div id="stop-price-section" class="mb-4 hidden">
+                    <label for="stop-price" class="block text-sm font-medium text-gray-700">Стоп-цена</label>
+                    <div class="flex items-center">
+                        <input type="number" id="stop-price" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" placeholder="0.00">
+                        <span class="ml-2 text-gray-600">USDT</span>
                     </div>
                 </div>
-                
-                <div class="info-block">
-                    <h3>Доступные предложения</h3>
-                    
-                    <table class="markets-table">
+                <div id="limit-price-section" class="mb-4">
+                    <label for="limit-price" class="block text-sm font-medium text-gray-700">Лимитная цена</label>
+                    <div class="flex items-center">
+                        <input type="number" id="limit-price" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" placeholder="0.00" oninput="updateOrderVolume()">
+                        <span class="ml-2 text-gray-600">USDT</span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="amount" class="block text-sm font-medium text-gray-700">Количество</label>
+                    <div class="flex items-center">
+                        <input type="number" id="amount" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" placeholder="0.00" step="0.000001" oninput="updateSlider(); updateOrderVolume()">
+                        <span class="ml-2 text-gray-600" id="amount-token">BTC</span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <input type="range" id="amount-slider" min="0" max="100" value="0" step="0.000001" class="w-full" oninput="updateAmount()">
+                </div>
+                <div class="mb-4">
+                    <label for="order-volume-select" class="block text-sm font-medium text-gray-700">Выбрать объем ордера</label>
+                    <select id="order-volume-select" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black" onchange="updateAmountFromVolume()">
+                        <option value="0">Выберите объем</option>
+                        <option value="100">100 USDT</option>
+                        <option value="500">500 USDT</option>
+                        <option value="1000">1,000 USDT</option>
+                        <option value="5000">5,000 USDT</option>
+                        <option value="10000">10,000 USDT</option>
+                    </select>
+                </div>
+                <div class="mb-4 flex items-center">
+                    <label class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Маржа</span>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="margin-toggle">
+                            <span class="slider"></span>
+                        </div>
+                    </label>
+                </div>
+                <div class="flex gap-4 mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="rounded border-gray-400 text-blue-600 shadow-sm focus:border-black focus:ring-black">
+                        <span class="ml-2 text-sm text-gray-700">TP/SL</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="rounded border-gray-400 text-blue-600 shadow-sm focus:border-black focus:ring-black">
+                        <span class="ml-2 text-sm text-gray-700">Post-Only</span>
+                    </label>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="toggleTradeAction('buy')" id="buy-button" class="trade-action bg-green-600 text-white font-bold py-2 px-4 rounded w-full">КУПИТЬ</button>
+                    <button onclick="toggleTradeAction('sell')" id="sell-button" class="trade-action bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded w-full">ПРОДАТЬ</button>
+                </div>
+            </section>
+
+            <section id="p2p" class="page bg-gray-200 shadow-md rounded-lg p-6">
+                <h2 class="text-2xl font-semibold mb-4 text-black">P2P Торговля</h2>
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <div>
+                        <label for="crypto" class="block text-sm font-medium text-gray-700">Криптовалюта</label>
+                        <select id="crypto" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black">
+                            <option>USDT</option>
+                            <option>USDC</option>
+                            <option>BTC</option>
+                            <option>$UD</option>
+                            <option>ETH</option>
+                            <option>DOGE</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="payment" class="block text-sm font-medium text-gray-700">БАНКИ</label>
+                        <select id="payment" class="mt-1 block w-full rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black">
+                            <option>сбер</option>
+                            <option>т-банк</option>
+                            <option>альфа</option>
+                            <option>втб</option>
+                            <option>россельхоз</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex gap-4 mb-6">
+                    <button onclick="showP2PAction('buy')" class="p2p-action bg-blue-600 text-white font-bold py-2 px-4 rounded">КУПИТЬ</button>
+                    <button onclick="showP2PAction('sell')" class="p2p-action bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded">ПРОДАТЬ</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-300">
                         <thead>
                             <tr>
-                                <th>Пользователь</th>
-                                <th>Цена</th>
-                                <th>Лимиты</th>
-                                <th>Способы оплаты</th>
-                                <th>Действие</th>
+                                <th class="py-2 px-4 border-b text-left text-gray-700">Продавец</th>
+                                <th class="py-2 px-4 border-b text-left text-gray-700">Криптовалюта</th>
+                                <th class="py-2 px-4 border-b text-left text-gray-700">Цена (RUB)</th>
+                                <th class="py-2 px-4 border-b text-left text-gray-700">Объем</th>
+                                <th class="py-2 px-4 border-b text-left text-gray-700">Лимиты (RUB)</th>
+                                <th class="py-2 px-4 border-b text-left text-gray-700">Способы оплаты</th>
+                                <th class="py-2 px-4 border-b text-left text-gray-700">Действие</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="buy-orders">
                             <tr>
-                                <td>user123 (98%)</td>
-                                <td>110 RUB</td>
-                                <td>10,000-55,000 RUB</td>
-                                <td>Сбербанк, Тинькофф</td>
-                                <td><button class="btn btn-primary" style="padding: 8px 12px;">${p2pMode === 'buy' ? 'Купить' : 'Продать'}</button></td>
+                                <td class="py-2 px-4 border-b text-gray-700">user123</td>
+                                <td class="py-2 px-4 border-b text-gray-700">USDT</td>
+                                <td class="py-2 px-4 border-b text-gray-700">110 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">500 USDT</td>
+                                <td class="py-2 px-4 border-b text-gray-700">10,000 - 55,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">сбер, т-банк</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">КУПИТЬ</button>
+                                </td>
                             </tr>
                             <tr>
-                                <td>crypto_guru (100%)</td>
-                                <td>112 RUB</td>
-                                <td>20,000-112,000 RUB</td>
-                                <td>Сбербанк</td>
-                                <td><button class="btn btn-primary" style="padding: 8px 12px;">${p2pMode === 'buy' ? 'Купить' : 'Продать'}</button></td>
+                                <td class="py-2 px-4 border-b text-gray-700">trader_x</td>
+                                <td class="py-2 px-4 border-b text-gray-700">BTC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">12,000,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">0.1 BTC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">500,000 - 1,200,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">альфа</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">КУПИТЬ</button>
+                                </td>
                             </tr>
                             <tr>
-                                <td>seller99 (95%)</td>
-                                <td>108 RUB</td>
-                                <td>5,000-32,400 RUB</td>
-                                <td>ВТБ</td>
-                                <td><button class="btn btn-primary" style="padding: 8px 12px;">${p2pMode === 'buy' ? 'Купить' : 'Продать'}</button></td>
+                                <td class="py-2 px-4 border-b text-gray-700">crypto_guru</td>
+                                <td class="py-2 px-4 border-b text-gray-700">USDC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">112 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">1000 USDC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">20,000 - 112,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">сбер</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">КУПИТЬ</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b text-gray-700">seller99</td>
+                                <td class="py-2 px-4 border-b text-gray-700">USDT</td>
+                                <td class="py-2 px-4 border-b text-gray-700">108 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">300 USDT</td>
+                                <td class="py-2 px-4 border-b text-gray-700">5,000 - 32,400 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">втб</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">КУПИТЬ</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b text-gray-700">pro_trader</td>
+                                <td class="py-2 px-4 border-b text-gray-700">BTC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">11,800,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">0.05 BTC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">300,000 - 590,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">россельхоз</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">КУПИТЬ</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="sell-orders" class="hidden">
+                            <tr>
+                                <td class="py-2 px-4 border-b text-gray-700">buyer123</td>
+                                <td class="py-2 px-4 border-b text-gray-700">USDT</td>
+                                <td class="py-2 px-4 border-b text-gray-700">105 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">400 USDT</td>
+                                <td class="py-2 px-4 border-b text-gray-700">8,000 - 42,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">сбер</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">ПРОДАТЬ</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b text-gray-700">investor_y</td>
+                                <td class="py-2 px-4 border-b text-gray-700">BTC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">11,500,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">0.08 BTC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">400,000 - 920,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">т-банк</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">ПРОДАТЬ</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b text-gray-700">crypto_buyer</td>
+                                <td class="py-2 px-4 border-b text-gray-700">USDC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">107 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">800 USDC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">15,000 - 85,600 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">альфа</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">ПРОДАТЬ</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b text-gray-700">buyer77</td>
+                                <td class="py-2 px-4 border-b text-gray-700">USDT</td>
+                                <td class="py-2 px-4 border-b text-gray-700">103 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">600 USDT</td>
+  <td class="py-2 px-4 border-b text-gray-700">10,000 - 61,800 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">втб</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">ПРОДАТЬ</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b text-gray-700">new_buyer</td>
+                                <td class="py-2 px-4 border-b text-gray-700">BTC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">11,600,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">0.03 BTC</td>
+                                <td class="py-2 px-4 border-b text-gray-700">200,000 - 348,000 RUB</td>
+                                <td class="py-2 px-4 border-b text-gray-700">россельхоз</td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">ПРОДАТЬ</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        `,
-        
-        chat: `
-            <h1 class="welcome-title">Трейдинг чат</h1>
-            <p class="welcome-subtitle">Общение с трейдерами</p>
-            
-            <div class="markets-overview">
-                <div class="info-block" style="height: 400px; overflow-y: auto;">
-                    <div style="margin-bottom: 20px;">
-                        <div style="color: #3b82f6; font-weight: 500;">User123 [08:52]:</div>
-                        <p>Взял лонг на BTC по 65,000 с тейком на 69,000</p>
+            </section>
+
+            <section id="chat" class="page bg-gray-200 shadow-md rounded-lg p-6 hidden">
+                <h2 class="text-2xl font-semibold mb-4 text-black">Чат</h2>
+                <div class="bg-white p-4 rounded-lg border border-gray-300">
+                    <h3 class="text-xl font-medium mb-2 text-black">Трейдинг Чат</h3>
+                    <p class="mb-4 text-gray-700">Обсуждение сделок с другими пользователями</p>
+                    <div class="chat-messages">
+                        <div class="chat-message">
+                            <span class="username">User123</span>
+                            <span class="time">08:52</span>
+                            <p class="text-gray-700">Взял лонг на BTC!</p>
+                        </div>
+                        <div class="chat-message">
+                            <span class="username">User123</span>
+                            <span class="time">08:53</span>
+                            <p class="text-gray-700">Тейк на 89000</p>
+                        </div>
+                        <div class="chat-message">
+                            <span class="username">User123</span>
+                            <span class="time">08:54</span>
+                            <p class="text-gray-700">Хорошая точка входа!</p>
+                        </div>
+                        <div class="chat-message">
+                            <span class="username">TraderPro</span>
+                            <span class="time">09:15</span>
+                            <p class="text-gray-700">BTC тестирует сопротивление на 65k. Если пробьет, ждем 68k.</p>
+                        </div>
+                        <div class="chat-message">
+                            <span class="username">TraderPro</span>
+                            <span class="time">09:16</span>
+                            <p class="text-gray-700">Какие индикаторы используете?</p>
+                        </div>
+                        <div class="chat-message">
+                            <span class="username">TraderPro</span>
+                            <span class="time">09:17</span>
+                            <p class="text-gray-700">EMA 50/200, RSI, Volume Profile. RSI сейчас 58.</p>
+                        </div>
                     </div>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <div style="color: #10b981; font-weight: 500;">TraderPro [09:15]:</div>
-                        <p>BTC тестирует сопротивление на 65k. Если пробьет, следующий уровень 68k</p>
-                    </div>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <div style="color: #f59e0b; font-weight: 500;">CryptoGuru [09:30]:</div>
-                        <p>Использую EMA 50/200 и RSI для входа. Сейчас RSI 58 - перекупленность</p>
+                    <div class="mt-4 flex gap-2">
+                        <input type="text" placeholder="Введите сообщение..." class="flex-1 p-2 rounded-md border-gray-400 shadow-sm focus:border-black focus:ring-black bg-white text-black">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="alert('Функционал отправки сообщений будет добавлен позже.')">Отправить</button>
                     </div>
                 </div>
-                
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <input type="text" class="form-control" placeholder="Введите сообщение...">
-                    <button class="btn btn-primary">Отправить</button>
+            </section>
+
+            <section id="support" class="page bg-gray-200 shadow-md rounded-lg p-6 hidden">
+                <h2 class="text-2xl font-semibold mb-4 text-black">Поддержка</h2>
+                <p class="mb-4 text-gray-700">Свяжитесь с нами, если у вас возникли вопросы</p>
+                <div class="mb-6">
+                    <h3 class="text-xl font-medium mb-2 text-black">Контактная информация</h3>
+                    <p class="text-gray-700"><strong>Телефон:</strong> +7 (473) 200-01-01</p>
+                    <p class="text-gray-700"><strong>Адрес:</strong> г. Воронеж, ул. Ленина, д. 1</p>
+                    <p class="text-gray-700"><strong>Email:</strong> <a href="/cdn-cgi/l/email-protection#60535550504f52564043525950544f4f424f524f540e5255" class="text-blue-600 hover:underline"><span class="__cf_email__" data-cfemail="b2818782829d8086b291808b82869d9d909d809d86dc8087">[email protected]</span></a></p>
                 </div>
-            </div>
-        `,
-        
-        support: `
-            <h1 class="welcome-title">Поддержка</h1>
-            <p class="welcome-subtitle">Контакты и помощь</p>
-            
-            <div class="markets-overview">
-                <div class="info-block">
-                    <h3>Контакты</h3>
-                    <p><strong>Телефон:</strong> +7 (473) 200-01-01</p>
-                    <p><strong>Email:</strong> support@cryptooborot.ru</p>
-                    <p><strong>Адрес:</strong> г. Воронеж, ул. Ленина, д. 1</p>
+                <div class="mb-6">
+                    <h3 class="text-xl font-medium mb-2 text-black">Наши Telegram-каналы</h3>
+                    <p class="text-gray-700"><strong>Основной:</strong> <a href="https://t.me/CryptoOborotMain" class="text-blue-600 hover:underline">@CryptoOborotMain</a></p>
+                    <p class="text-gray-700"><strong>Новостной:</strong> <a href="https://t.me/CryptoOborotNews" class="text-blue-600 hover:underline">@CryptoOborotNews</a></p>
+                    <p class="text-gray-700"><strong>Сделки:</strong> <a href="https://t.me/CryptoOborotTrades" class="text-blue-600 hover:underline">@CryptoOborotTrades</a></p>
+                    <p class="text-gray-700"><strong>Обсуждения:</strong> <a href="https://t.me/CryptoOborotChat" class="text-blue-600 hover:underline">@CryptoOborotChat</a></p>
                 </div>
-                
-                <div class="info-block">
-                    <h3>Telegram каналы</h3>
-                    <p><strong>Новости:</strong> @CryptoOborotNews</p>
-                    <p><strong>Поддержка:</strong> @CryptoOborotSupport</p>
-                    <p><strong>Чат трейдеров:</strong> @CryptoOborotChat</p>
-                </div>
-                
-                <div class="info-block">
-                    <h3>FAQ</h3>
-                    <div style="margin-bottom: 15px;">
-                        <p><strong>Как начать торговать?</strong></p>
-                        <p>Пополните баланс через раздел "Кошелек" и перейдите в "Торговля"</p>
+                <div>
+                    <h3 class="text-xl font-medium mb-2 text-black">Часто задаваемые вопросы</h3>
+                    <div class="mb-4">
+                        <p class="font-medium text-gray-700">Обязательно ли надо регистрироваться?</p>
+                        <p class="text-gray-700">Да, регистрация необходима для доступа к торговле, P2P-обмену и другим функциям платформы. Это также помогает нам обеспечить безопасность ваших операций.</p>
                     </div>
-                    
-                    <div style="margin-bottom: 15px;">
-                        <p><strong>Как вывести средства?</strong></p>
-                        <p>Используйте P2P или банковский перевод в разделе "Кошелек"</p>
+                    <div class="mb-4">
+                        <p class="font-medium text-gray-700">Нужно ли сдавать отчётность в налоговую?</p>
+                        <p class="text-gray-700">Да, в России доходы от операций с криптовалютой подлежат налогообложению. Мы предоставляем раздел "Налоги" для расчёта, но рекомендуем проконсультироваться с налоговым специалистом.</p>
                     </div>
-                    
                     <div>
-                        <p><strong>Нужно ли платить налоги?</strong></p>
-                        <p>Да, все операции подлежат налогообложению согласно законодательству РФ</p>
+                        <p class="font-medium text-gray-700">Почему нет графиков?</p>
+                        <p class="text-gray-700">Графики есть в разделе "Торговля", но если вы их не видите, возможно, это связано с настройками браузера или блокировкой скриптов. Попробуйте очистить кэш или отключить блокировщики рекламы.</p>
                     </div>
                 </div>
-            </div>
-        `,
-        
-        calc: `
-            <h1 class="welcome-title">Калькулятор прибыли</h1>
-            <p class="welcome-subtitle">Расчёт доходности и налогов</p>
-            
-            <div class="markets-overview">
-                <div class="trade-form">
-                    <div>
-                        <div class="trade-form-group">
-                            <label class="trade-form-label">Курс покупки</label>
-                            <input type="number" class="trade-form-input" id="buy-rate" value="100">
-                        </div>
-                        
-                        <div class="trade-form-group">
-                            <label class="trade-form-label">Количество</label>
-                            <input type="number" class="trade-form-input" id="buy-amount" value="1">
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="trade-form-group">
-                            <label class="trade-form-label">Курс продажи</label>
-                            <input type="number" class="trade-form-input" id="sell-rate" value="120">
-                        </div>
-                        
-                        <div class="trade-form-group">
-                            <label class="trade-form-label">Сумма налога</label>
-                            <input type="text" class="trade-form-input" id="tax-result" readonly>
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-primary" style="margin-top: 15px;" onclick="calculateProfit()">Рассчитать</button>
-                
-                <div class="info-block" style="margin-top: 20px;">
-                    <h3>Результат</h3>
-                    <div id="calc-result"></div>
-                </div>
-            </div>
-        `
-    };
-    
-    return sections[section] || '<div class="card"><h2>Раздел в разработке</h2></div>';
-}
+            </section>
+        </main>
 
-// Инициализация торговой формы
-function initTradingForm() {
-    // Инициализация слайдера
-    const slider = document.getElementById('amount-slider');
-    if (slider) {
-        slider.addEventListener('input', function() {
-            // Здесь будет логика изменения суммы при движении слайдера
-        });
-    }
-    
-    // Инициализация графика
-    initCharts();
-}
+        <footer class="bg-white text-black text-center p-4 mt-8">
+            <p>© 2025 КриптоОборот. Все права защищены.</p>
+        </footer>
+    </div>
 
-// Инициализация P2P
-function initP2P() {
-    // Можно добавить загрузку данных P2P
-}
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        function showLoginPage() {
+            document.getElementById('welcome-page').classList.add('hidden');
+            document.getElementById('login-page').classList.remove('hidden');
+        }
 
-function setP2PMode(mode) {
-    p2pMode = mode;
-    switchSection('p2p');
-}
+        function showRegisterPage() {
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('register-page').classList.remove('hidden');
+        }
 
-// Инициализация кошелька
-function initWallet() {
-    // Можно добавить загрузку данных кошелька
-}
-
-// Инициализация калькулятора
-function initCalculator() {
-    calculateProfit(); // Первоначальный расчет
-}
-
-function calculateProfit() {
-    const buyRate = parseFloat(document.getElementById('buy-rate').value) || 0;
-    const buyAmount = parseFloat(document.getElementById('buy-amount').value) || 0;
-    const sellRate = parseFloat(document.getElementById('sell-rate').value) || 0;
-    
-    const buySum = buyRate * buyAmount;
-    const sellSum = sellRate * buyAmount;
-    const profit = sellSum - buySum;
-    const tax = profit > 0 ? profit * 0.13 : 0;
-    
-    document.getElementById('tax-result').value = tax.toFixed(2) + ' RUB';
-    
-    document.getElementById('calc-result').innerHTML = `
-        <p>Потрачено: <strong>${buySum.toFixed(2)} RUB</strong></p>
-        <p>Получено: <strong>${sellSum.toFixed(2)} RUB</strong></p>
-        <p>Прибыль: <strong style="color: ${profit >= 0 ? '#10b981' : '#ef4444'}">${profit.toFixed(2)} RUB</strong></p>
-        <p>Налог 13%: <strong>${tax.toFixed(2)} RUB</strong></p>
-    `;
-}
-
-// Переключение торговых вкладок
-function switchTradeTab(tabId) {
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-    });
-    
-    event.target.classList.add('active');
-    document.getElementById(tabId + '-tab').classList.add('active');
-}
-
-// Инициализация графиков
-function initCharts() {
-    const ctx = document.getElementById('price-chart');
-    if (ctx) {
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '23:59'],
-                datasets: [{
-                    label: 'BTC/USDT',
-                    data: [65000, 67000, 68500, 67500, 69000, 68500, 68000],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
-                    }
-                }
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            if (username.trim() === '' || password.trim() === '') {
+                alert('Пожалуйста, введите логин и пароль.');
+                return;
             }
-        });
-    }
-}
-
-// Загрузка данных рынка через CoinGecko API
-async function loadMarketData() {
-    try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple,cardano,polkadot&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true');
-        const data = await response.json();
-        
-        // Преобразуем данные в нужный формат
-        const pairs = [
-            { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
-            { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
-            { id: 'solana', symbol: 'SOL', name: 'Solana' },
-            { id: 'ripple', symbol: 'XRP', name: 'Ripple' },
-            { id: 'cardano', symbol: 'ADA', name: 'Cardano' },
-            { id: 'polkadot', symbol: 'DOT', name: 'Polkadot' }
-        ];
-        
-        marketData = pairs.map(pair => {
-            const coinData = data[pair.id];
-            return {
-                pair: `${pair.symbol}/USDT`,
-                price: coinData?.usd || 0,
-                change24h: coinData?.usd_24h_change || 0,
-                volume: coinData?.usd_24h_vol || 0
-            };
-        });
-        
-        updateMarketsTable();
-        
-    } catch (error) {
-        console.error('Ошибка загрузки данных рынка:', error);
-        // Показываем тестовые данные при ошибке
-        showTestData();
-    }
-}
-
-// Обновление таблицы рынков
-function updateMarketsTable() {
-    const tbody = document.querySelector('#markets-table tbody');
-    if (!tbody) return;
-    
-    tbody.innerHTML = marketData.map(coin => `
-        <tr>
-            <td class="market-pair">${coin.pair}</td>
-            <td class="market-price">$${coin.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-            <td class="market-change ${coin.change24h >= 0 ? 'positive' : 'negative'}">
-                ${coin.change24h >= 0 ? '+' : ''}${coin.change24h.toFixed(2)}%
-            </td>
-            <td class="market-volume">$${(coin.volume / 1000000).toFixed(1)}M</td>
-            <td>
-                <button class="trade-btn" onclick="tradePair('${coin.pair}')">Торговать</button>
-            </td>
-        </tr>
-    `).join('');
-}
-
-// Показать тестовые данные при ошибке API
-function showTestData() {
-    const testData = [
-        { pair: 'BTC/USDT', price: 65420.50, change24h: 2.45, volume: 28450000000 },
-        { pair: 'ETH/USDT', price: 3245.80, change24h: -1.23, volume: 15670000000 },
-        { pair: 'SOL/USDT', price: 142.30, change24h: 5.67, volume: 8900000000 },
-        { pair: 'XRP/USDT', price: 0.58, change24h: -0.89, volume: 2340000000 },
-        { pair: 'ADA/USDT', price: 0.45, change24h: 1.34, volume: 1230000000 },
-        { pair: 'DOT/USDT', price: 6.78, change24h: -2.15, volume: 890000000 }
-    ];
-    
-    marketData = testData;
-    updateMarketsTable();
-}
-
-// Запуск обновления данных рынка
-function startMarketDataUpdates() {
-    // Обновляем данные каждые 30 секунд
-    updateInterval = setInterval(loadMarketData, 30000);
-}
-
-// Остановка обновления данных
-function stopMarketDataUpdates() {
-    if (updateInterval) {
-        clearInterval(updateInterval);
-    }
-}
-
-// Функция торговли парой
-function tradePair(pair) {
-    alert(`Открытие торговли для пары ${pair}`);
-    // Здесь будет логика открытия торгового интерфейса
-}
-
-// MetaMask функции
-function showMetamaskModal() {
-    const modal = document.getElementById('metamask-modal');
-    if (modal) {
-        modal.classList.add('active');
-    }
-}
-
-function hideMetamaskModal() {
-    const modal = document.getElementById('metamask-modal');
-    if (modal) {
-        modal.classList.remove('active');
-    }
-}
-
-async function connectMetamask() {
-    if (typeof window.ethereum === 'undefined') {
-        document.getElementById('mm-status').textContent = 'Статус: MetaMask не установлен';
-        alert('Пожалуйста, установите расширение MetaMask');
-        return;
-    }
-    
-    try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        mmAccount = accounts[0];
-        
-        const statusElement = document.getElementById('mm-status');
-        if (statusElement) {
-            statusElement.textContent = 'Статус: подключено ' + mmAccount.substring(0, 6) + '...' + mmAccount.substring(38);
+            document.getElementById('username-display').textContent = username;
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            showPage('transactions');
+            drawBitcoinChart();
         }
-        
-        // Получаем баланс
-        const balance = await window.ethereum.request({
-            method: 'eth_getBalance',
-            params: [mmAccount, 'latest']
-        });
-        
-        const ethBalance = parseInt(balance) / 1e18;
-        const balanceElement = document.getElementById('mm-balance');
-        if (balanceElement) {
-            balanceElement.innerHTML = `<strong>Баланс:</strong> ${ethBalance.toFixed(4)} ETH`;
+
+        function register() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const phone = document.getElementById('register-phone').value;
+            if (name.trim() === '' || email.trim() === '' || password.trim() === '' || phone.trim() === '') {
+                alert('Пожалуйста, заполните все поля.');
+                return;
+            }
+            alert('Регистрация успешна! Теперь вы можете войти.');
+            document.getElementById('register-page').classList.add('hidden');
+            document.getElementById('login-page').classList.remove('hidden');
         }
-        
-        // Слушаем изменения аккаунтов
-        window.ethereum.on('accountsChanged', (accounts) => {
-            if (accounts.length === 0) {
-                const statusElement = document.getElementById('mm-status');
-                const balanceElement = document.getElementById('mm-balance');
-                if (statusElement) statusElement.textContent = 'Статус: не подключено';
-                if (balanceElement) balanceElement.textContent = '';
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+            if (pageId === 'transactions') {
+                drawBitcoinChart();
+            }
+        }
+
+        function drawBitcoinChart() {
+            const canvas = document.getElementById('bitcoinChart');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = canvas.offsetWidth;
+            canvas.height = 300;
+
+            const data = [
+                { date: '25.04', open: 65000, high: 65500, low: 64500, close: 65200 },
+                { date: '26.04', open: 65200, high: 66000, low: 65000, close: 65800 },
+                { date: '27.04', open: 65800, high: 65900, low: 65300, close: 65500 },
+                { date: '28.04', open: 65500, high: 67000, low: 65400, close: 66800 },
+                { date: '29.04', open: 66800, high: 67200, low: 66500, close: 66700 },
+                { date: '30.04', open: 66700, high: 68000, low: 66600, close: 67800 },
+                { date: '01.05', open: 67800, high: 67900, low: 67400, close: 67500 },
+            ];
+
+            const maxPrice = Math.max(...data.map(d => d.high));
+            const minPrice = Math.min(...data.map(d => d.low));
+            const priceRange = maxPrice - minPrice;
+            const candleWidth = 20;
+            const gap = 10;
+            const stepX = (canvas.width - 80) / (data.length - 1);
+            const stepY = (canvas.height - 60) / priceRange;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 1;
+            ctx.moveTo(40, 0);
+            ctx.lineTo(40, canvas.height - 30);
+            ctx.lineTo(canvas.width, canvas.height - 30);
+            ctx.stroke();
+
+            ctx.fillStyle = '#000000';
+            ctx.font = '12px Roboto';
+            ctx.textAlign = 'center';
+            for (let i = 0; i < data.length; i++) {
+                ctx.fillText(data[i].date, 40 + i * stepX, canvas.height - 10);
+            }
+
+            ctx.textAlign = 'right';
+            const priceStep = priceRange / 5;
+            for (let i = 0; i <= 5; i++) {
+                const price = minPrice + i * priceStep;
+                const y = canvas.height - 30 - (price - minPrice) * stepY;
+                ctx.fillText(Math.round(price), 35, y + 5);
+                ctx.beginPath();
+                ctx.moveTo(40, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.strokeStyle = '#000000';
+                ctx.stroke();
+            }
+
+            for (let i = 0; i < data.length; i++) {
+                const x = 40 + i * stepX - candleWidth / 2;
+                const openY = canvas.height - 30 - (data[i].open - minPrice) * stepY;
+                const closeY = canvas.height - 30 - (data[i].close - minPrice) * stepY;
+                const highY = canvas.height - 30 - (data[i].high - minPrice) * stepY;
+                const lowY = canvas.height - 30 - (data[i].low - minPrice) * stepY;
+
+                ctx.beginPath();
+                ctx.strokeStyle = data[i].close >= data[i].open ? '#34c759' : '#ef4444';
+                ctx.lineWidth = 1;
+                ctx.moveTo(x + candleWidth / 2, highY);
+                ctx.lineTo(x + candleWidth / 2, lowY);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.fillStyle = data[i].close >= data[i].open ? '#34c759' : '#ef4444';
+                ctx.rect(x, Math.min(openY, closeY), candleWidth, Math.abs(openY - closeY));
+                ctx.fill();
+                ctx.strokeStyle = '#000000';
+                ctx.stroke();
+            }
+        }
+
+        function showTaxSection(sectionId) {
+            document.querySelectorAll('.tax-section').forEach(section => section.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            document.querySelectorAll('.tax-tab').forEach(tab => {
+                tab.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'text-white');
+                tab.classList.add('bg-gray-400', 'hover:bg-gray-500', 'text-gray-700');
+            });
+
+            const activeTab = document.querySelector(`[onclick="showTaxSection('${sectionId}')"]`);
+            activeTab.classList.remove('bg-gray-400', 'hover:bg-gray-500', 'text-gray-700');
+            activeTab.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white');
+        }
+
+        function showP2PAction(action) {
+            document.querySelectorAll('.p2p-action').forEach(tab => {
+                tab.classList.remove('bg-blue-600', 'text-white');
+                tab.classList.add('bg-gray-400', 'text-gray-700');
+            });
+
+            const activeTab = document.querySelector(`[onclick="showP2PAction('${action}')"]`);
+            activeTab.classList.remove('bg-gray-400', 'text-gray-700');
+            activeTab.classList.add('bg-blue-600', 'text-white');
+
+            if (action === 'buy') {
+                document.getElementById('buy-orders').classList.remove('hidden');
+                document.getElementById('sell-orders').classList.add('hidden');
             } else {
-                mmAccount = accounts[0];
-                const statusElement = document.getElementById('mm-status');
-                if (statusElement) {
-                    statusElement.textContent = 'Статус: подключено ' + mmAccount.substring(0, 6) + '...' + mmAccount.substring(38);
-                }
+                document.getElementById('buy-orders').classList.add('hidden');
+                document.getElementById('sell-orders').classList.remove('hidden');
             }
-        });
-        
-    } catch (error) {
-        console.error('Ошибка подключения MetaMask:', error);
-        const statusElement = document.getElementById('mm-status');
-        if (statusElement) {
-            statusElement.textContent = 'Статус: ошибка подключения';
         }
-    }
-}
 
-// Функции для модального окна выставления счета
-function showInvoiceModal() {
-    const modal = document.getElementById('invoice-modal');
-    if (modal) {
-        modal.classList.add('active');
-    }
-}
-
-function hideInvoiceModal() {
-    const modal = document.getElementById('invoice-modal');
-    if (modal) {
-        modal.classList.remove('active');
-    }
-}
-
-// Обработка клика вне модального окна
-document.addEventListener('click', function(event) {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-        if (event.target === modal) {
-            modal.classList.remove('active');
+        function updateTradingPair() {
+            const pair = document.getElementById('trading-pair').value;
+            const token = pair.split('/')[0];
+            document.getElementById('amount-token').textContent = token;
+            updateSliderMax();
+            updateOrderVolume();
         }
-    });
-});
 
-// Обработка клавиши Escape для закрытия модальных окон
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
-            modal.classList.remove('active');
-        });
-    }
-});
-
-window.addEventListener('DOMContentLoaded', () => {
-  matrixEffect();
-  // Эффект приветствия
-  const welcome = document.getElementById('matrix-welcome');
-  if (welcome) {
-    let text = 'Добро пожаловать!';
-    let i = 0;
-    welcome.textContent = '';
-    const interval = setInterval(() => {
-      welcome.textContent += text[i];
-      i++;
-      if (i >= text.length) clearInterval(interval);
-    }, 60);
-  }
-  // Меню
-  document.querySelectorAll('.menu-btn[data-section]').forEach(btn => {
-    btn.onclick = function() {
-      document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      const section = this.getAttribute('data-section');
-      showSection(section);
-    };
-  });
-});
-
-// Секции
-function showSection(section) {
-  document.querySelectorAll('.main-content > section').forEach(sec => sec.style.display = 'none');
-  if (section === 'markets') {
-    document.getElementById('markets-section').style.display = '';
-    loadMarkets();
-  }
-  // Остальные секции можно добавить аналогично
-}
-
-// CoinGecko API
-function loadMarkets() {
-  const pairs = [
-    {id: 'bitcoin', symbol: 'BTCUSDT'},
-    {id: 'ethereum', symbol: 'ETHUSDT'},
-    {id: 'solana', symbol: 'SOLUSDT'},
-    {id: 'ripple', symbol: 'XRPUSDT'},
-    {id: 'tether', symbol: 'HUSDT'},
-    {id: 'fartcoin', symbol: 'FARTCOINUSDT'}
-  ];
-  const tbody = document.querySelector('#markets-table tbody');
-  tbody.innerHTML = '<tr><td colspan="4">Загрузка...</td></tr>';
-  fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + pairs.map(p=>p.id).join(','))
-    .then(r => r.json())
-    .then(data => {
-      tbody.innerHTML = '';
-      pairs.forEach(pair => {
-        const coin = data.find(c => c.id === pair.id);
-        if (coin) {
-          const price = coin.current_price;
-          const change = coin.price_change_percentage_24h;
-          const volume = coin.total_volume;
-          tbody.innerHTML += `<tr>
-            <td>${pair.symbol}</td>
-            <td>${price.toLocaleString('ru-RU', {maximumFractionDigits: 2})} $</td>
-            <td class="${change >= 0 ? 'price-up' : 'price-down'}">${change ? change.toFixed(2) : '0.00'}%</td>
-            <td>${volume ? volume.toLocaleString('ru-RU') : '-'}</td>
-          </tr>`;
-        } else {
-          tbody.innerHTML += `<tr><td>${pair.symbol}</td><td colspan="3">Нет данных</td></tr>`;
+        function updateSliderMax() {
+            const pair = document.getElementById('trading-pair').value;
+            const token = pair.split('/')[0];
+            let maxAmount;
+            switch(token) {
+                case 'BTC': maxAmount = 1; break;
+                case 'ETH': maxAmount = 10; break;
+                case 'DOGE': maxAmount = 100000; break;
+                case 'SOL': maxAmount = 100; break;
+                case '$UD': maxAmount = 1000; break;
+                default: maxAmount = 100;
+            }
+            const slider = document.getElementById('amount-slider');
+            slider.max = maxAmount;
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            if (amount > maxAmount) {
+                document.getElementById('amount').value = maxAmount;
+                slider.value = maxAmount;
+            }
+            updateOrderVolume();
         }
-      });
-    });
+
+        function updateAmount() {
+            const slider = document.getElementById('amount-slider');
+            const amountInput = document.getElementById('amount');
+            const maxAmount = parseFloat(slider.max);
+            let value = parseFloat(slider.value);
+
+            if (value < 0) value = 0;
+            if (value > maxAmount) value = maxAmount;
+
+            amountInput.value = value.toFixed(6);
+            slider.value = value;
+            updateOrderVolume();
+        }
+
+        function updateSlider() {
+            const amountInput = document.getElementById('amount');
+            const slider = document.getElementById('amount-slider');
+            const maxAmount = parseFloat(slider.max);
+            let value = parseFloat(amountInput.value) || 0;
+
+            if (value < 0) value = 0;
+            if (value > maxAmount) value = maxAmount;
+
+slider.value = value;
+amountInput.value = value.toFixed(6);
+updateOrderVolume();
 }
-  </script>
+
+function updateOrderType() {
+const orderType = document.getElementById('order-type').value;
+const stopPriceSection = document.getElementById('stop-price-section');
+const limitPriceSection = document.getElementById('limit-price-section');
+
+if (orderType === 'stop-limit' || orderType === 'stop-market') {
+    stopPriceSection.classList.remove('hidden');
+} else {
+    stopPriceSection.classList.add('hidden');
+}
+
+if (orderType === 'limit' || orderType === 'stop-limit') {
+    limitPriceSection.classList.remove('hidden');
+} else {
+    limitPriceSection.classList.add('hidden');
+}
+updateOrderVolume();
+}
+
+function updateAmountFromVolume() {
+const volumeSelect = document.getElementById('order-volume-select');
+const amountInput = document.getElementById('amount');
+const slider = document.getElementById('amount-slider');
+const limitPrice = parseFloat(document.getElementById('limit-price').value) || 0;
+const volume = parseFloat(volumeSelect.value) || 0;
+
+if (limitPrice === 0) {
+    amountInput.value = 0;
+    slider.value = 0;
+    return;
+}
+
+const amount = volume / limitPrice;
+const maxAmount = parseFloat(slider.max);
+
+if (amount > maxAmount) {
+    amountInput.value = maxAmount.toFixed(6);
+    slider.value = maxAmount;
+} else {
+    amountInput.value = amount.toFixed(6);
+    slider.value = amount;
+}
+updateOrderVolume();
+}
+
+function updateOrderVolume() {
+const amount = parseFloat(document.getElementById('amount').value) || 0;
+const limitPrice = parseFloat(document.getElementById('limit-price').value) || 0;
+const total = amount * limitPrice;
+const volumeSelect = document.getElementById('order-volume-select');
+
+if (total > 0) {
+    const closestVolume = [100, 500, 1000, 5000, 10000].reduce((prev, curr) =>
+        Math.abs(curr - total) < Math.abs(prev - total) ? curr : prev
+    );
+    volumeSelect.value = closestVolume;
+} else {
+    volumeSelect.value = 0;
+}
+}
+
+function toggleTradeAction(action) {
+const buyButton = document.getElementById('buy-button');
+const sellButton = document.getElementById('sell-button');
+
+if (action === 'buy') {
+    buyButton.classList.remove('bg-gray-400', 'text-gray-700');
+    buyButton.classList.add('bg-green-600', 'text-white');
+    sellButton.classList.remove('bg-red-600', 'text-white');
+    sellButton.classList.add('bg-gray-400', 'text-gray-700');
+} else {
+    sellButton.classList.remove('bg-gray-400', 'text-gray-700');
+    sellButton.classList.add('bg-red-600', 'text-white');
+    buyButton.classList.remove('bg-green-600', 'text-white');
+    buyButton.classList.add('bg-gray-400', 'text-gray-700');
+}
+}
+
+function toggleProfile() {
+const modal = document.getElementById('profile-modal');
+const overlay = document.getElementById('profile-overlay');
+modal.classList.toggle('hidden');
+overlay.classList.toggle('hidden');
+}
+</script>
 </body>
-</html> 
+</html>
